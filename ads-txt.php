@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+include_once( __DIR__ . '/inc/admin.php' );
+
 /**
  * Display the contents of /ads.txt when requested.
  * @return void
@@ -25,3 +27,5 @@ function tenup_display_ads_txt() {
 	}
 }
 add_action( 'init', 'tenup_display_ads_txt' );
+
+
