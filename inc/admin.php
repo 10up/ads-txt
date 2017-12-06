@@ -24,11 +24,10 @@ function settings_screen() {
 
 	<form action="options.php" method="post">
 		<?php settings_fields( 'adstxt' ); ?>
-		<?php settings_errors(); ?>
 
 		<p class="description"><?php _e( 'COPY: Ads.txt is a root-level file, etc.', 'adstxt' ); ?></p>
 
-		<textarea class="widefat"><?php echo esc_textarea( $setting ); ?></textarea>
+		<textarea class="widefat" name="adstxt"><?php echo esc_textarea( $setting ); ?></textarea>
 
 		<p class="submit">
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes' ); ?>">
@@ -37,4 +36,23 @@ function settings_screen() {
 </div>
 
 <?php
+}
+
+/**
+ * Register setting
+ * @return void
+ */
+function admin_init() {
+	register_setting( 'adstxt', 'adstxt', __NAMESPACE__ . '\sanitize_setting' );
+}
+add_action( 'admin_init', __NAMESPACE__ . '\admin_init' );
+
+/**
+ * Sanitize setting for saving
+ * @param  array $setting Posted settings
+ * @return array          Sanitized settings
+ */
+function sanitize_setting( $setting ) {
+	$sanitized = sanitize_textarea_field( $setting );
+	return $sanitized;
 }
