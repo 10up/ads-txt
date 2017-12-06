@@ -23,11 +23,14 @@ include_once( __DIR__ . '/inc/admin.php' );
 function tenup_display_ads_txt() {
 	$request = $_SERVER['REQUEST_URI'];
 	if ( '/ads.txt' === $request ) {
-		header( 'Content-Type: text/plain' );
-		echo 'this is ads.txt!';
-		die();
+		$setting = get_option( 'adstxt' );
+
+		// Will fall through if no option found, likely to a 404
+		if ( ! empty( $setting ) ) {
+			header( 'Content-Type: text/plain' );
+			echo $setting;
+			die();
+		}
 	}
 }
 add_action( 'init', 'tenup_display_ads_txt' );
-
-
