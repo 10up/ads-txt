@@ -6,6 +6,8 @@
  * Author:      Helen Hou-Sandi, 10up
  * Author URI:  http://10up.com
  * License:     GPLv2 or later
+ * Text Domain: adstxt
+ * Domain Path: /lang/
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
