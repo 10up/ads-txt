@@ -27,7 +27,7 @@ function settings_screen() {
 
 		<p class="description"><?php _e( 'COPY: Ads.txt is a root-level file, etc.', 'adstxt' ); ?></p>
 
-		<textarea class="widefat" name="adstxt"><?php echo esc_textarea( $setting ); ?></textarea>
+		<textarea class="widefat" rows="25" name="adstxt"><?php echo esc_textarea( $setting ); ?></textarea>
 
 		<p class="submit">
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes' ); ?>">
