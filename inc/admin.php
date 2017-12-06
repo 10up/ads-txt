@@ -43,7 +43,13 @@ function settings_screen() {
  * @return void
  */
 function admin_init() {
-	register_setting( 'adstxt', 'adstxt', __NAMESPACE__ . '\sanitize_setting' );
+	$args = array(
+		'type' => 'string',
+		'description' => 'Contents of ads.txt',
+		'sanitize_callback' =>  __NAMESPACE__ . '\sanitize_setting'
+	);
+
+	register_setting( 'adstxt', 'adstxt', $args );
 }
 add_action( 'admin_init', __NAMESPACE__ . '\admin_init' );
 
