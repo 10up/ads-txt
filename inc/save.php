@@ -104,9 +104,8 @@ function validate_line( $line, $line_number ) {
 			$exchange = trim( $fields[0] );
 			$pub_id = trim( $fields[1] );
 			$account_type = trim( $fields[2] );
-			if ( isset( $fields[3] ) ) {
-				$tag_id = trim( $fields[3] );
-			}
+
+			// TODO: CHECK IF FIELD 1 IS A DOMAIN
 
 			if ( ! preg_match( '/^(RESELLER|DIRECT)$/i', $account_type ) ) {
 				$errors[] = array(
@@ -116,7 +115,19 @@ function validate_line( $line, $line_number ) {
 				);
 			}
 
-			// TODO: CHECK IF FIELD 1 IS A DOMAIN and FIELD 4 optional is the right length
+			if ( isset( $fields[3] ) ) {
+				$tag_id = trim( $fields[3] );
+
+				// TAG-IDs appear to be 16 character hashes
+				// TAG-IDs are meant to be checked against their DB - perhaps good for a service or the future
+				if ( ! preg_match( '/^[a-f0-9]{16}$/', $tag_id ) ) {
+					$errors[] = array(
+						'line' => $line_number,
+						'type' => 'warning',
+						'message' => __( 'TAG-ID appears invalid', 'adstxt' ),
+					);
+				}
+			}
 
 			$sanitized = sanitize_textarea_field( $line );
 		} else {
