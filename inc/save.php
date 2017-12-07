@@ -7,6 +7,8 @@ function admin_post() {
 	check_admin_referer( 'adstxt_save' );
 	$_post = stripslashes_deep( $_POST );
 
+	$post_id = $_post['post_id'];
+
 	// Different browsers use different line endings
 	$lines = preg_split( '/\r\n|\r|\n/', $_post['adstxt'] );
 	$sanitized = $errors = array();
@@ -22,14 +24,20 @@ function admin_post() {
 		}
 	}
 
-	if( ! empty( $errors ) ) {
-// maybe store errors in post meta to display on the settings screen?
-// note to self: would want to delete this meta at the top of the save routine
-	}
-
 	$sanitized = implode( PHP_EOL, $sanitized );
 
-// here is where you'd want to update the post with $sanitized as post_content - anything need doing for revisions?
+	$postarr = array(
+		'ID' => $post_id,
+		'post_content' => $sanitized,
+		'post_type' => 'adstxt',
+		'post_status' => 'publish',
+		'meta_input' => array(
+			'adstxt_errors' => $errors,
+		),
+	);
+
+	$post_id = wp_insert_post( $postarr );
+	update_option( 'adstxt_post', $post_id );
 
 	wp_redirect( $_POST['_wp_http_referer'] . '&updated=true' );
 	exit;
