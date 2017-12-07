@@ -18,7 +18,7 @@ function admin_post() {
 
 		$sanitized[] = $result['sanitized'];
 		if ( ! empty( $result['errors'] ) ) {
-			$errors += $result['errors'];
+			$errors = array_merge( $errors, $result['errors'] );
 		}
 	}
 
