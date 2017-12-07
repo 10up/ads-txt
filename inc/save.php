@@ -51,7 +51,7 @@ function validate_line( $line, $line_number ) {
 	if ( empty( $line ) ) {
 		$sanitized = '';
 	} elseif ( 0 === strpos( $line, '#' ) ) { // This is a full-line comment
-		$sanitized = sanitize_textarea_field( $line );
+		$sanitized = sanitize_text_field( $line );
 	} elseif( 1 < strpos( $line, '=' ) ) { // This is a variable declaration
 		// The spec currently supports CONTACT and SUBDOMAIN
 		if ( ! preg_match( '/^(CONTACT|SUBDOMAIN)=/i', $line ) ) {
@@ -62,7 +62,7 @@ function validate_line( $line, $line_number ) {
 			);
 
 			// Because the spec can change we don't comment out invalid-looking lines
-			$sanitized = sanitize_textarea_field( $line );
+			$sanitized = sanitize_text_field( $line );
 		} elseif ( 0 === stripos( $line, 'subdomain=' ) ) { // Subdomains should be, well, subdomains
 			// Discard any comments
 			// @TODO: regex group this instead
@@ -81,14 +81,14 @@ function validate_line( $line, $line_number ) {
 				);
 
 				// Comment this out
-				$sanitized = '# ' . sanitize_textarea_field( $line );
+				$sanitized = '# ' . sanitize_text_field( $line );
 			} else {
 				$subdomain = $subdomain[0];
 				// YOU ARE HERE - YOU WANT TO CHECK ON THE FORMATION OF THIS SUBDOMAIN
 				// if not good, add a warning - probably fine to leave it there, just a crawler problem
 			}
 		} else {
-			$sanitized = sanitize_textarea_field( $line );
+			$sanitized = sanitize_text_field( $line );
 		}
 
 		unset( $subdomain );
@@ -129,12 +129,12 @@ function validate_line( $line, $line_number ) {
 				}
 			}
 
-			$sanitized = sanitize_textarea_field( $line );
+			$sanitized = sanitize_text_field( $line );
 		} else {
 			// Not a comment, variable declaration, or data record; therefore, invalid.
 			// Comment it out for safety.
 			// WARNING: this could get cached by crawlers and take time to clear. This is just the PHP fallback.
-			$sanitized = '# ' . sanitize_textarea_field( $line );
+			$sanitized = '# ' . sanitize_text_field( $line );
 
 			$errors[] = array(
 				'line' => $line_number,
