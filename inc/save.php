@@ -28,6 +28,7 @@ function admin_post() {
 
 	$postarr = array(
 		'ID' => $post_id,
+		'post_title' => 'Ads.txt',
 		'post_content' => $sanitized,
 		'post_type' => 'adstxt',
 		'post_status' => 'publish',
