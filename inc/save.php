@@ -93,13 +93,22 @@ function validate_line( $line, $line_number ) {
 
 		unset( $subdomain );
 	} else { // Data records: the most common
-		// Discard any comments
+		// Disregard any comments
 		$record = explode( '#', $line );
 		$record = $record[0];
 
-		// Relatively strict matching: domain, pub ID (alphanumeric with dashes), account type (current spec is RESELLER or DIRECT), and TAG-ID (alphanumeric, seems to be a hash)
-		if ( preg_match( '/([^\s,]*), ?([A-Z0-9-]*), ?([A-Z]*),? ?([A-Z0-9-]*)? ?$/i', $record, $matches ) ) {
-			if ( ! preg_match( '/^(RESELLER|DIRECT)$/i', $matches[3] ) ) {
+		// Record format: example.exchange.com,pub-id123456789,RESELLER|DIRECT,tagidhash123(optional)
+		$fields = explode( ',', $record );
+
+		if ( 3 <= count( $fields ) ) {
+			$exchange = trim( $fields[0] );
+			$pub_id = trim( $fields[1] );
+			$account_type = trim( $fields[2] );
+			if ( isset( $fields[3] ) ) {
+				$tag_id = trim( $fields[3] );
+			}
+
+			if ( ! preg_match( '/^(RESELLER|DIRECT)$/i', $account_type ) ) {
 				$errors[] = array(
 					'line' => $line_number,
 					'type' => 'error',
@@ -107,7 +116,7 @@ function validate_line( $line, $line_number ) {
 				);
 			}
 
-			// TODO: CHECK IF FIELD 1 IS A DOMAIN
+			// TODO: CHECK IF FIELD 1 IS A DOMAIN and FIELD 4 optional is the right length
 
 			$sanitized = sanitize_textarea_field( $line );
 		} else {
@@ -123,7 +132,7 @@ function validate_line( $line, $line_number ) {
 			);
 		}
 
-		unset( $record );
+		unset( $record, $fields );
 	}
 
 	return array(
