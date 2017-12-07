@@ -14,7 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+include_once( __DIR__ . '/inc/post-type.php' );
 include_once( __DIR__ . '/inc/admin.php' );
+include_once( __DIR__ . '/inc/save.php' );
 
 /**
  * Display the contents of /ads.txt when requested.
@@ -23,12 +25,13 @@ include_once( __DIR__ . '/inc/admin.php' );
 function tenup_display_ads_txt() {
 	$request = $_SERVER['REQUEST_URI'];
 	if ( '/ads.txt' === $request ) {
-		$setting = get_option( 'adstxt' );
+		$post_id = get_option( 'adstxt_post' );
 
 		// Will fall through if no option found, likely to a 404
-		if ( ! empty( $setting ) ) {
+		if ( ! empty( $post_id ) ) {
+			$post = get_post( $post_id );
 			header( 'Content-Type: text/plain' );
-			echo $setting;
+			echo $post->post_content;
 			die();
 		}
 	}
