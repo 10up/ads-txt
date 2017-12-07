@@ -13,7 +13,6 @@ function admin_post() {
 	$lines = preg_split( '/\r\n|\r|\n/', $_post['adstxt'] );
 	$sanitized = $errors = array();
 
-// TODO: ARRAY_MAP THIS THING
 	foreach ( $lines as $i => $line ) {
 		$line_number = $i + 1;
 		$result = validate_line( $line, $line_number );
@@ -46,6 +45,7 @@ function admin_post() {
 add_action( 'admin_post_adstxt-save', __NAMESPACE__ . '\admin_post' );
 
 function validate_line( $line, $line_number ) {
+	$domain_regex = '/^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$/';
 	$errors = array();
 
 	if ( empty( $line ) ) {
@@ -60,12 +60,8 @@ function validate_line( $line, $line_number ) {
 				'type' => 'warning',
 				'message' => __( 'Unrecognized variable', 'adstxt' ),
 			);
-
-			// Because the spec can change we don't comment out invalid-looking lines
-			$sanitized = sanitize_text_field( $line );
 		} elseif ( 0 === stripos( $line, 'subdomain=' ) ) { // Subdomains should be, well, subdomains
-			// Discard any comments
-			// @TODO: regex group this instead
+			// Disregard any comments
 			$subdomain = explode( '#', $line );
 			$subdomain = $subdomain[0];
 
@@ -73,23 +69,17 @@ function validate_line( $line, $line_number ) {
 			array_shift( $subdomain );
 
 			// If there's anything other than one piece left something's not right
-			if ( 1 !== count( $subdomain ) ) {
+			if ( 1 !== count( $subdomain ) || ! preg_match( $domain_regex, $subdomain[0] ) ) {
 				$errors[] = array(
 					'line' => $line_number,
 					'type' => 'warning',
-					'message' => __( 'Invalid subdomain', 'adstxt' ),
+					'message' => __( 'Subdomain appears to be invalid', 'adstxt' ),
 				);
-
-				// Comment this out
-				$sanitized = '# ' . sanitize_text_field( $line );
-			} else {
-				$subdomain = $subdomain[0];
-				// YOU ARE HERE - YOU WANT TO CHECK ON THE FORMATION OF THIS SUBDOMAIN
-				// if not good, add a warning - probably fine to leave it there, just a crawler problem
 			}
-		} else {
-			$sanitized = sanitize_text_field( $line );
+
 		}
+
+		$sanitized = sanitize_text_field( $line );
 
 		unset( $subdomain );
 	} else { // Data records: the most common
@@ -105,7 +95,13 @@ function validate_line( $line, $line_number ) {
 			$pub_id = trim( $fields[1] );
 			$account_type = trim( $fields[2] );
 
-			// TODO: CHECK IF FIELD 1 IS A DOMAIN
+			if ( ! preg_match( $domain_regex, $exchange ) ) {
+				$errors[] = array(
+					'line' => $line_number,
+					'type' => 'warning',
+					'message' => __( 'Exchange domain appears to be invalid', 'adstxt' ),
+				);
+			}
 
 			if ( ! preg_match( '/^(RESELLER|DIRECT)$/i', $account_type ) ) {
 				$errors[] = array(
