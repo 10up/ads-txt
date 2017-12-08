@@ -51,7 +51,7 @@ function validate_line( $line, $line_number ) {
 	if ( empty( $line ) ) {
 		$sanitized = '';
 	} elseif ( 0 === strpos( $line, '#' ) ) { // This is a full-line comment
-		$sanitized = sanitize_text_field( $line );
+		$sanitized = wp_strip_all_tags( $line );
 	} elseif( 1 < strpos( $line, '=' ) ) { // This is a variable declaration
 		// The spec currently supports CONTACT and SUBDOMAIN
 		if ( ! preg_match( '/^(CONTACT|SUBDOMAIN)=/i', $line ) ) {
@@ -79,7 +79,7 @@ function validate_line( $line, $line_number ) {
 
 		}
 
-		$sanitized = sanitize_text_field( $line );
+		$sanitized = wp_strip_all_tags( $line );
 
 		unset( $subdomain );
 	} else { // Data records: the most common
@@ -125,12 +125,11 @@ function validate_line( $line, $line_number ) {
 				}
 			}
 
-			$sanitized = sanitize_text_field( $line );
+			$sanitized = wp_strip_all_tags( $line );
 		} else {
 			// Not a comment, variable declaration, or data record; therefore, invalid.
-			// Comment it out for safety.
-			// WARNING: this could get cached by crawlers and take time to clear. This is just the PHP fallback.
-			$sanitized = '# ' . sanitize_text_field( $line );
+			// Early on we commented the line out for safety but it's kind of a weird thing to do with a JS AYS
+			$sanitized = wp_strip_all_tags( $line );
 
 			$errors[] = array(
 				'line' => $line_number,
