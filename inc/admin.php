@@ -2,6 +2,23 @@
 
 namespace AdsTxt;
 
+function admin_enqueue_scripts( $hook ) {
+	if ( 'settings_page_adstxt-settings' !== $hook ) {
+		return;
+	}
+
+	wp_enqueue_script( 'adstxt', plugins_url( '/js/admin.js', dirname( __FILE__ ) ), array( 'jquery' ), false, true );
+
+	$strings = array(
+		'saved' => __( 'Ads.txt saved', 'adstxt' ),
+		'error_intro' => __( 'Your Ads.txt contains the following issues:', 'adstxt' ),
+		'ays' => __( 'Update anyway, even though it may adversely affect your ads?', 'adstxt' ),
+	);
+
+	wp_localize_script( 'adstxt', 'adstxt', $strings );
+}
+add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\admin_enqueue_scripts' );
+
 /**
  * Add admin menu page
  * @return void
@@ -33,19 +50,10 @@ function settings_screen() {
 <div class="wrap">
 <?php if ( ! empty( $errors ) ) : ?>
 	<div class="notice notice-error adstxt-errors">
-		<p><strong>Your Ads.txt contains the following issues:</strong></p>
+		<p><strong><?php _e( 'Your Ads.txt contains the following issues:', 'adstxt' ); ?></strong></p>
 		<ul>
 			<?php foreach( $errors as $error ) {
-				echo '<li class="' . $error['type'] . '">';
-
-				/* translators: Error message output. 1: Line number, 2: Error message */
-				printf(
-					__( 'Line %1$s: %2$s', 'adstxt' ),
-					$error['line'],
-					$error['message']
-				);
-
-				echo '</li>';
+				echo '<li class="' . $error['type'] . '">' . format_error( $error ) . '</li>';
 			} ?>
 		</ul>
 	</div>
@@ -58,13 +66,31 @@ function settings_screen() {
 		<input type="hidden" name="action" value="adstxt-save" />
 		<?php wp_nonce_field( 'adstxt_save' ); ?>
 
-		<textarea class="widefat code" rows="25" name="adstxt"><?php echo esc_textarea( $content ); ?></textarea>
+		<label class="screen-reader-text" for="adstxt_content"><?php _e( 'Ads.txt content', 'adstxt' ); ?></label>
+		<textarea class="widefat code" rows="25" name="adstxt" id="adstxt_content"><?php echo esc_textarea( $content ); ?></textarea>
 
 		<p class="submit">
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes' ); ?>">
+			<span class="spinner" style="float:none;vertical-align:top"></span>
 		</p>
 	</form>
 </div>
 
 <?php
+}
+
+/**
+ * Take an error array and turn it into a message.
+ * @param  array $error Array of error message components
+ * @return string       Formatted error message
+ */
+function format_error( $error ) {
+	/* translators: Error message output. 1: Line number, 2: Error message */
+	$message = sprintf(
+		__( 'Line %1$s: %2$s', 'adstxt' ),
+		$error['line'],
+		$error['message']
+	);
+
+	return $message;
 }

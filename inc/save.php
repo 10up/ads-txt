@@ -2,16 +2,18 @@
 
 namespace Adstxt;
 
-function admin_post() {
+function save() {
 	current_user_can( 'customize' ) || die;
 	check_admin_referer( 'adstxt_save' );
 	$_post = stripslashes_deep( $_POST );
+	$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
 
 	$post_id = $_post['post_id'];
+	$ays = isset( $_post['adstxt_ays'] ) ? $_post['adstxt_ays'] : null;
 
 	// Different browsers use different line endings
 	$lines = preg_split( '/\r\n|\r|\n/', $_post['adstxt'] );
-	$sanitized = $errors = array();
+	$sanitized = $errors = $response = array();
 
 	foreach ( $lines as $i => $line ) {
 		$line_number = $i + 1;
@@ -36,13 +38,32 @@ function admin_post() {
 		),
 	);
 
-	$post_id = wp_insert_post( $postarr );
-	update_option( 'adstxt_post', $post_id );
+	if ( ! $doing_ajax || empty( $errors ) || 'y' === $ays ) {
+		$post_id = wp_insert_post( $postarr );
+
+		if ( $post_id ) {
+			update_option( 'adstxt_post', $post_id );
+			$response['saved'] = true;
+		}
+	}
+
+	if ( $doing_ajax ) {
+		$response['sanitized'] = $sanitized;
+
+		if ( ! empty( $errors ) ) {
+			// Transform errors into strings for easier i18n
+			$response['errors'] = array_map( __NAMESPACE__ . '\format_error', $errors );
+		}
+
+		echo json_encode( $response );
+		die();
+	}
 
 	wp_redirect( $_POST['_wp_http_referer'] . '&updated=true' );
 	exit;
 }
-add_action( 'admin_post_adstxt-save', __NAMESPACE__ . '\admin_post' );
+add_action( 'admin_post_adstxt-save', __NAMESPACE__ . '\save' );
+add_action( 'wp_ajax_adstxt-save', __NAMESPACE__ . '\save' );
 
 function validate_line( $line, $line_number ) {
 	$domain_regex = '/^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$/';
@@ -134,7 +155,7 @@ function validate_line( $line, $line_number ) {
 			$errors[] = array(
 				'line' => $line_number,
 				'type' => 'error',
-				'message' => __( 'Invalid record; commented out', 'adstxt' ),
+				'message' => __( 'Invalid record', 'adstxt' ),
 			);
 		}
 
