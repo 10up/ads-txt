@@ -2,6 +2,23 @@
 
 namespace AdsTxt;
 
+function admin_enqueue_scripts( $hook ) {
+	if ( 'settings_page_adstxt-settings' !== $hook ) {
+		return;
+	}
+
+	wp_enqueue_script( 'adstxt', plugins_url( '/js/admin.js', dirname( __FILE__ ) ), array( 'jquery' ), false, true );
+
+	$strings = array(
+		'saved' => __( 'Ads.txt saved', 'adstxt' ),
+		'error_intro' => __( 'Your Ads.txt contains the following issues:', 'adstxt' ),
+		'ays' => __( 'Update anyway, even though it may adversely affect your ads?', 'adstxt' ),
+	);
+
+	wp_localize_script( 'adstxt', 'adstxt', $strings );
+}
+add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\admin_enqueue_scripts' );
+
 /**
  * Add admin menu page
  * @return void
@@ -16,21 +33,45 @@ add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
  * @return void
  */
 function settings_screen() {
-	$setting = get_option( 'adstxt' );
+	$post_id = get_option( 'adstxt_post' );
+
+	if ( $post_id ) {
+		$post = get_post( $post_id );
+	}
+
+	$content = isset( $post->post_content ) ? $post->post_content : '';
+
+	$errors = get_post_meta( $post->ID, 'adstxt_errors', true );
+
+// Also need to display errors based on meta key
+// It's okay if they display again if they leave and come back, I think
 ?>
 
 <div class="wrap">
+<?php if ( ! empty( $errors ) ) : ?>
+	<div class="notice notice-error adstxt-errors">
+		<p><strong><?php _e( 'Your Ads.txt contains the following issues:', 'adstxt' ); ?></strong></p>
+		<ul>
+			<?php foreach( $errors as $error ) {
+				echo '<li class="' . $error['type'] . '">' . format_error( $error ) . '</li>';
+			} ?>
+		</ul>
+	</div>
+<?php endif; ?>
+
 	<h2><?php _e( 'Ads.txt', 'adstxt' ); ?></h2>
 
-	<form action="options.php" method="post">
-		<?php settings_fields( 'adstxt' ); ?>
+	<form method="post" action="<?php echo admin_url( 'admin-post.php' ); ?>" class="adstxt-settings-form">
+		<input type="hidden" name="post_id" value="<?php echo esc_attr( $post->ID ); ?>" />
+		<input type="hidden" name="action" value="adstxt-save" />
+		<?php wp_nonce_field( 'adstxt_save' ); ?>
 
-		<p class="description"><?php _e( 'COPY: Ads.txt is a root-level file, etc.', 'adstxt' ); ?></p>
-
-		<textarea class="widefat" rows="25" name="adstxt"><?php echo esc_textarea( $setting ); ?></textarea>
+		<label class="screen-reader-text" for="adstxt_content"><?php _e( 'Ads.txt content', 'adstxt' ); ?></label>
+		<textarea class="widefat code" rows="25" name="adstxt" id="adstxt_content"><?php echo esc_textarea( $content ); ?></textarea>
 
 		<p class="submit">
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes' ); ?>">
+			<span class="spinner" style="float:none;vertical-align:top"></span>
 		</p>
 	</form>
 </div>
@@ -39,138 +80,17 @@ function settings_screen() {
 }
 
 /**
- * Register setting
- * @return void
+ * Take an error array and turn it into a message.
+ * @param  array $error Array of error message components
+ * @return string       Formatted error message
  */
-function admin_init() {
-	$args = array(
-		'type' => 'string',
-		'description' => 'Contents of ads.txt',
-		'sanitize_callback' =>  __NAMESPACE__ . '\sanitize_setting'
+function format_error( $error ) {
+	/* translators: Error message output. 1: Line number, 2: Error message */
+	$message = sprintf(
+		__( 'Line %1$s: %2$s', 'adstxt' ),
+		$error['line'],
+		$error['message']
 	);
 
-	register_setting( 'adstxt', 'adstxt', $args );
-}
-add_action( 'admin_init', __NAMESPACE__ . '\admin_init' );
-
-/**
- * Sanitize setting for saving
- * @param  array $setting Posted settings
- * @return array          Sanitized settings
- */
-function sanitize_setting( $setting ) {
-	// Different browsers use different line endings
-	$lines = preg_split( '/\r\n|\r|\n/', $setting );
-	$sanitized = $errors = array();
-
-	foreach ( $lines as $i => $line ) {
-		$line_number = $i + 1;
-
-		if ( empty( $line ) ) {
-			$sanitized[] = '';
-		} elseif ( 0 === strpos( $line, '#' ) ) { // This is a full-line comment
-			$sanitized[] = sanitize_textarea_field( $line );
-		} elseif( 1 < strpos( $line, '=' ) ) { // This is a variable declaration
-			// The spec currently supports CONTACT and SUBDOMAIN
-			if ( ! preg_match( '/^(CONTACT|SUBDOMAIN)=/i', $line ) ) {
-				$errors[] = array(
-					'line' => $line_number,
-					'type' => 'warning',
-					'message' => __( 'Unrecognized variable', 'adstxt' ),
-				);
-
-				// Because the spec can change we don't comment out invalid-looking lines
-				$sanitized[] = sanitize_textarea_field( $line );
-			} elseif ( 0 === stripos( $line, 'subdomain=' ) ) { // Subdomains should be, well, subdomains
-				// Discard any comments
-				$subdomain = explode( '#', $line );
-				$subdomain = $subdomain[0];
-
-				$subdomain = explode( '=', $subdomain );
-				array_shift( $subdomain );
-
-				// If there's anything other than one piece left something's not right
-				if ( 1 !== count( $subdomain ) ) {
-					$errors[] = array(
-						'line' => $line_number,
-						'type' => 'warning',
-						'message' => __( 'Invalid subdomain', 'adstxt' ),
-					);
-
-					// Comment this out
-					$sanitized[] = '# ' . sanitize_textarea_field( $line );
-				} else {
-					$subdomain = $subdomain[0];
-					// YOU ARE HERE - YOU WANT TO CHECK ON THE FORMATION OF THIS SUBDOMAIN
-					// if not good, add a warning - probably fine to leave it there, just a crawler problem
-				}
-			} else {
-				$sanitized[] = sanitize_textarea_field( $line );
-			}
-
-			unset( $subdomain );
-		} else { // Data records: the most common
-			// Discard any comments
-			$record = explode( '#', $line );
-			$record = $record[0];
-
-			// Relatively strict matching: domain, pub ID (alphanumeric with dashes), account type (current spec is RESELLER or DIRECT), and TAG-ID (alphanumeric, seems to be a hash)
-			if ( preg_match( '/([^\s,]*), ?([A-Z0-9-]*), ?([A-Z]*),? ?([A-Z0-9-]*)? ?$/i', $record, $matches ) ) {
-				if ( ! preg_match( '/^(RESELLER|DIRECT)$/i', $matches[3] ) ) {
-					$errors[] = array(
-						'line' => $line_number,
-						'type' => 'error',
-						'message' => __( 'Third field should be RESELLER or DIRECT', 'adstxt' ),
-					);
-				}
-
-				// TODO: CHECK IF FIELD 1 IS A DOMAIN
-
-				$sanitized[] = sanitize_textarea_field( $line );
-			} else {
-				// Not a comment, variable declaration, or data record; therefore, invalid.
-				// Comment it out for safety.
-				// WARNING: this could get cached by crawlers and take time to clear. This is just the PHP fallback.
-				$sanitized[] = '# ' . sanitize_textarea_field( $line );
-
-				$errors[] = array(
-					'line' => $line_number,
-					'type' => 'error',
-					'message' => __( 'Invalid record; commented out', 'adstxt' ),
-				);
-			}
-
-			unset( $record );
-		}
-	}
-
-	if( ! empty( $errors ) ) {
-		// Settings errors are wrapped in strong tags wrapped in a paragraph so our formatting options are limited
-		$error_message = __( 'Your Ads.txt file was saved but contains the following problems:', 'adstxt' ) . '<br><br>';
-
-		foreach ( $errors as $error ) {
-			$error_message .= '<span class="' . $error['type'] . '">';
-
-			/* translators: Error message output. 1: Line number, 2: Error message */
-			$error_message .= sprintf(
-				__( 'Line %1$s: %2$s', 'adstxt' ),
-				$error['line'],
-				$error['message']
-			);
-
-			$error_message .= '</span><br>';
-		}
-
-		$error_message .= '</ul>';
-
-		add_settings_error(
-			'adstxt',
-			'adstxt_errors',
-			$error_message,
-			'error'
-		);
-	}
-
-	$sanitized = implode( PHP_EOL, $sanitized );
-	return $sanitized;
+	return $message;
 }
