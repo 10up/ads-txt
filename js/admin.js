@@ -1,6 +1,9 @@
-(function($){
-	var submit = $( '#submit' );
-	submit.on( 'click', function(e){
+( function( $, _ ) {
+	var submit               = $( '#submit' ),
+		notificationArea = $( document.getElementById( 'adstxt-notification-area' ) ),
+		notificationTemplate = wp.template( 'adstext-notice' );
+
+	submit.on( 'click', function( e ){
 		e.preventDefault();
 
 		var	textarea = $( '#adstxt_content' ),
