@@ -68,7 +68,7 @@ function settings_screen() {
 		<?php wp_nonce_field( 'adstxt_save' ); ?>
 
 		<label class="screen-reader-text" for="adstxt_content"><?php _e( 'Ads.txt content', 'adstxt' ); ?></label>
-		<textarea class="widefat code" rows="25" name="adstxt" id="adstxt_content"><?php echo esc_textarea( $content ); ?></textarea>
+		<textarea class="widefat code" rows="25" name="adstxt" id="adstxt_content"><?php echo $content ? esc_textarea( $content ) : ''; ?></textarea>
 
 		<p class="submit">
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes' ); ?>">
