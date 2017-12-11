@@ -7,7 +7,7 @@ function admin_enqueue_scripts( $hook ) {
 		return;
 	}
 
-	wp_enqueue_script( 'adstxt', plugins_url( '/js/admin.js', dirname( __FILE__ ) ), array( 'jquery' ), false, true );
+	wp_enqueue_script( 'adstxt', plugins_url( '/js/admin.js', dirname( __FILE__ ) ), array( 'jquery', 'wp-backbone' ), false, true );
 
 	$strings = array(
 		'saved' => __( 'Ads.txt saved', 'adstxt' ),
