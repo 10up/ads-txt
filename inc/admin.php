@@ -60,7 +60,6 @@ function settings_screen() {
 <?php endif; ?>
 
 	<h2><?php _e( 'Ads.txt', 'adstxt' ); ?></h2>
-	<div id="adstxt-notification-area"></div>
 	<form method="post" action="<?php echo admin_url( 'admin-post.php' ); ?>" class="adstxt-settings-form">
 		<input type="hidden" name="post_id" value="<?php echo ( $post ? esc_attr( $post->ID ) : '' ); ?>" />
 		<input type="hidden" name="action" value="adstxt-save" />
@@ -68,22 +67,22 @@ function settings_screen() {
 
 		<label class="screen-reader-text" for="adstxt_content"><?php _e( 'Ads.txt content', 'adstxt' ); ?></label>
 		<textarea class="widefat code" rows="25" name="adstxt" id="adstxt_content"><?php echo $content ? esc_textarea( $content ) : ''; ?></textarea>
-
-		<script type="text/template" id="tmpl-adstext-notice">
-			<div class="notice notice-{{ data.class }} adstxt-errors">
-				<p><strong>{{ data.message }}</strong></p>
-				<ul>
-				<# _.each( data.errors, function( error ) { #>
-					<li class="{{ error.class }}">Line {{ error.line }}: {{ error.message }}</li>
-				<# } ); #>
-				</ul>
-			</div>
-			</script>
+		<div id="adstxt-notification-area"></div>
 		<p class="submit">
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes' ); ?>">
 			<span class="spinner" style="float:none;vertical-align:top"></span>
 		</p>
+
 	</form>
+	<script type="text/template" id="tmpl-adstext-notice">
+		<div class="notice notice-{{ data.class }} adstxt-errors">
+			<p><strong>{{ data.message }}</strong></p>
+			<ul class="adstxt-errors-items">
+			<# _.each( data.errors, function( error ) { #>
+				<li>{{ error }}.</li>
+			<# } ); #>
+			</ul>
+		</div>
 		<# if ( data.errors ) { #>
 		<p class="adstxt-ays">
 			<input id="adstxt-ays-checkbox" name="adstxt_ays" type="checkbox" value="y" />
@@ -92,6 +91,7 @@ function settings_screen() {
 			</label>
 		</p>
 		<# } #>
+		</script>
 </div>
 
 <?php
