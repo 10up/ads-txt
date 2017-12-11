@@ -35,14 +35,14 @@ add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
  */
 function settings_screen() {
 	$post_id = get_option( 'adstxt_post' );
+	$post    = false;
+	$content = false;
 
 	if ( $post_id ) {
 		$post = get_post( $post_id );
+		$content = isset( $post->post_content ) ? $post->post_content : '';
+		$errors = get_post_meta( $post->ID, 'adstxt_errors', true );
 	}
-
-	$content = isset( $post->post_content ) ? $post->post_content : '';
-
-	$errors = get_post_meta( $post->ID, 'adstxt_errors', true );
 
 // Also need to display errors based on meta key
 // It's okay if they display again if they leave and come back, I think
@@ -63,7 +63,7 @@ function settings_screen() {
 	<h2><?php _e( 'Ads.txt', 'adstxt' ); ?></h2>
 
 	<form method="post" action="<?php echo admin_url( 'admin-post.php' ); ?>" class="adstxt-settings-form">
-		<input type="hidden" name="post_id" value="<?php echo esc_attr( $post->ID ); ?>" />
+		<input type="hidden" name="post_id" value="<?php echo ( $post ? esc_attr( $post->ID ) : '' ); ?>" />
 		<input type="hidden" name="action" value="adstxt-save" />
 		<?php wp_nonce_field( 'adstxt_save' ); ?>
 
