@@ -61,7 +61,7 @@ function settings_screen() {
 <?php endif; ?>
 
 	<h2><?php _e( 'Ads.txt', 'adstxt' ); ?></h2>
-
+	<div id="adstxt-notification-area"></div>
 	<form method="post" action="<?php echo admin_url( 'admin-post.php' ); ?>" class="adstxt-settings-form">
 		<input type="hidden" name="post_id" value="<?php echo ( $post ? esc_attr( $post->ID ) : '' ); ?>" />
 		<input type="hidden" name="action" value="adstxt-save" />
