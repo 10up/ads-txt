@@ -10,9 +10,10 @@ function admin_enqueue_scripts( $hook ) {
 	wp_enqueue_script( 'adstxt', plugins_url( '/js/admin.js', dirname( __FILE__ ) ), array( 'jquery', 'wp-backbone' ), false, true );
 
 	$strings = array(
-		'saved' => __( 'Ads.txt saved', 'adstxt' ),
-		'error_intro' => __( 'Your Ads.txt contains the following issues:', 'adstxt' ),
-		'ays' => __( 'Update anyway, even though it may adversely affect your ads?', 'adstxt' ),
+		'saved'         => __( 'Ads.txt saved', 'adstxt' ),
+		'error_intro'   => __( 'Your Ads.txt contains the following issues:', 'adstxt' ),
+		'unknown_error' => __( 'Unknown error.', 'adstxt' ),
+		'ays'           => __( 'Update anyway, even though it may adversely affect your ads?', 'adstxt' ),
 	);
 
 	wp_localize_script( 'adstxt', 'adstxt', $strings );
