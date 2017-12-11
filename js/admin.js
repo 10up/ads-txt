@@ -6,45 +6,41 @@
 	submit.on( 'click', function( e ){
 		e.preventDefault();
 
-		var	textarea = $( '#adstxt_content' ),
-			notices = $( '.adstxt-notice' ),
-			ays = $( 'p.adstxt-ays'),
+		var	textarea    = $( '#adstxt_content' ),
+			notices     = $( '.adstxt-notice' ),
 			submit_wrap = $( 'p.submit' ),
-			spinner = submit_wrap.find( '.spinner' );
+			spinner     = submit_wrap.find( '.spinner' );
 
 		spinner.addClass( 'is-active' );
 
 		// clear any existing messages
 		notices.remove();
-		ays.remove();
 
 		$.ajax({
 			type: 'POST',
 			dataType: 'json',
 			url: ajaxurl,
 			data: $( '.adstxt-settings-form' ).serialize(),
-			success: function(r) {
+			success: function( r ) {
 				spinner.removeClass( 'is-active' );
 
-				if ( typeof r.sanitized != 'undefined' ) {
-					textarea.val( r.sanitized )
+				if ( 'undefined' !== typeof r.sanitized ) {
+					textarea.val( r.sanitized );
 				}
 
-				if ( typeof r.saved != 'undefined' && r.saved ) {
-					submit_wrap.before( '<div class="notice notice-success adstxt-notice"><p>' + adstxt.saved + '</p></div>' );
-				} else if ( typeof r.errors != 'undefined' ) {
-					submit.attr( 'disabled', 'disabled' );
-					submit_wrap.before(
-						'<div class="notice notice-error adstxt-errors adstxt-notice">' +
-						'<p><strong>' + adstxt.error_intro + '</strong></p>' +
-						'<ul class="adstxt-errors-items"></ul></div>' +
-						'<p class="adstxt-ays"><input id="adstxt-ays-checkbox" name="adstxt_ays" type="checkbox" value="y" /> <label for="adstxt-ays-checkbox">' + adstxt.ays + '</label></p>'
-					);
-
-					for ( var i = 0; i < r.errors.length; i++ ) {
-						$( '.adstxt-errors-items' ).append( '<li>' + r.errors[i] + '</li>' );
+				if ( 'undefined' !== typeof r.saved && r.saved ) {
+					data = {
+						'class':   'success',
+						'message': adstxt.saved
+					}
+				} else {
+					data = {
+						'class':   'error',
+						'message': adstxt.error_intro,
+						'errors': ( typeof r.errors != 'undefined' ) ? r.errors : [ adstxt.unknown_error ]
 					}
 				}
+				notificationArea.html( notificationTemplate( data ) );
 			}
 		})
 	});
@@ -52,4 +48,4 @@
 	$( '.wrap' ).on( 'click', '#adstxt-ays-checkbox', function(e){
 		submit.removeAttr( 'disabled' );
 	})
-})(jQuery);
+} )( jQuery, _ );
