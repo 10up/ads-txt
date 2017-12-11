@@ -48,7 +48,7 @@ function settings_screen() {
 ?>
 
 <div class="wrap">
-<?php if ( ! empty( $errors ) ) : ?>
+<?php if ( ( ! empty( $errors ) ) && isset( $_POST['adstxt_content'] ) ) : ?>
 	<div class="notice notice-error adstxt-errors">
 		<p><strong><?php _e( 'Your Ads.txt contains the following issues:', 'adstxt' ); ?></strong></p>
 		<ul>
