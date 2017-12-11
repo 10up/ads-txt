@@ -13,7 +13,6 @@ function admin_enqueue_scripts( $hook ) {
 		'saved'         => __( 'Ads.txt saved', 'adstxt' ),
 		'error_intro'   => __( 'Your Ads.txt contains the following issues:', 'adstxt' ),
 		'unknown_error' => __( 'Unknown error.', 'adstxt' ),
-		'ays'           => __( 'Update anyway, even though it may adversely affect your ads?', 'adstxt' ),
 	);
 
 	wp_localize_script( 'adstxt', 'adstxt', $strings );
@@ -85,6 +84,14 @@ function settings_screen() {
 			<span class="spinner" style="float:none;vertical-align:top"></span>
 		</p>
 	</form>
+		<# if ( data.errors ) { #>
+		<p class="adstxt-ays">
+			<input id="adstxt-ays-checkbox" name="adstxt_ays" type="checkbox" value="y" />
+			<label for="adstxt-ays-checkbox">
+				<?php _e( 'Update anyway, even though it may adversely affect your ads?', 'adstxt' ); ?>
+			</label>
+		</p>
+		<# } #>
 </div>
 
 <?php
