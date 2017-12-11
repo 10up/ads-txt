@@ -70,6 +70,16 @@ function settings_screen() {
 		<label class="screen-reader-text" for="adstxt_content"><?php _e( 'Ads.txt content', 'adstxt' ); ?></label>
 		<textarea class="widefat code" rows="25" name="adstxt" id="adstxt_content"><?php echo $content ? esc_textarea( $content ) : ''; ?></textarea>
 
+		<script type="text/template" id="tmpl-adstext-notice">
+			<div class="notice notice-{{ data.class }} adstxt-errors">
+				<p><strong>{{ data.message }}</strong></p>
+				<ul>
+				<# _.each( data.errors, function( error ) { #>
+					<li class="{{ error.class }}">Line {{ error.line }}: {{ error.message }}</li>
+				<# } ); #>
+				</ul>
+			</div>
+			</script>
 		<p class="submit">
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes' ); ?>">
 			<span class="spinner" style="float:none;vertical-align:top"></span>
