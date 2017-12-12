@@ -2,6 +2,9 @@
 
 namespace Adstxt;
 
+/**
+ * Save the ads.txt data.
+ */
 function save() {
 	current_user_can( 'customize' ) || die;
 	check_admin_referer( 'adstxt_save' );
@@ -12,12 +15,12 @@ function save() {
 	$ays     = isset( $_post['adstxt_ays'] ) ? $_post['adstxt_ays'] : null;
 
 	// Different browsers use different line endings.
-	$lines = preg_split( '/\r\n|\r|\n/', $_post['adstxt'] );
+	$lines     = preg_split( '/\r\n|\r|\n/', $_post['adstxt'] );
 	$sanitized = $errors = $response = array();
 
 	foreach ( $lines as $i => $line ) {
 		$line_number = $i + 1;
-		$result = validate_line( $line, $line_number );
+		$result      = validate_line( $line, $line_number );
 
 		$sanitized[] = $result['sanitized'];
 		if ( ! empty( $result['errors'] ) ) {

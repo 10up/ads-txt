@@ -27,7 +27,7 @@ function tenup_display_ads_txt() {
 	if ( '/ads.txt' === $request ) {
 		$post_id = get_option( 'adstxt_post' );
 
-		// Will fall through if no option found, likely to a 404
+		// Will fall through if no option found, likely to a 404.
 		if ( ! empty( $post_id ) ) {
 			$post = get_post( $post_id );
 			header( 'Content-Type: text/plain' );

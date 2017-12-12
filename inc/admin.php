@@ -20,7 +20,8 @@ function admin_enqueue_scripts( $hook ) {
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\admin_enqueue_scripts' );
 
 /**
- * Add admin menu page
+ * Add admin menu page.
+ *
  * @return void
  */
 function admin_menu() {
@@ -29,7 +30,8 @@ function admin_menu() {
 add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
 
 /**
- * Output the settings screen
+ * Output the settings screen.
+ *
  * @return void
  */
 function settings_screen() {
@@ -43,8 +45,8 @@ function settings_screen() {
 
 	$errors = get_post_meta( $post->ID, 'adstxt_errors', true );
 
-// Also need to display errors based on meta key.
-// It's okay if they display again if they leave and come back, I think.
+	// Also need to display errors based on meta key.
+	// It's okay if they display again if they leave and come back, I think.
 ?>
 
 <div class="wrap">
@@ -55,6 +57,11 @@ function settings_screen() {
 			<?php foreach( $errors as $error ) {
 				echo '<li class="' . $error['type'] . '">' . format_error( $error ) . '</li>';
 			} ?>
+			<?php
+			foreach ( $errors as $error ) {
+				echo '<li class="' . esc_attr( $error['type'] ) . '">' . esc_html( format_error( $error ) ) . '</li>';
+			}
+			?>
 		</ul>
 	</div>
 <?php endif; ?>
@@ -81,8 +88,10 @@ function settings_screen() {
 
 /**
  * Take an error array and turn it into a message.
- * @param  array $error Array of error message components
- * @return string       Formatted error message
+ *
+ * @param  array $error Array of error message components.
+ *
+ * @return string       Formatted error message.
  */
 function format_error( $error ) {
 	/* translators: Error message output. 1: Line number, 2: Error message */
