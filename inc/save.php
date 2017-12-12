@@ -65,6 +65,14 @@ function save() {
 add_action( 'admin_post_adstxt-save', __NAMESPACE__ . '\save' );
 add_action( 'wp_ajax_adstxt-save', __NAMESPACE__ . '\save' );
 
+/**
+ * Validate a single line.
+ *
+ * @param string $line        The line to validate.
+ * @param string $line_number The line number being evaluated.
+ *
+ * @return array
+ */
 function validate_line( $line, $line_number ) {
 	$domain_regex = '/^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$/';
 	$errors       = array();
