@@ -43,8 +43,8 @@ function settings_screen() {
 
 	$errors = get_post_meta( $post->ID, 'adstxt_errors', true );
 
-// Also need to display errors based on meta key
-// It's okay if they display again if they leave and come back, I think
+// Also need to display errors based on meta key.
+// It's okay if they display again if they leave and come back, I think.
 ?>
 
 <div class="wrap">

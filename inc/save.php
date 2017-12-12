@@ -11,7 +11,7 @@ function save() {
 	$post_id = $_post['post_id'];
 	$ays     = isset( $_post['adstxt_ays'] ) ? $_post['adstxt_ays'] : null;
 
-	// Different browsers use different line endings
+	// Different browsers use different line endings.
 	$lines = preg_split( '/\r\n|\r|\n/', $_post['adstxt'] );
 	$sanitized = $errors = $response = array();
 
@@ -51,7 +51,7 @@ function save() {
 		$response['sanitized'] = $sanitized;
 
 		if ( ! empty( $errors ) ) {
-			// Transform errors into strings for easier i18n
+			// Transform errors into strings for easier i18n.
 			$response['errors'] = array_map( __NAMESPACE__ . '\format_error', $errors );
 		}
 
@@ -67,29 +67,29 @@ add_action( 'wp_ajax_adstxt-save', __NAMESPACE__ . '\save' );
 
 function validate_line( $line, $line_number ) {
 	$domain_regex = '/^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$/';
-	$errors = array();
+	$errors       = array();
 
 	if ( empty( $line ) ) {
 		$sanitized = '';
-	} elseif ( 0 === strpos( $line, '#' ) ) { // This is a full-line comment
+	} elseif ( 0 === strpos( $line, '#' ) ) { // This is a full-line comment.
 		$sanitized = wp_strip_all_tags( $line );
-	} elseif( 1 < strpos( $line, '=' ) ) { // This is a variable declaration
-		// The spec currently supports CONTACT and SUBDOMAIN
+	} elseif ( 1 < strpos( $line, '=' ) ) { // This is a variable declaration.
+		// The spec currently supports CONTACT and SUBDOMAIN.
 		if ( ! preg_match( '/^(CONTACT|SUBDOMAIN)=/i', $line ) ) {
 			$errors[] = array(
 				'line'    => $line_number,
 				'type'    => 'warning',
 				'message' => __( 'Unrecognized variable', 'adstxt' ),
 			);
-		} elseif ( 0 === stripos( $line, 'subdomain=' ) ) { // Subdomains should be, well, subdomains
-			// Disregard any comments
+		} elseif ( 0 === stripos( $line, 'subdomain=' ) ) { // Subdomains should be, well, subdomains.
+			// Disregard any comments.
 			$subdomain = explode( '#', $line );
 			$subdomain = $subdomain[0];
 
 			$subdomain = explode( '=', $subdomain );
 			array_shift( $subdomain );
 
-			// If there's anything other than one piece left something's not right
+			// If there's anything other than one piece left something's not right.
 			if ( 1 !== count( $subdomain ) || ! preg_match( $domain_regex, $subdomain[0] ) ) {
 				$errors[] = array(
 					'line'    => $line_number,
@@ -97,18 +97,17 @@ function validate_line( $line, $line_number ) {
 					'message' => __( 'Subdomain appears to be invalid', 'adstxt' ),
 				);
 			}
-
 		}
 
 		$sanitized = wp_strip_all_tags( $line );
 
 		unset( $subdomain );
-	} else { // Data records: the most common
-		// Disregard any comments
+	} else { // Data records: the most common.
+		// Disregard any comments.
 		$record = explode( '#', $line );
 		$record = $record[0];
 
-		// Record format: example.exchange.com,pub-id123456789,RESELLER|DIRECT,tagidhash123(optional)
+		// Record format: example.exchange.com,pub-id123456789,RESELLER|DIRECT,tagidhash123(optional).
 		$fields = explode( ',', $record );
 
 		if ( 3 <= count( $fields ) ) {
@@ -135,8 +134,8 @@ function validate_line( $line, $line_number ) {
 			if ( isset( $fields[3] ) ) {
 				$tag_id = trim( $fields[3] );
 
-				// TAG-IDs appear to be 16 character hashes
-				// TAG-IDs are meant to be checked against their DB - perhaps good for a service or the future
+				// TAG-IDs appear to be 16 character hashes.
+				// TAG-IDs are meant to be checked against their DB - perhaps good for a service or the future.
 				if ( ! preg_match( '/^[a-f0-9]{16}$/', $tag_id ) ) {
 					$errors[] = array(
 						'line'    => $line_number,
@@ -149,7 +148,7 @@ function validate_line( $line, $line_number ) {
 			$sanitized = wp_strip_all_tags( $line );
 		} else {
 			// Not a comment, variable declaration, or data record; therefore, invalid.
-			// Early on we commented the line out for safety but it's kind of a weird thing to do with a JS AYS
+			// Early on we commented the line out for safety but it's kind of a weird thing to do with a JS AYS.
 			$sanitized = wp_strip_all_tags( $line );
 
 			$errors[] = array(
