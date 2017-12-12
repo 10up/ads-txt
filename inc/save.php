@@ -164,6 +164,6 @@ function validate_line( $line, $line_number ) {
 
 	return array(
 		'sanitized' => $sanitized,
-		'errors' => $errors
+		'errors' => $errors,
 	);
 }
