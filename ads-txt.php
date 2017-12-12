@@ -14,9 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-include_once( __DIR__ . '/inc/post-type.php' );
-include_once( __DIR__ . '/inc/admin.php' );
-include_once( __DIR__ . '/inc/save.php' );
+require_once __DIR__ . '/inc/post-type.php';
+require_once __DIR__ . '/inc/admin.php';
+require_once __DIR__ . '/inc/save.php';
 
 /**
  * Display the contents of /ads.txt when requested.
