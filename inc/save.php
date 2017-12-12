@@ -5,11 +5,11 @@ namespace Adstxt;
 function save() {
 	current_user_can( 'customize' ) || die;
 	check_admin_referer( 'adstxt_save' );
-	$_post = stripslashes_deep( $_POST );
+	$_post      = stripslashes_deep( $_POST );
 	$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
 
 	$post_id = $_post['post_id'];
-	$ays = isset( $_post['adstxt_ays'] ) ? $_post['adstxt_ays'] : null;
+	$ays     = isset( $_post['adstxt_ays'] ) ? $_post['adstxt_ays'] : null;
 
 	// Different browsers use different line endings
 	$lines = preg_split( '/\r\n|\r|\n/', $_post['adstxt'] );
@@ -28,12 +28,12 @@ function save() {
 	$sanitized = implode( PHP_EOL, $sanitized );
 
 	$postarr = array(
-		'ID' => $post_id,
-		'post_title' => 'Ads.txt',
+		'ID'           => $post_id,
+		'post_title'   => 'Ads.txt',
 		'post_content' => $sanitized,
-		'post_type' => 'adstxt',
-		'post_status' => 'publish',
-		'meta_input' => array(
+		'post_type'    => 'adstxt',
+		'post_status'  => 'publish',
+		'meta_input'   => array(
 			'adstxt_errors' => $errors,
 		),
 	);
@@ -77,8 +77,8 @@ function validate_line( $line, $line_number ) {
 		// The spec currently supports CONTACT and SUBDOMAIN
 		if ( ! preg_match( '/^(CONTACT|SUBDOMAIN)=/i', $line ) ) {
 			$errors[] = array(
-				'line' => $line_number,
-				'type' => 'warning',
+				'line'    => $line_number,
+				'type'    => 'warning',
 				'message' => __( 'Unrecognized variable', 'adstxt' ),
 			);
 		} elseif ( 0 === stripos( $line, 'subdomain=' ) ) { // Subdomains should be, well, subdomains
@@ -92,8 +92,8 @@ function validate_line( $line, $line_number ) {
 			// If there's anything other than one piece left something's not right
 			if ( 1 !== count( $subdomain ) || ! preg_match( $domain_regex, $subdomain[0] ) ) {
 				$errors[] = array(
-					'line' => $line_number,
-					'type' => 'warning',
+					'line'    => $line_number,
+					'type'    => 'warning',
 					'message' => __( 'Subdomain appears to be invalid', 'adstxt' ),
 				);
 			}
@@ -112,22 +112,22 @@ function validate_line( $line, $line_number ) {
 		$fields = explode( ',', $record );
 
 		if ( 3 <= count( $fields ) ) {
-			$exchange = trim( $fields[0] );
-			$pub_id = trim( $fields[1] );
+			$exchange     = trim( $fields[0] );
+			$pub_id       = trim( $fields[1] );
 			$account_type = trim( $fields[2] );
 
 			if ( ! preg_match( $domain_regex, $exchange ) ) {
 				$errors[] = array(
-					'line' => $line_number,
-					'type' => 'warning',
+					'line'    => $line_number,
+					'type'    => 'warning',
 					'message' => __( 'Exchange domain appears to be invalid', 'adstxt' ),
 				);
 			}
 
 			if ( ! preg_match( '/^(RESELLER|DIRECT)$/i', $account_type ) ) {
 				$errors[] = array(
-					'line' => $line_number,
-					'type' => 'error',
+					'line'    => $line_number,
+					'type'    => 'error',
 					'message' => __( 'Third field should be RESELLER or DIRECT', 'adstxt' ),
 				);
 			}
@@ -139,8 +139,8 @@ function validate_line( $line, $line_number ) {
 				// TAG-IDs are meant to be checked against their DB - perhaps good for a service or the future
 				if ( ! preg_match( '/^[a-f0-9]{16}$/', $tag_id ) ) {
 					$errors[] = array(
-						'line' => $line_number,
-						'type' => 'warning',
+						'line'    => $line_number,
+						'type'    => 'warning',
 						'message' => __( 'TAG-ID appears invalid', 'adstxt' ),
 					);
 				}
@@ -153,8 +153,8 @@ function validate_line( $line, $line_number ) {
 			$sanitized = wp_strip_all_tags( $line );
 
 			$errors[] = array(
-				'line' => $line_number,
-				'type' => 'error',
+				'line'    => $line_number,
+				'type'    => 'error',
 				'message' => __( 'Invalid record', 'adstxt' ),
 			);
 		}
@@ -164,6 +164,6 @@ function validate_line( $line, $line_number ) {
 
 	return array(
 		'sanitized' => $sanitized,
-		'errors' => $errors,
+		'errors'    => $errors,
 	);
 }
