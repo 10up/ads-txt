@@ -48,15 +48,11 @@ function settings_screen() {
 	// Also need to display errors based on meta key.
 	// It's okay if they display again if they leave and come back, I think.
 ?>
-
 <div class="wrap">
 <?php if ( ! empty( $errors ) ) : ?>
 	<div class="notice notice-error adstxt-errors">
-		<p><strong><?php _e( 'Your Ads.txt contains the following issues:', 'adstxt' ); ?></strong></p>
+		<p><strong><?php echo esc_html( __( 'Your Ads.txt contains the following issues:', 'adstxt' ) ); ?></strong></p>
 		<ul>
-			<?php foreach( $errors as $error ) {
-				echo '<li class="' . $error['type'] . '">' . format_error( $error ) . '</li>';
-			} ?>
 			<?php
 			foreach ( $errors as $error ) {
 				echo '<li class="' . esc_attr( $error['type'] ) . '">' . esc_html( format_error( $error ) ) . '</li>';
@@ -66,18 +62,18 @@ function settings_screen() {
 	</div>
 <?php endif; ?>
 
-	<h2><?php _e( 'Ads.txt', 'adstxt' ); ?></h2>
+	<h2><?php echo esc_html( __( 'Ads.txt', 'adstxt' ) ); ?></h2>
 
-	<form method="post" action="<?php echo admin_url( 'admin-post.php' ); ?>" class="adstxt-settings-form">
+	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="adstxt-settings-form">
 		<input type="hidden" name="post_id" value="<?php echo esc_attr( $post->ID ); ?>" />
 		<input type="hidden" name="action" value="adstxt-save" />
 		<?php wp_nonce_field( 'adstxt_save' ); ?>
 
-		<label class="screen-reader-text" for="adstxt_content"><?php _e( 'Ads.txt content', 'adstxt' ); ?></label>
+		<label class="screen-reader-text" for="adstxt_content"><?php echo esc_html( __( 'Ads.txt content', 'adstxt' ) ); ?></label>
 		<textarea class="widefat code" rows="25" name="adstxt" id="adstxt_content"><?php echo esc_textarea( $content ); ?></textarea>
 
 		<p class="submit">
-			<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php _e( 'Save Changes' ); ?>">
+			<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php echo esc_attr( 'Save Changes' ); ?>">
 			<span class="spinner" style="float:none;vertical-align:top"></span>
 		</p>
 	</form>

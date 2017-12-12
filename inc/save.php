@@ -58,11 +58,11 @@ function save() {
 			$response['errors'] = array_map( __NAMESPACE__ . '\format_error', $errors );
 		}
 
-		echo json_encode( $response );
+		echo wp_json_encode( $response );
 		die();
 	}
 
-	wp_redirect( $_POST['_wp_http_referer'] . '&updated=true' );
+	wp_redirect( esc_url_raw( $_POST['_wp_http_referer'] ) . '&updated=true' );
 	exit;
 }
 add_action( 'admin_post_adstxt-save', __NAMESPACE__ . '\save' );

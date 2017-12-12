@@ -20,10 +20,11 @@ require_once __DIR__ . '/inc/save.php';
 
 /**
  * Display the contents of /ads.txt when requested.
+ *
  * @return void
  */
 function tenup_display_ads_txt() {
-	$request = $_SERVER['REQUEST_URI'];
+	$request = esc_url_raw( $_SERVER['REQUEST_URI'] );
 	if ( '/ads.txt' === $request ) {
 		$post_id = get_option( 'adstxt_post' );
 
@@ -31,7 +32,7 @@ function tenup_display_ads_txt() {
 		if ( ! empty( $post_id ) ) {
 			$post = get_post( $post_id );
 			header( 'Content-Type: text/plain' );
-			echo $post->post_content;
+			echo esc_html( $post->post_content );
 			die();
 		}
 	}
