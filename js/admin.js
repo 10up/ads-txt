@@ -1,12 +1,12 @@
 ( function( $, _ ) {
-	var submit               = $( '#submit' ),
+	var submit               = $( document.getElementById( 'submit' ) ),
 		notificationArea = $( document.getElementById( 'adstxt-notification-area' ) ),
 		notificationTemplate = wp.template( 'adstext-notice' );
 
 	submit.on( 'click', function( e ){
 		e.preventDefault();
 
-		var	textarea    = $( '#adstxt_content' ),
+		var	textarea    = $( document.getElementById( 'adstxt_content' ) ),
 			notices     = $( '.adstxt-notice' ),
 			submit_wrap = $( 'p.submit' ),
 			spinner     = submit_wrap.find( '.spinner' );
