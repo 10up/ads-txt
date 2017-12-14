@@ -11,6 +11,7 @@
 			submit_wrap = $( 'p.submit' ),
 			spinner     = submit_wrap.find( '.spinner' );
 
+		submit.attr( 'disabled', 'disabled' );
 		spinner.addClass( 'is-active' );
 
 		// clear any existing messages
@@ -32,7 +33,8 @@
 					data = {
 						'class':   'success',
 						'message': adstxt.saved
-					}
+					};
+					submit.removeAttr( 'disabled' );
 				} else {
 					data = {
 						'class':   'error',
@@ -45,7 +47,11 @@
 		})
 	});
 
-	$( '.wrap' ).on( 'click', '#adstxt-ays-checkbox', function(e){
-		submit.removeAttr( 'disabled' );
+	$( '.wrap' ).on( 'click', '#adstxt-ays-checkbox', function( e ) {
+		if ( true === $( this ).prop('checked') ) {
+			submit.removeAttr( 'disabled' );
+		} else {
+			submit.attr( 'disabled', 'disabled' );
+		}
 	})
 } )( jQuery, _ );
