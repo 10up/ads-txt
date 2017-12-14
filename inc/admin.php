@@ -10,9 +10,9 @@ function admin_enqueue_scripts( $hook ) {
 	wp_enqueue_script( 'adstxt', plugins_url( '/js/admin.js', dirname( __FILE__ ) ), array( 'jquery', 'wp-backbone' ), false, true );
 
 	$strings = array(
-		'saved'         => __( 'Ads.txt saved', 'adstxt' ),
-		'error_intro'   => __( 'Your Ads.txt contains the following issues:', 'adstxt' ),
-		'unknown_error' => __( 'Unknown error.', 'adstxt' ),
+		'saved'         => __( 'Ads.txt saved', 'ads-txt' ),
+		'error_intro'   => __( 'Your Ads.txt contains the following issues:', 'ads-txt' ),
+		'unknown_error' => __( 'Unknown error.', 'ads-txt' ),
 	);
 
 	wp_localize_script( 'adstxt', 'adstxt', $strings );
@@ -25,7 +25,7 @@ add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\admin_enqueue_scripts' );
  * @return void
  */
 function admin_menu() {
-	add_options_page( __( 'Ads.txt', 'adstxt' ), __( 'Ads.txt', 'adstxt' ), 'manage_options', 'adstxt-settings', __NAMESPACE__ . '\settings_screen' );
+	add_options_page( __( 'Ads.txt', 'ads-txt' ), __( 'Ads.txt', 'ads-txt' ), 'manage_options', 'adstxt-settings', __NAMESPACE__ . '\settings_screen' );
 }
 add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
 
@@ -48,7 +48,7 @@ function settings_screen() {
 <div class="wrap">
 <?php if ( ! empty( $errors ) ) : ?>
 	<div class="notice notice-error adstxt-notice">
-		<p><strong><?php echo esc_html( __( 'Your Ads.txt contains the following issues:', 'adstxt' ) ); ?></strong></p>
+		<p><strong><?php echo esc_html( __( 'Your Ads.txt contains the following issues:', 'ads-txt' ) ); ?></strong></p>
 		<ul>
 			<?php
 			foreach ( $errors as $error ) {
@@ -59,14 +59,14 @@ function settings_screen() {
 	</div>
 <?php endif; ?>
 
-	<h2><?php echo esc_html( __( 'Ads.txt', 'adstxt' ) ); ?></h2>
+	<h2><?php echo esc_html( __( 'Manage Ads.txt', 'ads-txt' ) ); ?></h2>
 
 	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="adstxt-settings-form">
 		<input type="hidden" name="post_id" value="<?php echo ( $post ? esc_attr( $post->ID ) : '' ); ?>" />
 		<input type="hidden" name="action" value="adstxt-save" />
 		<?php wp_nonce_field( 'adstxt_save' ); ?>
 
-		<label class="screen-reader-text" for="adstxt_content"><?php echo esc_html( __( 'Ads.txt content', 'adstxt' ) ); ?></label>
+		<label class="screen-reader-text" for="adstxt_content"><?php echo esc_html( __( 'Ads.txt content', 'ads-txt' ) ); ?></label>
 		<textarea class="widefat code" rows="25" name="adstxt" id="adstxt_content"><?php echo esc_textarea( $content ); ?></textarea>
 
 		<div id="adstxt-notification-area"></div>
@@ -93,7 +93,7 @@ function settings_screen() {
 		<p class="adstxt-ays">
 			<input id="adstxt-ays-checkbox" name="adstxt_ays" type="checkbox" value="y" />
 			<label for="adstxt-ays-checkbox">
-				<?php _e( 'Update anyway, even though it may adversely affect your ads?', 'adstxt' ); ?>
+				<?php _e( 'Update anyway, even though it may adversely affect your ads?', 'ads-txt' ); ?>
 			</label>
 		</p>
 		<# } #>
@@ -113,7 +113,7 @@ function settings_screen() {
 function format_error( $error ) {
 	/* translators: Error message output. 1: Line number, 2: Error message */
 	$message = sprintf(
-		__( 'Line %1$s: %2$s', 'adstxt' ),
+		__( 'Line %1$s: %2$s', 'ads-txt' ),
 		$error['line'],
 		$error['message']
 	);

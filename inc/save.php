@@ -90,7 +90,7 @@ function validate_line( $line, $line_number ) {
 			$errors[] = array(
 				'line'    => $line_number,
 				'type'    => 'warning',
-				'message' => __( 'Unrecognized variable', 'adstxt' ),
+				'message' => __( 'Unrecognized variable', 'ads-txt' ),
 			);
 		} elseif ( 0 === stripos( $line, 'subdomain=' ) ) { // Subdomains should be, well, subdomains.
 			// Disregard any comments.
@@ -108,7 +108,7 @@ function validate_line( $line, $line_number ) {
 					'type'    => 'warning',
 					'message' => sprintf(
 							/* translators: %s: Subdomain */
-							__( '"%s" does not appear to be a valid subdomain', 'adstxt' ),
+							__( '"%s" does not appear to be a valid subdomain', 'ads-txt' ),
 							esc_html( $subdomain )
 						),
 				);
@@ -137,7 +137,7 @@ function validate_line( $line, $line_number ) {
 					'type'    => 'warning',
 					'message' => sprintf(
 							/* translators: %s: Exchange domain */
-							__( '"%s" does not appear to be a valid exchange domain', 'adstxt' ),
+							__( '"%s" does not appear to be a valid exchange domain', 'ads-txt' ),
 							esc_html( $exchange )
 						),
 				);
@@ -147,7 +147,7 @@ function validate_line( $line, $line_number ) {
 				$errors[] = array(
 					'line'    => $line_number,
 					'type'    => 'error',
-					'message' => __( 'Third field should be RESELLER or DIRECT', 'adstxt' ),
+					'message' => __( 'Third field should be RESELLER or DIRECT', 'ads-txt' ),
 				);
 			}
 
@@ -162,7 +162,7 @@ function validate_line( $line, $line_number ) {
 						'type'    => 'warning',
 						'message' => sprintf(
 							/* translators: %s: TAG-ID */
-							__( '"%s" does not appear to be a valid TAG-ID', 'adstxt' ),
+							__( '"%s" does not appear to be a valid TAG-ID', 'ads-txt' ),
 							esc_html( $fields[3] )
 						),
 					);
@@ -178,7 +178,7 @@ function validate_line( $line, $line_number ) {
 			$errors[] = array(
 				'line'    => $line_number,
 				'type'    => 'error',
-				'message' => __( 'Invalid record', 'adstxt' ),
+				'message' => __( 'Invalid record', 'ads-txt' ),
 			);
 		}
 
