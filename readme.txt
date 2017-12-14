@@ -9,6 +9,7 @@ Requires PHP: 5.3
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: ads-txt
 
 Create, manage, and validate your Ads.txt from within WordPress, just like any other content asset.
 

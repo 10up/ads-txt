@@ -2,6 +2,11 @@
 
 namespace AdsTxt;
 
+function load_textdomain() {
+	load_plugin_textdomain( 'ads-txt' );
+}
+add_action( 'init', 'load_textdomain' );
+
 function admin_enqueue_scripts( $hook ) {
 	if ( 'settings_page_adstxt-settings' !== $hook ) {
 		return;
