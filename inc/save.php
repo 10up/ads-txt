@@ -102,10 +102,15 @@ function validate_line( $line, $line_number ) {
 
 			// If there's anything other than one piece left something's not right.
 			if ( 1 !== count( $subdomain ) || ! preg_match( $domain_regex, $subdomain[0] ) ) {
+				$subdomain = implode( '', $subdomain );
 				$errors[] = array(
 					'line'    => $line_number,
 					'type'    => 'warning',
-					'message' => __( 'Subdomain appears to be invalid', 'adstxt' ),
+					'message' => sprintf(
+							/* translators: %s: Subdomain */
+							__( '"%s" does not appear to be a valid subdomain', 'adstxt' ),
+							esc_html( $subdomain )
+						),
 				);
 			}
 		}
@@ -130,7 +135,11 @@ function validate_line( $line, $line_number ) {
 				$errors[] = array(
 					'line'    => $line_number,
 					'type'    => 'warning',
-					'message' => __( 'Exchange domain appears to be invalid', 'adstxt' ),
+					'message' => sprintf(
+							/* translators: %s: Exchange domain */
+							__( '"%s" does not appear to be a valid exchange domain', 'adstxt' ),
+							esc_html( $exchange )
+						),
 				);
 			}
 
@@ -151,7 +160,11 @@ function validate_line( $line, $line_number ) {
 					$errors[] = array(
 						'line'    => $line_number,
 						'type'    => 'warning',
-						'message' => __( 'TAG-ID appears invalid', 'adstxt' ),
+						'message' => sprintf(
+							/* translators: %s: TAG-ID */
+							__( '"%s" does not appear to be a valid TAG-ID', 'adstxt' ),
+							esc_html( $fields[3] )
+						),
 					);
 				}
 			}
