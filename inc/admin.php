@@ -44,12 +44,9 @@ function settings_screen() {
 		$content = isset( $post->post_content ) ? $post->post_content : '';
 		$errors = get_post_meta( $post->ID, 'adstxt_errors', true );
 	}
-
-	// Also need to display errors based on meta key.
-	// It's okay if they display again if they leave and come back, I think.
 ?>
 <div class="wrap">
-<?php if ( ( ! empty( $errors ) ) && isset( $_POST['adstxt_content'] ) ) : ?>
+<?php if ( ! empty( $errors ) ) : ?>
 	<div class="notice notice-error adstxt-errors">
 		<p><strong><?php echo esc_html( __( 'Your Ads.txt contains the following issues:', 'adstxt' ) ); ?></strong></p>
 		<ul>
