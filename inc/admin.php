@@ -80,14 +80,17 @@ function settings_screen() {
 		</p>
 
 	</form>
+
 	<script type="text/template" id="tmpl-adstext-notice">
 		<div class="notice notice-{{ data.class }} adstxt-errors">
 			<p><strong>{{ data.message }}</strong></p>
+			<# if ( data.errors ) { #>
 			<ul class="adstxt-errors-items">
 			<# _.each( data.errors, function( error ) { #>
 				<li>{{ error }}.</li>
 			<# } ); #>
 			</ul>
+			<# } #>
 		</div>
 		<# if ( data.errors ) { #>
 		<p class="adstxt-ays">
@@ -97,7 +100,7 @@ function settings_screen() {
 			</label>
 		</p>
 		<# } #>
-		</script>
+	</script>
 </div>
 
 <?php
