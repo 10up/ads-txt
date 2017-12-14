@@ -47,7 +47,7 @@ function settings_screen() {
 ?>
 <div class="wrap">
 <?php if ( ! empty( $errors ) ) : ?>
-	<div class="notice notice-error adstxt-errors">
+	<div class="notice notice-error adstxt-notice">
 		<p><strong><?php echo esc_html( __( 'Your Ads.txt contains the following issues:', 'adstxt' ) ); ?></strong></p>
 		<ul>
 			<?php
@@ -79,7 +79,7 @@ function settings_screen() {
 	</form>
 
 	<script type="text/template" id="tmpl-adstext-notice">
-		<div class="notice notice-{{ data.class }} adstxt-errors">
+		<div class="notice notice-{{ data.class }} adstxt-notice">
 			<p><strong>{{ data.message }}</strong></p>
 			<# if ( data.errors ) { #>
 			<ul class="adstxt-errors-items">
