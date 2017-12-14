@@ -7,12 +7,12 @@ function admin_enqueue_scripts( $hook ) {
 		return;
 	}
 
-	wp_enqueue_script( 'adstxt', plugins_url( '/js/admin.js', dirname( __FILE__ ) ), array( 'jquery' ), false, true );
+	wp_enqueue_script( 'adstxt', plugins_url( '/js/admin.js', dirname( __FILE__ ) ), array( 'jquery', 'wp-backbone' ), false, true );
 
 	$strings = array(
-		'saved'       => __( 'Ads.txt saved', 'adstxt' ),
-		'error_intro' => __( 'Your Ads.txt contains the following issues:', 'adstxt' ),
-		'ays'         => __( 'Update anyway, even though it may adversely affect your ads?', 'adstxt' ),
+		'saved'         => __( 'Ads.txt saved', 'adstxt' ),
+		'error_intro'   => __( 'Your Ads.txt contains the following issues:', 'adstxt' ),
+		'unknown_error' => __( 'Unknown error.', 'adstxt' ),
 	);
 
 	wp_localize_script( 'adstxt', 'adstxt', $strings );
@@ -36,17 +36,14 @@ add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
  */
 function settings_screen() {
 	$post_id = get_option( 'adstxt_post' );
+	$post    = false;
+	$content = false;
 
 	if ( $post_id ) {
 		$post = get_post( $post_id );
+		$content = isset( $post->post_content ) ? $post->post_content : '';
+		$errors = get_post_meta( $post->ID, 'adstxt_errors', true );
 	}
-
-	$content = isset( $post->post_content ) ? $post->post_content : '';
-
-	$errors = get_post_meta( $post->ID, 'adstxt_errors', true );
-
-	// Also need to display errors based on meta key.
-	// It's okay if they display again if they leave and come back, I think.
 ?>
 <div class="wrap">
 <?php if ( ! empty( $errors ) ) : ?>
@@ -65,18 +62,42 @@ function settings_screen() {
 	<h2><?php echo esc_html( __( 'Ads.txt', 'adstxt' ) ); ?></h2>
 
 	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="adstxt-settings-form">
-		<input type="hidden" name="post_id" value="<?php echo esc_attr( $post->ID ); ?>" />
+		<input type="hidden" name="post_id" value="<?php echo ( $post ? esc_attr( $post->ID ) : '' ); ?>" />
 		<input type="hidden" name="action" value="adstxt-save" />
 		<?php wp_nonce_field( 'adstxt_save' ); ?>
 
 		<label class="screen-reader-text" for="adstxt_content"><?php echo esc_html( __( 'Ads.txt content', 'adstxt' ) ); ?></label>
 		<textarea class="widefat code" rows="25" name="adstxt" id="adstxt_content"><?php echo esc_textarea( $content ); ?></textarea>
 
+		<div id="adstxt-notification-area"></div>
+
 		<p class="submit">
 			<input type="submit" name="submit" id="submit" class="button button-primary" value="<?php echo esc_attr( 'Save Changes' ); ?>">
 			<span class="spinner" style="float:none;vertical-align:top"></span>
 		</p>
+
 	</form>
+
+	<script type="text/template" id="tmpl-adstext-notice">
+		<div class="notice notice-{{ data.class }} adstxt-errors">
+			<p><strong>{{ data.message }}</strong></p>
+			<# if ( data.errors ) { #>
+			<ul class="adstxt-errors-items">
+			<# _.each( data.errors, function( error ) { #>
+				<li>{{ error }}.</li>
+			<# } ); #>
+			</ul>
+			<# } #>
+		</div>
+		<# if ( data.errors ) { #>
+		<p class="adstxt-ays">
+			<input id="adstxt-ays-checkbox" name="adstxt_ays" type="checkbox" value="y" />
+			<label for="adstxt-ays-checkbox">
+				<?php _e( 'Update anyway, even though it may adversely affect your ads?', 'adstxt' ); ?>
+			</label>
+		</p>
+		<# } #>
+	</script>
 </div>
 
 <?php
