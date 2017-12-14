@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Ads.txt
  * Description: Manage your ads.txt file from within WordPress.
- * Version:     0.1
+ * Version:     1.0
  * Author:      Helen Hou-Sandi, 10up
  * Author URI:  http://10up.com
  * License:     GPLv2 or later
