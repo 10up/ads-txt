@@ -21,6 +21,10 @@ Ads.txt is an initiative by the Interactive Advertising Bureau to enable publish
 
 We're closely monitoring continued developments in the ad fraud space, and see this plugin as not only a way to create and manage your Ads.txt file but also be prepared for future changes and upgrades to specifications. Ads.cert is still in the extremely early stages so we don't see any immediate concerns with implementing Ads.txt.
 
+== Screenshots ==
+
+1. Example of editing an Ads.txt file with errors
+
 == Installation ==
 1. Install the plugin via the plugin installer, either by searching for it or uploading a .zip file.
 2. Activate the plugin.
