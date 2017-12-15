@@ -3,7 +3,8 @@
 		notificationArea     = $( document.getElementById( 'adstxt-notification-area' ) ),
 		notificationTemplate = wp.template( 'adstext-notice' ),
 		editor               = wp.CodeMirror.fromTextArea( document.getElementById( 'adstxt_content' ), {
-			lineNumbers: true
+			lineNumbers: true,
+			mode: 'shell'
 		} );
 
 	submit.on( 'click', function( e ){
