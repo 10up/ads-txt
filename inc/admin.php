@@ -14,7 +14,8 @@ function admin_enqueue_scripts( $hook ) {
 		return;
 	}
 
-	wp_enqueue_script( 'adstxt', plugins_url( '/js/admin.js', dirname( __FILE__ ) ), array( 'jquery', 'wp-backbone' ), false, true );
+	wp_enqueue_script( 'adstxt', plugins_url( '/js/admin.js', dirname( __FILE__ ) ), array( 'jquery', 'wp-backbone', 'wp-codemirror' ), false, true );
+	wp_enqueue_style( 'code-editor' );
 
 	$strings = array(
 		'saved'         => __( 'Ads.txt saved', 'ads-txt' ),
@@ -25,6 +26,28 @@ function admin_enqueue_scripts( $hook ) {
 	wp_localize_script( 'adstxt', 'adstxt', $strings );
 }
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\admin_enqueue_scripts' );
+
+/**
+ * Output some CSS directly in the head of the document.
+ *
+ * Should there ever be more than ~25 lines of CSS, this should become a separate file.
+ *
+ * @return void
+ */
+function admin_head_css() {
+?>
+<style>
+.CodeMirror {
+	width: 100%;
+	min-height: 60vh;
+	height: calc( 100vh - 295px );
+	border: 1px solid #ddd;
+	box-sizing: border-box;
+}
+</style>
+<?php
+}
+add_action( 'admin_head-settings_page_adstxt-settings', __NAMESPACE__ . '\admin_head_css' );
 
 /**
  * Add admin menu page.

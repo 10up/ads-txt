@@ -1,7 +1,11 @@
 ( function( $, _ ) {
 	var submit               = $( document.getElementById( 'submit' ) ),
-		notificationArea = $( document.getElementById( 'adstxt-notification-area' ) ),
-		notificationTemplate = wp.template( 'adstext-notice' );
+		notificationArea     = $( document.getElementById( 'adstxt-notification-area' ) ),
+		notificationTemplate = wp.template( 'adstext-notice' ),
+		editor               = wp.CodeMirror.fromTextArea( document.getElementById( 'adstxt_content' ), {
+			lineNumbers: true,
+			mode: 'shell'
+		} );
 
 	submit.on( 'click', function( e ){
 		e.preventDefault();
@@ -16,6 +20,9 @@
 
 		// clear any existing messages
 		notices.remove();
+
+		// Copy the code mirror contents into for for submission.
+		textarea.val( editor.getValue() );
 
 		$.ajax({
 			type: 'POST',
@@ -53,5 +60,6 @@
 		} else {
 			submit.attr( 'disabled', 'disabled' );
 		}
-	})
+	} );
+
 } )( jQuery, _ );
