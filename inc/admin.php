@@ -2,11 +2,13 @@
 
 namespace AdsTxt;
 
-function load_textdomain() {
-	load_plugin_textdomain( 'ads-txt' );
-}
-add_action( 'init', 'load_textdomain' );
-
+/**
+ * Enqueue any necessary scripts.
+ *
+ * @param  string $hook Hook name for the current screen.
+ *
+ * @return void
+ */
 function admin_enqueue_scripts( $hook ) {
 	if ( 'settings_page_adstxt-settings' !== $hook ) {
 		return;
@@ -111,7 +113,13 @@ function settings_screen() {
 /**
  * Take an error array and turn it into a message.
  *
- * @param  array $error Array of error message components.
+ * @param  array $error {
+ *     Array of error message components.
+ *
+ *     @type string $type    Type of error. Typically 'warning' or 'error'.
+ *     @type int    $line    Line number of the error.
+ *     @type string $message Error message.
+ * }
  *
  * @return string       Formatted error message.
  */

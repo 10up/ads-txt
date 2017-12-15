@@ -3,7 +3,12 @@
 namespace Adstxt;
 
 /**
- * Save the ads.txt data.
+ * Process and save the ads.txt data.
+ *
+ * Handles both AJAX and POST saves via `admin-ajax.php` and `admin-post.php` respectively.
+ * AJAX calls output JSON; POST calls redirect back to the Ads.txt edit screen.
+ *
+ * @return void
  */
 function save() {
 	current_user_can( 'customize' ) || die;
@@ -74,7 +79,10 @@ add_action( 'wp_ajax_adstxt-save', __NAMESPACE__ . '\save' );
  * @param string $line        The line to validate.
  * @param string $line_number The line number being evaluated.
  *
- * @return array
+ * @return array {
+ *     @type string $sanitized Sanitized version of the original line.
+ *     @type array  $errors    Array of errors associated with the line.
+ * }
  */
 function validate_line( $line, $line_number ) {
 	$domain_regex = '/^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$/';
