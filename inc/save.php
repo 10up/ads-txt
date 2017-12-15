@@ -136,7 +136,6 @@ function validate_line( $line, $line_number ) {
 
 		if ( 3 <= count( $fields ) ) {
 			$exchange     = trim( $fields[0] );
-			$pub_id       = trim( $fields[1] );
 			$account_type = trim( $fields[2] );
 
 			if ( ! preg_match( $domain_regex, $exchange ) ) {
