@@ -98,7 +98,7 @@ function settings_screen() {
 		<p class="adstxt-ays">
 			<input id="adstxt-ays-checkbox" name="adstxt_ays" type="checkbox" value="y" />
 			<label for="adstxt-ays-checkbox">
-				<?php echo esc_html( 'Update anyway, even though it may adversely affect your ads?', 'ads-txt' ) ); ?>
+				<?php echo esc_html( __( 'Update anyway, even though it may adversely affect your ads?', 'ads-txt' ) ); ?>
 			</label>
 		</p>
 		<# } #>
