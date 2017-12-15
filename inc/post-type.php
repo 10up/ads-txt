@@ -2,6 +2,11 @@
 
 namespace Adstxt;
 
+/**
+ * Register the `adstxt` custom post type.
+ *
+ * @return void
+ */
 function register() {
 	register_post_type(
 		'adstxt', array(
