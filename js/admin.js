@@ -1,6 +1,6 @@
 ( function( $, _ ) {
 	var submit               = $( document.getElementById( 'submit' ) ),
-		notificationArea = $( document.getElementById( 'adstxt-notification-area' ) ),
+		notificationArea     = $( document.getElementById( 'adstxt-notification-area' ) ),
 		notificationTemplate = wp.template( 'adstext-notice' );
 
 	submit.on( 'click', function( e ){
@@ -53,5 +53,9 @@
 		} else {
 			submit.attr( 'disabled', 'disabled' );
 		}
-	})
+	} );
+
+	var editor = wp.CodeMirror.fromTextArea( document.getElementById( 'adstxt_content' ), {
+		lineNumbers: true
+	} );
 } )( jQuery, _ );
