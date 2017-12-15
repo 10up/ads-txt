@@ -5,7 +5,7 @@ namespace AdsTxt;
 function load_textdomain() {
 	load_plugin_textdomain( 'ads-txt' );
 }
-add_action( 'init', 'load_textdomain' );
+add_action( 'init', __NAMESPACE__ . '\load_textdomain' );
 
 function admin_enqueue_scripts( $hook ) {
 	if ( 'settings_page_adstxt-settings' !== $hook ) {
@@ -81,14 +81,21 @@ add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
  * @return void
  */
 function settings_screen() {
-	$post_id = get_option( 'adstxt_post' );
-	$post    = false;
-	$content = false;
+	$post_id          = get_option( 'adstxt_post' );
+	$post             = false;
+	$content          = false;
+	$revision_count   = 0;
+	$last_revision_id = false;
 
 	if ( $post_id ) {
 		$post = get_post( $post_id );
 		$content = isset( $post->post_content ) ? $post->post_content : '';
 		$errors = get_post_meta( $post->ID, 'adstxt_errors', true );
+		$revisions = wp_get_post_revisions( $post->ID );
+		$revision_count = count( $revisions );
+		$last_revision = array_shift( $revisions );
+		$last_revision_id = $last_revision->ID;
+		$revisions_link = admin_url( 'revision.php?adstxt=1&revision=' . $last_revision_id );
 	}
 ?>
 <div class="wrap">
@@ -114,7 +121,29 @@ function settings_screen() {
 
 		<label class="screen-reader-text" for="adstxt_content"><?php echo esc_html( __( 'Ads.txt content', 'ads-txt' ) ); ?></label>
 		<textarea class="widefat code" rows="25" name="adstxt" id="adstxt_content"><?php echo esc_textarea( $content ); ?></textarea>
-
+		<?php
+			if ( $revision_count > 1 ) {
+		?>
+			<div class="misc-pub-section misc-pub-revisions">
+			<?php
+				/* translators: Post revisions heading. 1: The number of available revisions */
+				echo wp_kses_post(
+					__( sprintf(
+						'Revisions: <b>%s</b>',
+						number_format_i18n( $revision_count )
+					), 'ads-txt' ) );
+			?>
+				<a class="hide-if-no-js" href="<?php echo esc_url( $revisions_link ); ?>">
+					<span aria-hidden="true">
+						<?php echo esc_html( __( 'Browse', 'ads-txt' ) ); ?>
+					</span> <span class="screen-reader-text">
+						<?php echo esc_html( __( 'Browse revisions', 'ads-txt' ) ); ?>
+					</span>
+				</a>
+		</div>
+		<?php
+			}
+		?>
 		<div id="adstxt-notification-area"></div>
 
 		<p class="submit">
