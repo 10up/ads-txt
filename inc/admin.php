@@ -67,7 +67,7 @@ function settings_screen() {
 	<h2><?php echo esc_html( __( 'Manage Ads.txt', 'ads-txt' ) ); ?></h2>
 
 	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="adstxt-settings-form">
-		<input type="hidden" name="post_id" value="<?php echo ( $post ? esc_attr( $post->ID ) : '' ); ?>" />
+		<input type="hidden" name="post_id" value="<?php echo esc_attr ( $post ? $post->ID : '' ); ?>" />
 		<input type="hidden" name="action" value="adstxt-save" />
 		<?php wp_nonce_field( 'adstxt_save' ); ?>
 
@@ -98,7 +98,7 @@ function settings_screen() {
 		<p class="adstxt-ays">
 			<input id="adstxt-ays-checkbox" name="adstxt_ays" type="checkbox" value="y" />
 			<label for="adstxt-ays-checkbox">
-				<?php _e( 'Update anyway, even though it may adversely affect your ads?', 'ads-txt' ); ?>
+				<?php echo esc_html( 'Update anyway, even though it may adversely affect your ads?', 'ads-txt' ) ); ?>
 			</label>
 		</p>
 		<# } #>
