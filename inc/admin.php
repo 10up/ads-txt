@@ -3,16 +3,6 @@
 namespace AdsTxt;
 
 /**
- * Load the textdomain for translations.
- *
- * @return void
- */
-function load_textdomain() {
-	load_plugin_textdomain( 'ads-txt' );
-}
-add_action( 'init', 'load_textdomain' );
-
-/**
  * Enqueue any necessary scripts.
  *
  * @param  string $hook Hook name for the current screen.
