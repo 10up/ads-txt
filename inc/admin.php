@@ -25,6 +25,47 @@ function admin_enqueue_scripts( $hook ) {
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\admin_enqueue_scripts' );
 
 /**
+ * Appends a query argument to the edit url to make sure it is redirected to
+ * the ads.txt screen.
+ *
+ * @since 1.5.2
+ *
+ * @param string $url Edit url.
+ * @return string Edit url.
+ */
+function ads_txt_adjust_revisions_return_to_editor_link( $url ) {
+	global $pagenow;
+
+	if ( 'revision.php' !== $pagenow || ! isset( $_REQUEST['adstxt'] ) ) {
+		return $url;
+	}
+
+	return admin_url( 'options-general.php?page=adstxt-settings' );
+}
+add_filter( 'get_edit_post_link',__NAMESPACE__ . '\ads_txt_adjust_revisions_return_to_editor_link' );
+
+/**
+ * Modifies revisions data to preserve adstxt argument used in determining
+ * where to redirect user returning to editor.
+ *
+ * @since 1.9.0
+ *
+ * @param array $revisions_data The bootstrapped data for the revisions screen.
+ * @return array Modified bootstrapped data for the revisions screen.
+ */
+function adstxt_revisions_restore( $revisions_data ) {
+	if ( isset( $_REQUEST['adstxt'] ) ) {
+		$revisions_data['restoreUrl'] = add_query_arg(
+			'adstxt',
+			$_REQUEST['adstxt'],
+			$revisions_data['restoreUrl']
+		);
+	}
+
+	return $revisions_data;
+}
+add_filter( 'wp_prepare_revision_for_js', __NAMESPACE__ . '\adstxt_revisions_restore' );
+/**
  * Add admin menu page.
  *
  * @return void
