@@ -1,28 +1,37 @@
-# Ads.txt Manager for WordPress
+=== Ads.txt ===
+Contributors: helen, adamsilverstein, 10up
+Author URI: http://10up.com
+Plugin URI: https://github.com/10up/ads-txt
+Tags: ads.txt, ads, ad manager, advertising, publishing, publishers
+Requires at least: 3.5
+Tested up to: 4.9.1
+Requires PHP: 5.3
+Stable tag: trunk
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: ads-txt
 
-Create, manage, and validate your Ads.txt from within WordPress.
+Create, manage, and validate your Ads.txt from within WordPress, just like any other content asset.
 
-![Screenshot of Ads.txt editor](assets/screenshot-1.png "Example of editing an Ads.txt file with errors")
-
-## Description
+== Description ==
 
 Ads.txt is an initiative by the Interactive Advertising Bureau to enable publishers to take control over who can sell their ad inventory. Through our work at 10up with various publishers, we've created a way to manage and validate your Ads.txt file from within WordPress, eliminating the need to upload a file. The validation baked into the plugin helps avoid malformed records, which can cause issues that end up cached for up to 24 hours and can lead to a drop in ad revenue.
 
-### What about Ads.cert?
+=== What about Ads.cert? ===
 
 We're closely monitoring continued developments in the ad fraud space, and see this plugin as not only a way to create and manage your Ads.txt file but also be prepared for future changes and upgrades to specifications. Ads.cert is still in the extremely early stages so we don't see any immediate concerns with implementing Ads.txt.
 
-<p align="center">
-<a href="http://10up.com/contact/"><img src="https://10updotcom-wpengine.s3.amazonaws.com/uploads/2016/10/10up-Github-Banner.png" width="850"></a>
-</p>
+== Screenshots ==
 
-## Installation
+1. Example of editing an Ads.txt file with errors
+
+== Installation ==
 1. Install the plugin via the plugin installer, either by searching for it or uploading a .zip file.
 2. Activate the plugin.
 3. Head to Settings → Ads.txt and add the records you need.
 4. Check it out at yoursite.com/ads.txt!
 
-## Changelog
+== Changelog ==
 
-### 1.0
+= 1.0 =
 * Initial plugin release
