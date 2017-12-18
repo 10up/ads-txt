@@ -28,9 +28,12 @@ function tenup_adstxt_php_version() {
 }
 register_activation_hook( __FILE__, 'tenup_adstxt_php_version' );
 
-require_once __DIR__ . '/inc/post-type.php';
-require_once __DIR__ . '/inc/admin.php';
-require_once __DIR__ . '/inc/save.php';
+// Don't even try loading if __DIR__ is undefined.
+if ( defined( '__DIR__' ) ) {
+	require_once __DIR__ . '/inc/post-type.php';
+	require_once __DIR__ . '/inc/admin.php';
+	require_once __DIR__ . '/inc/save.php';
+}
 
 /**
  * Display the contents of /ads.txt when requested.
