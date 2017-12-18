@@ -14,17 +14,40 @@ function admin_enqueue_scripts( $hook ) {
 		return;
 	}
 
-	wp_enqueue_script( 'adstxt', plugins_url( '/js/admin.js', dirname( __FILE__ ) ), array( 'jquery', 'wp-backbone' ), false, true );
+	wp_enqueue_script( 'adstxt', plugins_url( '/js/admin.js', dirname( __FILE__ ) ), array( 'jquery', 'wp-backbone', 'wp-codemirror' ), false, true );
+	wp_enqueue_style( 'code-editor' );
 
 	$strings = array(
-		'saved'         => __( 'Ads.txt saved', 'ads-txt' ),
-		'error_intro'   => __( 'Your Ads.txt contains the following issues:', 'ads-txt' ),
-		'unknown_error' => __( 'Unknown error.', 'ads-txt' ),
+		'saved_message' => __( 'Ads.txt saved', 'ads-txt' ),
+		'error_message' => __( 'Your Ads.txt contains the following issues:', 'ads-txt' ),
+		'unknown_error' => __( 'An unknown error occurred.', 'ads-txt' ),
 	);
 
 	wp_localize_script( 'adstxt', 'adstxt', $strings );
 }
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\admin_enqueue_scripts' );
+
+/**
+ * Output some CSS directly in the head of the document.
+ *
+ * Should there ever be more than ~25 lines of CSS, this should become a separate file.
+ *
+ * @return void
+ */
+function admin_head_css() {
+?>
+<style>
+.CodeMirror {
+	width: 100%;
+	min-height: 60vh;
+	height: calc( 100vh - 295px );
+	border: 1px solid #ddd;
+	box-sizing: border-box;
+}
+</style>
+<?php
+}
+add_action( 'admin_head-settings_page_adstxt-settings', __NAMESPACE__ . '\admin_head_css' );
 
 /**
  * Add admin menu page.
@@ -86,23 +109,33 @@ function settings_screen() {
 	</form>
 
 	<script type="text/template" id="tmpl-adstext-notice">
-		<div class="notice notice-{{ data.class }} adstxt-notice">
-			<p><strong>{{ data.message }}</strong></p>
-			<# if ( data.errors ) { #>
+		<# if ( ! _.isUndefined( data.saved ) ) { #>
+		<div class="notice notice-success adstxt-notice adstxt-saved">
+			<p>{{ data.saved.saved_message }}</p>
+		</div>
+		<# } #>
+
+		<# if ( ! _.isUndefined( data.errors ) ) { #>
+		<div class="notice notice-error adstxt-notice adstxt-errors">
+			<p><strong>{{ data.errors.error_message }}</strong></p>
+			<# if ( ! _.isUndefined( data.errors.errors ) ) { #>
 			<ul class="adstxt-errors-items">
-			<# _.each( data.errors, function( error ) { #>
+			<# _.each( data.errors.errors, function( error ) { #>
 				<li>{{ error }}.</li>
 			<# } ); #>
 			</ul>
 			<# } #>
 		</div>
-		<# if ( data.errors ) { #>
+
+		<# if ( _.isUndefined( data.saved ) && ! _.isUndefined( data.errors.errors ) ) { #>
 		<p class="adstxt-ays">
 			<input id="adstxt-ays-checkbox" name="adstxt_ays" type="checkbox" value="y" />
 			<label for="adstxt-ays-checkbox">
 				<?php _e( 'Update anyway, even though it may adversely affect your ads?', 'ads-txt' ); ?>
 			</label>
 		</p>
+		<# } #>
+
 		<# } #>
 	</script>
 </div>

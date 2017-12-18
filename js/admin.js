@@ -1,7 +1,11 @@
 ( function( $, _ ) {
 	var submit               = $( document.getElementById( 'submit' ) ),
-		notificationArea = $( document.getElementById( 'adstxt-notification-area' ) ),
-		notificationTemplate = wp.template( 'adstext-notice' );
+		notificationArea     = $( document.getElementById( 'adstxt-notification-area' ) ),
+		notificationTemplate = wp.template( 'adstext-notice' ),
+		editor               = wp.CodeMirror.fromTextArea( document.getElementById( 'adstxt_content' ), {
+			lineNumbers: true,
+			mode: 'shell'
+		} );
 
 	submit.on( 'click', function( e ){
 		e.preventDefault();
@@ -15,7 +19,11 @@
 		spinner.addClass( 'is-active' );
 
 		// clear any existing messages
+		notificationArea.hide();
 		notices.remove();
+
+		// Copy the code mirror contents into form for submission.
+		textarea.val( editor.getValue() );
 
 		$.ajax({
 			type: 'POST',
@@ -23,6 +31,8 @@
 			url: ajaxurl,
 			data: $( '.adstxt-settings-form' ).serialize(),
 			success: function( r ) {
+				var templateData = {};
+
 				spinner.removeClass( 'is-active' );
 
 				if ( 'undefined' !== typeof r.sanitized ) {
@@ -30,19 +40,22 @@
 				}
 
 				if ( 'undefined' !== typeof r.saved && r.saved ) {
-					data = {
-						'class':   'success',
-						'message': adstxt.saved
+					templateData.saved = {
+						'saved_message': adstxt.saved_message
 					};
-					submit.removeAttr( 'disabled' );
 				} else {
-					data = {
-						'class':   'error',
-						'message': adstxt.error_intro,
-						'errors': ( typeof r.errors != 'undefined' ) ? r.errors : [ adstxt.unknown_error ]
+					templateData.errors = {
+						'error_message': adstxt.unknown_error
 					}
 				}
-				notificationArea.html( notificationTemplate( data ) );
+
+				if ( 'undefined' !== typeof r.errors && r.errors.length > 0 ) {
+					templateData.errors = {
+						'error_message': adstxt.error_message,
+						'errors':        r.errors
+					}
+				}
+				notificationArea.html( notificationTemplate( templateData ) ).show();
 			}
 		})
 	});
@@ -53,5 +66,11 @@
 		} else {
 			submit.attr( 'disabled', 'disabled' );
 		}
-	})
+	} );
+
+	editor.on( 'change', function() {
+		$( '.adstxt-ays' ).remove();
+		submit.removeAttr( 'disabled' );
+	} );
+
 } )( jQuery, _ );
