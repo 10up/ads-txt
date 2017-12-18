@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Ads.txt
+ * Plugin Name: Ads.txt Manager
  * Description: Create, manage, and validate your Ads.txt from within WordPress, just like any other content asset. Requires PHP 5.3+ and WordPress 4.9+.
  * Version:     1.0
  * Author:      10up
