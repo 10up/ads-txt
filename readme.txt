@@ -42,6 +42,10 @@ We're closely monitoring continued developments in the ad fraud space, and see t
 3. Head to Settings → Ads.txt and add the records you need.
 4. Check it out at yoursite.com/ads.txt!
 
+Note: If you already have an existing ads.txt file in the web root, the plugin will not read in the contents of that file, and changes you make in WordPress admin will not overwrite contents of the physical file. 
+
+You will need to rename or remove the existing ads.txt file (keeping a copy of the records it contains to put into the new settings screen) before you will be able to see any changes you make to ads.txt inside the WordPress admin. 
+
 == Changelog ==
 
 = 1.0 =
