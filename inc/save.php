@@ -85,7 +85,7 @@ add_action( 'wp_ajax_adstxt-save', __NAMESPACE__ . '\save' );
  * }
  */
 function validate_line( $line, $line_number ) {
-	$domain_regex = '/^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$/';
+	$domain_regex = '/^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$/i';
 	$errors       = array();
 
 	if ( empty( $line ) ) {
@@ -164,7 +164,7 @@ function validate_line( $line, $line_number ) {
 
 				// TAG-IDs appear to be 16 character hashes.
 				// TAG-IDs are meant to be checked against their DB - perhaps good for a service or the future.
-				if ( ! preg_match( '/^[a-f0-9]{16}$/', $tag_id ) ) {
+				if ( ! empty( $tag_id ) && ! preg_match( '/^[a-f0-9]{16}$/', $tag_id ) ) {
 					$errors[] = array(
 						'line'    => $line_number,
 						'type'    => 'warning',

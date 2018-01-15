@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Ads.txt
- * Description: Manage your ads.txt file from within WordPress.
+ * Plugin Name: Ads.txt Manager
+ * Description: Create, manage, and validate your Ads.txt from within WordPress, just like any other content asset. Requires PHP 5.3+ and WordPress 4.9+.
  * Version:     1.0
- * Author:      Helen Hou-Sandi, 10up
+ * Author:      10up
  * Author URI:  http://10up.com
  * License:     GPLv2 or later
  * Text Domain: ads-txt
@@ -12,21 +12,6 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-
-/**
- * Require PHP version 5.3+.
- *
- * @return void
- */
-function tenup_adstxt_php_version() {
-	if ( version_compare( PHP_VERSION, '5.3.0', '<' ) ) {
-		wp_die(
-			__( 'Ads.txt Manager requires PHP 5.3+.', 'ads-txt' ),
-			__( 'Error Activating', 'ads-txt' )
-		);
-	}
-}
-register_activation_hook( __FILE__, 'tenup_adstxt_php_version' );
 
 require_once __DIR__ . '/inc/post-type.php';
 require_once __DIR__ . '/inc/admin.php';
