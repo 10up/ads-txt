@@ -68,10 +68,14 @@ function settings_screen() {
 	$post_id = get_option( 'adstxt_post' );
 	$post    = false;
 	$content = false;
+	$errors  = false;
 
 	if ( $post_id ) {
 		$post = get_post( $post_id );
-		$content = isset( $post->post_content ) ? $post->post_content : '';
+	}
+
+	if ( is_a( $post, 'WP_Post' ) ) {
+		$content = $post->post_content;
 		$errors = get_post_meta( $post->ID, 'adstxt_errors', true );
 	}
 ?>
