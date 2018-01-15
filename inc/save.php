@@ -98,7 +98,7 @@ function validate_line( $line, $line_number ) {
 			$errors[] = array(
 				'line'    => $line_number,
 				'type'    => 'warning',
-				'message' => __( 'Unrecognized variable', 'ads-txt' ),
+				'message' => esc_html__( 'Unrecognized variable', 'ads-txt' ),
 			);
 		} elseif ( 0 === stripos( $line, 'subdomain=' ) ) { // Subdomains should be, well, subdomains.
 			// Disregard any comments.
@@ -116,8 +116,8 @@ function validate_line( $line, $line_number ) {
 					'type'    => 'warning',
 					'message' => sprintf(
 							/* translators: %s: Subdomain */
-							__( '"%s" does not appear to be a valid subdomain', 'ads-txt' ),
-							esc_html( $subdomain )
+							esc_html__( '"%s" does not appear to be a valid subdomain', 'ads-txt' ),
+							$subdomain
 						),
 				);
 			}
@@ -145,8 +145,8 @@ function validate_line( $line, $line_number ) {
 					'type'    => 'warning',
 					'message' => sprintf(
 							/* translators: %s: Exchange domain */
-							__( '"%s" does not appear to be a valid exchange domain', 'ads-txt' ),
-							esc_html( $exchange )
+							esc_html__( '"%s" does not appear to be a valid exchange domain', 'ads-txt' ),
+							$exchange
 						),
 				);
 			}
@@ -155,7 +155,7 @@ function validate_line( $line, $line_number ) {
 				$errors[] = array(
 					'line'    => $line_number,
 					'type'    => 'error',
-					'message' => __( 'Third field should be RESELLER or DIRECT', 'ads-txt' ),
+					'message' => esc_html__( 'Third field should be RESELLER or DIRECT', 'ads-txt' ),
 				);
 			}
 
@@ -170,8 +170,8 @@ function validate_line( $line, $line_number ) {
 						'type'    => 'warning',
 						'message' => sprintf(
 							/* translators: %s: TAG-ID */
-							__( '"%s" does not appear to be a valid TAG-ID', 'ads-txt' ),
-							esc_html( $fields[3] )
+							esc_html__( '"%s" does not appear to be a valid TAG-ID', 'ads-txt' ),
+							$fields[3]
 						),
 					);
 				}
@@ -186,7 +186,7 @@ function validate_line( $line, $line_number ) {
 			$errors[] = array(
 				'line'    => $line_number,
 				'type'    => 'error',
-				'message' => __( 'Invalid record', 'ads-txt' ),
+				'message' => esc_html__( 'Invalid record', 'ads-txt' ),
 			);
 		}
 
