@@ -150,7 +150,7 @@ function settings_screen() {
 			<# if ( ! _.isUndefined( data.errors.errors ) ) { #>
 			<ul class="adstxt-errors-items">
 			<# _.each( data.errors.errors, function( error ) { #>
-				<?php foreach( get_error_messages() as $error_type => $error_message ) : ?>
+				<?php foreach( array_keys( get_error_messages() ) as $error_type ) : ?>
 				<# if ( "<?php echo esc_html( $error_type ); ?>" === error.type ) { #>
 					<li><?php
 						/*
