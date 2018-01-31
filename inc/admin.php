@@ -207,7 +207,7 @@ function format_error( $error ) {
 	$messages = get_error_messages();
 
 	if ( ! isset( $messages[ $error['type'] ] ) ) {
-		return __( 'Unknown error.', 'adstxt' );
+		return __( 'Unknown error', 'adstxt' );
 	}
 
 	if ( ! isset( $error['value' ] ) ) {
