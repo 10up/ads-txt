@@ -86,7 +86,32 @@ function settings_screen() {
 		<ul>
 			<?php
 			foreach ( $errors as $error ) {
-				echo '<li class="' . esc_attr( $error['type'] ) . '">' . esc_html( format_error( $error ) ) . '</li>';
+				echo '<li>';
+
+				// Errors were originally stored as an array
+				// This old style only needs to be accounted for here at runtime display
+				if ( isset( $error['message'] ) ) {
+					/* translators: Error message output. 1: Line number, 2: Error message */
+					$message = sprintf(
+						__( 'Line %1$s: %2$s', 'ads-txt' ),
+						$error['line'],
+						$error['message']
+					);
+
+					echo esc_html( $message );
+				} else {
+					/*
+					 * Important: This is escaped piece-wise inside `format_error()`,
+					 * as we cannot do absolute-end late escaping as normally recommended.
+					 * This is because the placeholders in the translations can contain HTML,
+					 * namely escaped data values wrapped in code tags.
+					 * We don't have good JS translation tools yet and it's better to avoid duplication,
+					 * so we use a single PHP function for both the JS template and in PHP.
+					 */
+					echo format_error( $error );
+				}
+
+				echo  '</li>';
 			}
 			?>
 		</ul>
@@ -125,7 +150,25 @@ function settings_screen() {
 			<# if ( ! _.isUndefined( data.errors.errors ) ) { #>
 			<ul class="adstxt-errors-items">
 			<# _.each( data.errors.errors, function( error ) { #>
-				<li>{{ error }}.</li>
+				<?php foreach( get_error_messages() as $error_type => $error_message ) : ?>
+				<# if ( "<?php echo esc_html( $error_type ); ?>" === error.type ) { #>
+					<li><?php
+						/*
+						 * Important: This is escaped piece-wise inside `format_error()`,
+						 * as we cannot do absolute-end late escaping as normally recommended.
+						 * This is because the placeholders in the translations can contain HTML,
+						 * namely escaped data values wrapped in code tags.
+						 * We don't have good JS translation tools yet and it's better to avoid duplication,
+						 * so we have to get them already-translated from PHP.
+						 */
+						echo format_error( array(
+							'line' => '{{error.line}}',
+							'type' => $error_type,
+							'value' => '{{error.value}}',
+						) );
+					?></li>
+				<# } #>
+				<?php endforeach; ?>
 			<# } ); #>
 			</ul>
 			<# } #>
@@ -153,20 +196,48 @@ function settings_screen() {
  * @param  array $error {
  *     Array of error message components.
  *
- *     @type string $type    Type of error. Typically 'warning' or 'error'.
  *     @type int    $line    Line number of the error.
- *     @type string $message Error message.
+ *     @type string $type    Type of error.
+ *     @type string $value   Optional. Value in question.
  * }
  *
  * @return string       Formatted error message.
  */
 function format_error( $error ) {
+	$messages = get_error_messages();
+
+	if ( ! isset( $messages[ $error['type'] ] ) ) {
+		return __( 'Unknown error.', 'adstxt' );
+	}
+
+	if ( ! isset( $error['value' ] ) ) {
+		$error['value' ] = '';
+	}
+
+	$message = sprintf( esc_html( $messages[ $error['type'] ] ), '<code>' . esc_html( $error['value'] ) . '</code>' );
+
 	/* translators: Error message output. 1: Line number, 2: Error message */
 	$message = sprintf(
-		esc_html__( 'Line %1$s: %2$s', 'ads-txt' ),
-		$error['line'],
-		$error['message']
+		__( 'Line %1$s: %2$s', 'ads-txt' ),
+		esc_html( $error['line'] ),
+		$message // This is escaped piece-wise above and may contain HTML (code tags) at this point
 	);
 
 	return $message;
+}
+
+function get_error_messages() {
+	$messages = array(
+		'invalid_variable' => __( 'Unrecognized variable' ),
+		/* translators: %s: Subdomain */
+		'invalid_subdomain' => __( '%s does not appear to be a valid subdomain' ),
+		/* translators: %s: Exchange domain */
+		'invalid_exchange' => __( '%s does not appear to be a valid exchange domain' ),
+		'invalid_account_type' => __( 'Third field should be RESELLER or DIRECT' ),
+		/* translators: %s: Alphanumeric TAG-ID */
+		'invalid_tagid' => __( '%s does not appear to be a valid TAG-ID' ),
+		'invalid_record' => __( 'Invalid record' ),
+	);
+
+	return $messages;
 }

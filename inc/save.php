@@ -59,8 +59,7 @@ function save() {
 		$response['sanitized'] = $sanitized;
 
 		if ( ! empty( $errors ) ) {
-			// Transform errors into strings for easier i18n.
-			$response['errors'] = array_map( __NAMESPACE__ . '\format_error', $errors );
+			$response['errors'] = $errors;
 		}
 
 		echo wp_json_encode( $response );
@@ -96,9 +95,8 @@ function validate_line( $line, $line_number ) {
 		// The spec currently supports CONTACT and SUBDOMAIN.
 		if ( ! preg_match( '/^(CONTACT|SUBDOMAIN)=/i', $line ) ) {
 			$errors[] = array(
-				'line'    => $line_number,
-				'type'    => 'warning',
-				'message' => esc_html__( 'Unrecognized variable', 'ads-txt' ),
+				'line' => $line_number,
+				'type' => 'invalid_variable',
 			);
 		} elseif ( 0 === stripos( $line, 'subdomain=' ) ) { // Subdomains should be, well, subdomains.
 			// Disregard any comments.
@@ -112,13 +110,9 @@ function validate_line( $line, $line_number ) {
 			if ( 1 !== count( $subdomain ) || ! preg_match( $domain_regex, $subdomain[0] ) ) {
 				$subdomain = implode( '', $subdomain );
 				$errors[] = array(
-					'line'    => $line_number,
-					'type'    => 'warning',
-					'message' => sprintf(
-							/* translators: %s: Subdomain */
-							esc_html__( '"%s" does not appear to be a valid subdomain', 'ads-txt' ),
-							$subdomain
-						),
+					'line' => $line_number,
+					'type' => 'invalid_subdomain',
+					'value' => $subdomain,
 				);
 			}
 		}
@@ -141,21 +135,16 @@ function validate_line( $line, $line_number ) {
 
 			if ( ! preg_match( $domain_regex, $exchange ) ) {
 				$errors[] = array(
-					'line'    => $line_number,
-					'type'    => 'warning',
-					'message' => sprintf(
-							/* translators: %s: Exchange domain */
-							esc_html__( '"%s" does not appear to be a valid exchange domain', 'ads-txt' ),
-							$exchange
-						),
+					'line' => $line_number,
+					'type' => 'invalid_exchange',
+					'value' => $exchange,
 				);
 			}
 
 			if ( ! preg_match( '/^(RESELLER|DIRECT)$/i', $account_type ) ) {
 				$errors[] = array(
-					'line'    => $line_number,
-					'type'    => 'error',
-					'message' => esc_html__( 'Third field should be RESELLER or DIRECT', 'ads-txt' ),
+					'line' => $line_number,
+					'type' => 'invalid_account_type',
 				);
 			}
 
@@ -166,13 +155,9 @@ function validate_line( $line, $line_number ) {
 				// TAG-IDs are meant to be checked against their DB - perhaps good for a service or the future.
 				if ( ! empty( $tag_id ) && ! preg_match( '/^[a-f0-9]{16}$/', $tag_id ) ) {
 					$errors[] = array(
-						'line'    => $line_number,
-						'type'    => 'warning',
-						'message' => sprintf(
-							/* translators: %s: TAG-ID */
-							esc_html__( '"%s" does not appear to be a valid TAG-ID', 'ads-txt' ),
-							$fields[3]
-						),
+						'line' => $line_number,
+						'type' => 'invalid_tagid',
+						'value' => $fields[3],
 					);
 				}
 			}
@@ -184,9 +169,8 @@ function validate_line( $line, $line_number ) {
 			$sanitized = wp_strip_all_tags( $line );
 
 			$errors[] = array(
-				'line'    => $line_number,
-				'type'    => 'error',
-				'message' => esc_html__( 'Invalid record', 'ads-txt' ),
+				'line' => $line_number,
+				'type' => 'invalid_record',
 			);
 		}
 
