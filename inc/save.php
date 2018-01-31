@@ -110,8 +110,8 @@ function validate_line( $line, $line_number ) {
 			if ( 1 !== count( $subdomain ) || ! preg_match( $domain_regex, $subdomain[0] ) ) {
 				$subdomain = implode( '', $subdomain );
 				$errors[] = array(
-					'line' => $line_number,
-					'type' => 'invalid_subdomain',
+					'line'  => $line_number,
+					'type'  => 'invalid_subdomain',
 					'value' => $subdomain,
 				);
 			}
@@ -135,8 +135,8 @@ function validate_line( $line, $line_number ) {
 
 			if ( ! preg_match( $domain_regex, $exchange ) ) {
 				$errors[] = array(
-					'line' => $line_number,
-					'type' => 'invalid_exchange',
+					'line'  => $line_number,
+					'type'  => 'invalid_exchange',
 					'value' => $exchange,
 				);
 			}
@@ -155,8 +155,8 @@ function validate_line( $line, $line_number ) {
 				// TAG-IDs are meant to be checked against their DB - perhaps good for a service or the future.
 				if ( ! empty( $tag_id ) && ! preg_match( '/^[a-f0-9]{16}$/', $tag_id ) ) {
 					$errors[] = array(
-						'line' => $line_number,
-						'type' => 'invalid_tagid',
+						'line'  => $line_number,
+						'type'  => 'invalid_tagid',
 						'value' => $fields[3],
 					);
 				}
