@@ -76,7 +76,7 @@ function settings_screen() {
 
 	if ( is_a( $post, 'WP_Post' ) ) {
 		$content = $post->post_content;
-		$errors = get_post_meta( $post->ID, 'adstxt_errors', true );
+		$errors  = get_post_meta( $post->ID, 'adstxt_errors', true );
 	}
 ?>
 <div class="wrap">
@@ -91,8 +91,8 @@ function settings_screen() {
 				// Errors were originally stored as an array
 				// This old style only needs to be accounted for here at runtime display
 				if ( isset( $error['message'] ) ) {
-					/* translators: Error message output. 1: Line number, 2: Error message */
 					$message = sprintf(
+						/* translators: Error message output. 1: Line number, 2: Error message */
 						__( 'Line %1$s: %2$s', 'ads-txt' ),
 						$error['line'],
 						$error['message']
@@ -108,7 +108,7 @@ function settings_screen() {
 					 * We don't have good JS translation tools yet and it's better to avoid duplication,
 					 * so we use a single PHP function for both the JS template and in PHP.
 					 */
-					echo format_error( $error );
+					echo format_error( $error ); // WPCS: XSS ok.
 				}
 
 				echo  '</li>';
@@ -150,9 +150,10 @@ function settings_screen() {
 			<# if ( ! _.isUndefined( data.errors.errors ) ) { #>
 			<ul class="adstxt-errors-items">
 			<# _.each( data.errors.errors, function( error ) { #>
-				<?php foreach( array_keys( get_error_messages() ) as $error_type ) : ?>
+				<?php foreach ( array_keys( get_error_messages() ) as $error_type ) : ?>
 				<# if ( "<?php echo esc_html( $error_type ); ?>" === error.type ) { #>
-					<li><?php
+					<li>
+						<?php
 						/*
 						 * Important: This is escaped piece-wise inside `format_error()`,
 						 * as we cannot do absolute-end late escaping as normally recommended.
@@ -161,12 +162,13 @@ function settings_screen() {
 						 * We don't have good JS translation tools yet and it's better to avoid duplication,
 						 * so we have to get them already-translated from PHP.
 						 */
-						echo format_error( array(
-							'line' => '{{error.line}}',
-							'type' => $error_type,
+						echo format_error( array( // WPCS: XSS ok.
+							'line'  => '{{error.line}}',
+							'type'  => $error_type,
 							'value' => '{{error.value}}',
 						) );
-					?></li>
+						?>
+					</li>
 				<# } #>
 				<?php endforeach; ?>
 			<# } ); #>
@@ -210,14 +212,14 @@ function format_error( $error ) {
 		return __( 'Unknown error', 'adstxt' );
 	}
 
-	if ( ! isset( $error['value' ] ) ) {
-		$error['value' ] = '';
+	if ( ! isset( $error['value'] ) ) {
+		$error['value'] = '';
 	}
 
 	$message = sprintf( esc_html( $messages[ $error['type'] ] ), '<code>' . esc_html( $error['value'] ) . '</code>' );
 
-	/* translators: Error message output. 1: Line number, 2: Error message */
 	$message = sprintf(
+		/* translators: Error message output. 1: Line number, 2: Error message */
 		__( 'Line %1$s: %2$s', 'ads-txt' ),
 		esc_html( $error['line'] ),
 		$message // This is escaped piece-wise above and may contain HTML (code tags) at this point

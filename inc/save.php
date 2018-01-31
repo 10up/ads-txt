@@ -21,7 +21,9 @@ function save() {
 
 	// Different browsers use different line endings.
 	$lines     = preg_split( '/\r\n|\r|\n/', $_post['adstxt'] );
-	$sanitized = $errors = $response = array();
+	$sanitized = array();
+	$errors    = array();
+	$response  = array();
 
 	foreach ( $lines as $i => $line ) {
 		$line_number = $i + 1;
@@ -66,7 +68,7 @@ function save() {
 		die();
 	}
 
-	wp_redirect( esc_url_raw( $_POST['_wp_http_referer'] ) . '&updated=true' );
+	wp_safe_redirect( esc_url_raw( $_post['_wp_http_referer'] ) . '&updated=true' );
 	exit;
 }
 add_action( 'admin_post_adstxt-save', __NAMESPACE__ . '\save' );
@@ -109,7 +111,7 @@ function validate_line( $line, $line_number ) {
 			// If there's anything other than one piece left something's not right.
 			if ( 1 !== count( $subdomain ) || ! preg_match( $domain_regex, $subdomain[0] ) ) {
 				$subdomain = implode( '', $subdomain );
-				$errors[] = array(
+				$errors[]  = array(
 					'line'  => $line_number,
 					'type'  => 'invalid_subdomain',
 					'value' => $subdomain,

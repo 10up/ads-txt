@@ -61,7 +61,7 @@
 	});
 
 	$( '.wrap' ).on( 'click', '#adstxt-ays-checkbox', function( e ) {
-		if ( true === $( this ).prop('checked') ) {
+		if ( true === $( this ).prop( 'checked' ) ) {
 			submit.removeAttr( 'disabled' );
 		} else {
 			submit.attr( 'disabled', 'disabled' );
