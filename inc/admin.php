@@ -226,6 +226,11 @@ function format_error( $error ) {
 	return $message;
 }
 
+/**
+ * Get all non-generic error messages, translated and with placeholders intact.
+ *
+ * @return array Associative array of error messages.
+ */
 function get_error_messages() {
 	$messages = array(
 		'invalid_variable' => __( 'Unrecognized variable' ),
