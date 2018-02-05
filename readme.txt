@@ -48,5 +48,9 @@ You will need to rename or remove the existing ads.txt file (keeping a copy of t
 
 == Changelog ==
 
+= 1.1 =
+* Better error message formatting (wraps values in `<code>` tags for better readability)
+* WordPress.com VIP-approved escaping
+
 = 1.0 =
 * Initial plugin release
