@@ -80,7 +80,17 @@ function settings_screen() {
 	}
 ?>
 <div class="wrap">
-<?php if ( ! empty( $errors ) ) : ?>
+
+<?php if ( ads_txt_exists() ) : ?>
+
+	<div class="notice notice-error adstxt-notice">
+		<p><strong>WARNING: EXISTING ADS.TXT FILE FOUND</strong></p>
+		<p>We found an existing ads.txt file on your server. You will need to rename or remove the existing ads.txt file before you will be able to see any changes you make to ads.txt inside the WordPress admin.</p>
+	</div>
+
+<?php endif; ?>
+
+<?php if ( ! empty( $errors ) ) : ?>	
 	<div class="notice notice-error adstxt-notice">
 		<p><strong><?php echo esc_html__( 'Your Ads.txt contains the following issues:', 'ads-txt' ); ?></strong></p>
 		<ul>
@@ -247,4 +257,15 @@ function get_error_messages() {
 	);
 
 	return $messages;
+}
+
+/**
+ * Check whether there is an existing ads.txt file that will override the plugin output.
+ *
+ * @return bool Value of whether ads.txt already exists
+ */
+function ads_txt_exists() {
+
+	return file_exists( $_SERVER['DOCUMENT_ROOT'] . '/ads.txt' );
+
 }
