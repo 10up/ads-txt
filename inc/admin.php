@@ -84,8 +84,8 @@ function settings_screen() {
 <?php if ( ads_txt_exists() ) : ?>
 
 	<div class="notice notice-error adstxt-notice">
-		<p><strong>WARNING: EXISTING ADS.TXT FILE FOUND</strong></p>
-		<p>We found an existing ads.txt file on your server. You will need to rename or remove the existing ads.txt file before you will be able to see any changes you make to ads.txt inside the WordPress admin.</p>
+		<p><strong><?php echo esc_html_e( 'Existing Ads.txt file found', 'ads-txt' ); ?></strong></p>
+		<p><?php echo esc_html_e( 'You will need to rename or remove the existing ads.txt file before you will be able to see any changes you make to ads.txt inside the WordPress admin.', 'ads-txt' ); ?></p>
 	</div>
 
 <?php endif; ?>
