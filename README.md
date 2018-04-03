@@ -19,6 +19,10 @@ Ads.txt is an initiative by the Interactive Advertising Bureau to enable publish
 
 We're closely monitoring continued developments in the ad fraud space, and see this plugin as not only a way to create and manage your ads.txt file but also be prepared for future changes and upgrades to specifications. ads.cert is still in the extremely early stages so we don't see any immediate concerns with implementing ads.txt.
 
+## Contributing
+
+Want to help? Check out our [contributing guidelines](CONTRIBUTING.md) to get started.
+
 <p align="center">
 <a href="http://10up.com/contact/"><img src="https://10updotcom-wpengine.s3.amazonaws.com/uploads/2016/10/10up-Github-Banner.png" width="850"></a>
 </p>
