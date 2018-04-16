@@ -18,4 +18,3 @@ if ( ! defined( 'WP_TEST_IGNORE_BOOTSTRAP' ) ) {
 	// Disable the deprecated warnings (problem with WP3.7.1 and php 5.5)
 	PHPUnit_Framework_Error_Deprecated::$enabled = false;
 }
-
