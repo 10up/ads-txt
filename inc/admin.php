@@ -100,15 +100,7 @@ function settings_screen() {
 
 					echo esc_html( $message );
 				} else {
-					/*
-					 * Important: This is escaped piece-wise inside `format_error()`,
-					 * as we cannot do absolute-end late escaping as normally recommended.
-					 * This is because the placeholders in the translations can contain HTML,
-					 * namely escaped data values wrapped in code tags.
-					 * We don't have good JS translation tools yet and it's better to avoid duplication,
-					 * so we use a single PHP function for both the JS template and in PHP.
-					 */
-					echo format_error( $error ); // WPCS: XSS ok.
+					display_formatted_error( $error ); // WPCS: XSS ok.
 				}
 
 				echo  '</li>';
@@ -154,15 +146,7 @@ function settings_screen() {
 				<# if ( "<?php echo esc_html( $error_type ); ?>" === error.type ) { #>
 					<li>
 						<?php
-						/*
-						 * Important: This is escaped piece-wise inside `format_error()`,
-						 * as we cannot do absolute-end late escaping as normally recommended.
-						 * This is because the placeholders in the translations can contain HTML,
-						 * namely escaped data values wrapped in code tags.
-						 * We don't have good JS translation tools yet and it's better to avoid duplication,
-						 * so we have to get them already-translated from PHP.
-						 */
-						echo format_error( array( // WPCS: XSS ok.
+						display_formatted_error( array(
 							'line'  => '{{error.line}}',
 							'type'  => $error_type,
 							'value' => '{{error.value}}',
@@ -193,7 +177,7 @@ function settings_screen() {
 }
 
 /**
- * Take an error array and turn it into a message.
+ * Take an error array and output it as a message.
  *
  * @param  array $error {
  *     Array of error message components.
@@ -203,9 +187,9 @@ function settings_screen() {
  *     @type string $value   Optional. Value in question.
  * }
  *
- * @return string       Formatted error message.
+ * @return void       
  */
-function format_error( $error ) {
+function display_formatted_error( $error ) {
 	$messages = get_error_messages();
 
 	if ( ! isset( $messages[ $error['type'] ] ) ) {
@@ -218,14 +202,12 @@ function format_error( $error ) {
 
 	$message = sprintf( esc_html( $messages[ $error['type'] ] ), '<code>' . esc_html( $error['value'] ) . '</code>' );
 
-	$message = sprintf(
+	printf(
 		/* translators: Error message output. 1: Line number, 2: Error message */
 		__( 'Line %1$s: %2$s', 'ads-txt' ),
 		esc_html( $error['line'] ),
-		$message // This is escaped piece-wise above and may contain HTML (code tags) at this point
+		wp_kses_post( $message )
 	);
-
-	return $message;
 }
 
 /**
