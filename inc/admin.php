@@ -44,6 +44,9 @@ function admin_head_css() {
 	border: 1px solid #ddd;
 	box-sizing: border-box;
 }
+.existing-adstxt {
+	display: none;
+}
 </style>
 <?php
 }
@@ -81,14 +84,10 @@ function settings_screen() {
 ?>
 <div class="wrap">
 
-<?php if ( ads_txt_exists() ) : ?>
-
-	<div class="notice notice-error adstxt-notice">
+	<div class="notice notice-error adstxt-notice existing-adstxt">
 		<p><strong><?php echo esc_html_e( 'Existing Ads.txt file found', 'ads-txt' ); ?></strong></p>
 		<p><?php echo esc_html_e( 'You will need to rename or remove the existing ads.txt file before you will be able to see any changes you make to ads.txt inside the WordPress admin.', 'ads-txt' ); ?></p>
 	</div>
-
-<?php endif; ?>
 
 <?php if ( ! empty( $errors ) ) : ?>	
 	<div class="notice notice-error adstxt-notice">
@@ -257,18 +256,4 @@ function get_error_messages() {
 	);
 
 	return $messages;
-}
-
-/**
- * Check whether there is an existing ads.txt file that will override the plugin output.
- *
- * @return bool Value of whether ads.txt already exists
- */
-function ads_txt_exists() {
-	// No-op on WordPress.com
-	if ( defined( 'WPCOM_IS_VIP_ENV' ) && WPCOM_IS_VIP_ENV ) {
-		return;
-	}
-
-	return file_exists( $_SERVER['DOCUMENT_ROOT'] . '/ads.txt' );
 }

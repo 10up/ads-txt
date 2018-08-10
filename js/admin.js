@@ -7,6 +7,13 @@
 			mode: 'shell'
 		} );
 
+	$.get('/ads.txt', function( data, status ){
+		$('.existing-adstxt').show();
+	}).fail(function(){
+		// Ads.txt not found
+		$('.existing-adstxt').hide();
+	});
+
 	submit.on( 'click', function( e ){
 		e.preventDefault();
 
