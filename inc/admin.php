@@ -265,7 +265,10 @@ function get_error_messages() {
  * @return bool Value of whether ads.txt already exists
  */
 function ads_txt_exists() {
+	// No-op on WordPress.com
+	if ( defined( 'WPCOM_IS_VIP_ENV' ) && WPCOM_IS_VIP_ENV ) {
+		return;
+	}
 
 	return file_exists( $_SERVER['DOCUMENT_ROOT'] . '/ads.txt' );
-
 }
