@@ -86,7 +86,7 @@ function settings_screen() {
 			<p><strong><?php echo esc_html_e( 'Existing Ads.txt file found', 'ads-txt' ); ?></strong></p>
 			<p><?php echo esc_html_e( 'You will need to rename or remove the existing ads.txt file before you will be able to see any changes you make to ads.txt inside the WordPress admin.', 'ads-txt' ); ?></p>
 
-			<p><?php echo esc_html_e('Removed the existing ads.txt but are still seeing this warning?', 'ads-txt') ?> <a class="ads-txt-rerun-check" href="#"><?php echo esc_html_e('Re-run the check now', 'ads-txt'); ?></a></p>
+			<p><?php echo esc_html_e( 'Removed the existing ads.txt but are still seeing this warning?', 'ads-txt' ); ?> <a class="ads-txt-rerun-check" href="#"><?php echo esc_html_e( 'Re-run the check now', 'ads-txt' ); ?></a></p>
 		</div>
 	<?php endif; ?>
 
@@ -273,5 +273,5 @@ function ads_txt_exists() {
 	$ads_txt_path = get_site_url() . '/ads.txt';
 
 	// Return true if file exists, otherwise return false
-	return wp_remote_get($ads_txt_path)['response']['code'] == 200;
+	return 200 == wp_remote_get( $ads_txt_path )['response']['code'];
 }
