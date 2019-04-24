@@ -3,6 +3,19 @@
 namespace AdsTxt;
 
 /**
+ * Add appropriate capabilities
+ *
+ * @return void
+ */
+function add_capabilities() {
+	if( false !== get_option( 'ads_txt_cap', false ) ) return;
+	$role = get_role( 'administrator' );
+	$role->add_cap( 'edit_ads_txt' );
+	update_option( 'ads_txt_cap', true );
+}
+add_action( 'admin_init', __NAMESPACE__ . '\add_capabilities' );
+
+/**
  * Enqueue any necessary scripts.
  *
  * @param  string $hook Hook name for the current screen.
@@ -55,7 +68,7 @@ add_action( 'admin_head-settings_page_adstxt-settings', __NAMESPACE__ . '\admin_
  * @return void
  */
 function admin_menu() {
-	add_options_page( esc_html__( 'Ads.txt', 'ads-txt' ), esc_html__( 'Ads.txt', 'ads-txt' ), 'manage_options', 'adstxt-settings', __NAMESPACE__ . '\settings_screen' );
+	add_options_page( esc_html__( 'Ads.txt', 'ads-txt' ), esc_html__( 'Ads.txt', 'ads-txt' ), 'edit_ads_txt', 'adstxt-settings', __NAMESPACE__ . '\settings_screen' );
 }
 add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
 
