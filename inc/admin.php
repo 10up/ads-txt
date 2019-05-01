@@ -122,9 +122,9 @@ function settings_screen() {
 		$revisions = wp_get_post_revisions( $post->ID );
 		$revision_count = count( $revisions );
 		$last_revision = array_shift( $revisions );
-		$last_revision_id = $last_revision->ID;
+		$last_revision_id = $last_revision ? $last_revision->ID : false;
 		$errors  = get_post_meta( $post->ID, 'adstxt_errors', true );
-		$revisions_link = admin_url( 'revision.php?adstxt=1&revision=' . $last_revision_id );
+		$revisions_link = $last_revision_id ? admin_url( 'revision.php?adstxt=1&revision=' . $last_revision_id ) : false;
 	}
 ?>
 <div class="wrap">
