@@ -90,6 +90,36 @@ function adstxt_revisions_restore( $revisions_data ) {
 	return $revisions_data;
 }
 add_filter( 'wp_prepare_revision_for_js', __NAMESPACE__ . '\adstxt_revisions_restore' );
+
+/**
+ * Hide the revisions title with CSS, since WordPress always shows the title
+ * field even if unchanged, and the title is not relevant for ads.txt.
+ */
+function admin_header_revisions_styles() {
+	$current_screen = get_current_screen();
+
+	if ( ! $current_screen || 'revision' !== $current_screen->id ) {
+		return;
+	}
+
+	if ( ! isset( $_REQUEST['adstxt'] ) ) {
+		return;
+	}
+
+	?>
+	<style>
+		.revisions-diff .diff h3 {
+			display: none;
+		}
+		.revisions-diff .diff table.diff:first-of-type {
+			display: none;
+		}
+	</style>
+	<?php
+
+}
+add_action( 'admin_head', __NAMESPACE__ . '\admin_header_revisions_styles' );
+
 /**
  * Add admin menu page.
  *
