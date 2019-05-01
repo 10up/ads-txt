@@ -11,8 +11,8 @@ function register() {
 	register_post_type(
 		'adstxt', array(
 			'labels'           => array(
-				'name'          => _x( 'Ads.txt', 'post type general name', 'ads-txt' ),
-				'singular_name' => _x( 'Ads.txt', 'post type singular name', 'ads-txt' ),
+				'name'          => esc_html_x( 'Ads.txt', 'post type general name', 'ads-txt' ),
+				'singular_name' => esc_html_x( 'Ads.txt', 'post type singular name', 'ads-txt' ),
 			),
 			'public'           => false,
 			'hierarchical'     => false,

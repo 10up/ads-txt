@@ -21,7 +21,9 @@ function save() {
 
 	// Different browsers use different line endings.
 	$lines     = preg_split( '/\r\n|\r|\n/', $_post['adstxt'] );
-	$sanitized = $errors = $response = array();
+	$sanitized = array();
+	$errors    = array();
+	$response  = array();
 
 	foreach ( $lines as $i => $line ) {
 		$line_number = $i + 1;
@@ -59,15 +61,14 @@ function save() {
 		$response['sanitized'] = $sanitized;
 
 		if ( ! empty( $errors ) ) {
-			// Transform errors into strings for easier i18n.
-			$response['errors'] = array_map( __NAMESPACE__ . '\format_error', $errors );
+			$response['errors'] = $errors;
 		}
 
 		echo wp_json_encode( $response );
 		die();
 	}
 
-	wp_redirect( esc_url_raw( $_POST['_wp_http_referer'] ) . '&updated=true' );
+	wp_safe_redirect( esc_url_raw( $_post['_wp_http_referer'] ) . '&updated=true' );
 	exit;
 }
 add_action( 'admin_post_adstxt-save', __NAMESPACE__ . '\save' );
@@ -85,7 +86,7 @@ add_action( 'wp_ajax_adstxt-save', __NAMESPACE__ . '\save' );
  * }
  */
 function validate_line( $line, $line_number ) {
-	$domain_regex = '/^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$/';
+	$domain_regex = '/^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$/i';
 	$errors       = array();
 
 	if ( empty( $line ) ) {
@@ -96,9 +97,8 @@ function validate_line( $line, $line_number ) {
 		// The spec currently supports CONTACT and SUBDOMAIN.
 		if ( ! preg_match( '/^(CONTACT|SUBDOMAIN)=/i', $line ) ) {
 			$errors[] = array(
-				'line'    => $line_number,
-				'type'    => 'warning',
-				'message' => __( 'Unrecognized variable', 'ads-txt' ),
+				'line' => $line_number,
+				'type' => 'invalid_variable',
 			);
 		} elseif ( 0 === stripos( $line, 'subdomain=' ) ) { // Subdomains should be, well, subdomains.
 			// Disregard any comments.
@@ -111,14 +111,10 @@ function validate_line( $line, $line_number ) {
 			// If there's anything other than one piece left something's not right.
 			if ( 1 !== count( $subdomain ) || ! preg_match( $domain_regex, $subdomain[0] ) ) {
 				$subdomain = implode( '', $subdomain );
-				$errors[] = array(
-					'line'    => $line_number,
-					'type'    => 'warning',
-					'message' => sprintf(
-							/* translators: %s: Subdomain */
-							__( '"%s" does not appear to be a valid subdomain', 'ads-txt' ),
-							esc_html( $subdomain )
-						),
+				$errors[]  = array(
+					'line'  => $line_number,
+					'type'  => 'invalid_subdomain',
+					'value' => $subdomain,
 				);
 			}
 		}
@@ -141,21 +137,16 @@ function validate_line( $line, $line_number ) {
 
 			if ( ! preg_match( $domain_regex, $exchange ) ) {
 				$errors[] = array(
-					'line'    => $line_number,
-					'type'    => 'warning',
-					'message' => sprintf(
-							/* translators: %s: Exchange domain */
-							__( '"%s" does not appear to be a valid exchange domain', 'ads-txt' ),
-							esc_html( $exchange )
-						),
+					'line'  => $line_number,
+					'type'  => 'invalid_exchange',
+					'value' => $exchange,
 				);
 			}
 
 			if ( ! preg_match( '/^(RESELLER|DIRECT)$/i', $account_type ) ) {
 				$errors[] = array(
-					'line'    => $line_number,
-					'type'    => 'error',
-					'message' => __( 'Third field should be RESELLER or DIRECT', 'ads-txt' ),
+					'line' => $line_number,
+					'type' => 'invalid_account_type',
 				);
 			}
 
@@ -164,15 +155,11 @@ function validate_line( $line, $line_number ) {
 
 				// TAG-IDs appear to be 16 character hashes.
 				// TAG-IDs are meant to be checked against their DB - perhaps good for a service or the future.
-				if ( ! preg_match( '/^[a-f0-9]{16}$/', $tag_id ) ) {
+				if ( ! empty( $tag_id ) && ! preg_match( '/^[a-f0-9]{16}$/', $tag_id ) ) {
 					$errors[] = array(
-						'line'    => $line_number,
-						'type'    => 'warning',
-						'message' => sprintf(
-							/* translators: %s: TAG-ID */
-							__( '"%s" does not appear to be a valid TAG-ID', 'ads-txt' ),
-							esc_html( $fields[3] )
-						),
+						'line'  => $line_number,
+						'type'  => 'invalid_tagid',
+						'value' => $fields[3],
 					);
 				}
 			}
@@ -184,9 +171,8 @@ function validate_line( $line, $line_number ) {
 			$sanitized = wp_strip_all_tags( $line );
 
 			$errors[] = array(
-				'line'    => $line_number,
-				'type'    => 'error',
-				'message' => __( 'Invalid record', 'ads-txt' ),
+				'line' => $line_number,
+				'type' => 'invalid_record',
 			);
 		}
 
