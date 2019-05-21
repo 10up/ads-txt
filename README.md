@@ -1,6 +1,8 @@
 # Ads.txt Manager for WordPress
 
-Create, manage, and validate your Ads.txt from within WordPress, just like any other content asset. Requires PHP 5.3+ and WordPress 4.9+.
+> Create, manage, and validate your Ads.txt from within WordPress, just like any other content asset. Requires PHP 5.3+ and WordPress 4.9+.
+
+![WordPress tested up to version](https://img.shields.io/badge/WordPress-v5.2%20tested-success.svg)
 
 ![Screenshot of ads.txt editor](assets/screenshot-1.png "Example of editing an ads.txt file with errors")
 
