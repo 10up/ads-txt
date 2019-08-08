@@ -1,6 +1,8 @@
 # Ads.txt Manager for WordPress
 
-Create, manage, and validate your Ads.txt from within WordPress, just like any other content asset. Requires PHP 5.3+ and WordPress 4.9+.
+> Create, manage, and validate your Ads.txt from within WordPress, just like any other content asset. Requires PHP 5.3+ and WordPress 4.9+.
+
+![WordPress tested up to version](https://img.shields.io/badge/WordPress-v5.2%20tested-success.svg)
 
 ![Screenshot of ads.txt editor](assets/screenshot-1.png "Example of editing an ads.txt file with errors")
 
@@ -18,6 +20,10 @@ Ads.txt is an initiative by the Interactive Advertising Bureau to enable publish
 ### What about ads.cert?
 
 We're closely monitoring continued developments in the ad fraud space, and see this plugin as not only a way to create and manage your ads.txt file but also be prepared for future changes and upgrades to specifications. ads.cert is still in the extremely early stages so we don't see any immediate concerns with implementing ads.txt.
+
+## Contributing
+
+Want to help? Check out our [contributing guidelines](CONTRIBUTING.md) to get started.
 
 <p align="center">
 <a href="http://10up.com/contact/"><img src="https://10updotcom-wpengine.s3.amazonaws.com/uploads/2016/10/10up-Github-Banner.png" width="850"></a>
