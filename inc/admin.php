@@ -81,14 +81,12 @@ function settings_screen() {
 ?>
 <div class="wrap">
 
-	<?php if ( ads_txt_exists() ) : ?>
-		<div class="notice notice-error adstxt-notice existing-adstxt">
-			<p><strong><?php echo esc_html_e( 'Existing Ads.txt file found', 'ads-txt' ); ?></strong></p>
-			<p><?php echo esc_html_e( 'You will need to rename or remove the existing ads.txt file before you will be able to see any changes you make to ads.txt inside the WordPress admin.', 'ads-txt' ); ?></p>
+	<div class="notice notice-error adstxt-notice existing-adstxt" style="display: none;">
+		<p><strong><?php echo esc_html_e( 'Existing Ads.txt file found', 'ads-txt' ); ?></strong></p>
+		<p><?php echo esc_html_e( 'You will need to rename or remove the existing ads.txt file before you will be able to see any changes you make to ads.txt inside the WordPress admin.', 'ads-txt' ); ?></p>
 
-			<p><?php echo esc_html_e( 'Removed the existing ads.txt but are still seeing this warning?', 'ads-txt' ); ?> <button class="ads-txt-rerun-check"><?php echo esc_html_e( 'Re-run the check now', 'ads-txt' ); ?></button></p>
-		</div>
-	<?php endif; ?>
+		<p><?php echo esc_html_e( 'Removed the existing ads.txt but are still seeing this warning?', 'ads-txt' ); ?> <a class="ads-txt-rerun-check" href="#"><?php echo esc_html_e( 'Re-run the check now', 'ads-txt' ); ?></a></p>
+	</div>
 
 <?php if ( ! empty( $errors ) ) : ?>	
 	<div class="notice notice-error adstxt-notice">
@@ -257,21 +255,4 @@ function get_error_messages() {
 	);
 
 	return $messages;
-}
-
-/**
- * Check whether there is an existing ads.txt file that will override the plugin output.
- *
- * @return bool Value of whether ads.txt already exists
- */
-function ads_txt_exists() {
-	// No-op on WordPress.com
-	if ( defined( 'WPCOM_IS_VIP_ENV' ) && WPCOM_IS_VIP_ENV ) {
-		return;
-	}
-
-	$ads_txt_path = get_site_url() . '/ads.txt';
-
-	// Return true if file exists, otherwise return false
-	return 200 == wp_remote_get( $ads_txt_path )['response']['code'];
 }
