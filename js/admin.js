@@ -7,14 +7,19 @@
 			mode: 'shell'
 		} );
 
-	$('.ads-txt-rerun-check').click(function(){
+	function checkForAdsFile(){
 		$.get('/ads.txt', function( data, status ){
 			$('.existing-adstxt').show();
 		}).fail(function(){
 			// Ads.txt not found
 			$('.existing-adstxt').hide();
 		});
-	});
+	}
+	
+	// Call our check when we first load the page
+	checkForAdsFile();
+
+	$('.ads-txt-rerun-check').click( checkForAdsFile );
 
 	submit.on( 'click', function( e ){
 		e.preventDefault();
