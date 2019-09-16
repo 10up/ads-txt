@@ -8,7 +8,10 @@
 		} );
 
 	function checkForAdsFile(){
-		$.get('/ads.txt', function( data, status ){
+		var currentTime = (new Date()).getTime();
+		var adstxtUrl = '/ads.txt?currentTime=' + currentTime;
+
+		$.get(adstxtUrl, function( data, status ){
 			$('.existing-adstxt').show();
 		}).fail(function(){
 			// Ads.txt not found
