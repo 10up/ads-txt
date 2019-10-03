@@ -37,3 +37,25 @@ function tenup_display_ads_txt() {
 	}
 }
 add_action( 'init', 'tenup_display_ads_txt' );
+
+/**
+ * Add appropriate capabilities
+ *
+ * @return void
+ */
+function add_adstxt_capabilities() {
+	$role = get_role( 'administrator' );
+	$role->add_cap( 'edit_ads_txt' );
+}
+register_activation_hook( __FILE__, 'add_adstxt_capabilities' );
+
+/**
+ * Remove appropriate capabilities
+ *
+ * @return void
+ */
+function remove_adstxt_capabilities() {
+	$role = get_role( 'administrator' );
+	$role->remove_cap( 'edit_ads_txt' );
+}
+register_deactivation_hook( __FILE__, 'remove_adstxt_capabilities' );
