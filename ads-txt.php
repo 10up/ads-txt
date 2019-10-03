@@ -31,16 +31,16 @@ function tenup_display_ads_txt() {
 		if ( ! empty( $post_id ) ) {
 			$post = get_post( $post_id );
 			header( 'Content-Type: text/plain' );
-			$adstxt = esc_html( $post->post_content );
+			$adstxt = $post->post_content;
 
 			/**
 			 * Filter the ads.txt content.
 			 *
-			 * @since x.x.x
+			 * @since 1.2.0
 			 *
 			 * @param type  $adstxt The existing ads.txt content.
 			 */
-			echo apply_filters( 'ads_txt_content', $adstxt );
+			echo esc_html( apply_filters( 'ads_txt_content', $adstxt ) );
 			die();
 		}
 	}
