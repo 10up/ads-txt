@@ -7,11 +7,15 @@
  * Author URI:  http://10up.com
  * License:     GPLv2 or later
  * Text Domain: ads-txt
+ *
+ * @package Ads_Txt_Manager
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
+
+define( 'ADS_TXT_MANAGER_VERSION', '1.1.0' );
 
 require_once __DIR__ . '/inc/post-type.php';
 require_once __DIR__ . '/inc/admin.php';
@@ -23,7 +27,7 @@ require_once __DIR__ . '/inc/save.php';
  * @return void
  */
 function tenup_display_ads_txt() {
-	$request = esc_url_raw( $_SERVER['REQUEST_URI'] );
+	$request = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : false;
 	if ( '/ads.txt' === $request ) {
 		$post_id = get_option( 'adstxt_post' );
 
