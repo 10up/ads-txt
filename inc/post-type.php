@@ -9,7 +9,8 @@ namespace Adstxt;
  */
 function register() {
 	register_post_type(
-		'adstxt', array(
+		'adstxt',
+		array(
 			'labels'           => array(
 				'name'          => esc_html_x( 'Ads.txt', 'post type general name', 'ads-txt' ),
 				'singular_name' => esc_html_x( 'Ads.txt', 'post type singular name', 'ads-txt' ),

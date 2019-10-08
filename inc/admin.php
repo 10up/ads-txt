@@ -35,7 +35,7 @@ add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\admin_enqueue_scripts' );
  * @return void
  */
 function admin_head_css() {
-?>
+	?>
 <style>
 .CodeMirror {
 	width: 100%;
@@ -45,7 +45,7 @@ function admin_head_css() {
 	box-sizing: border-box;
 }
 </style>
-<?php
+	<?php
 }
 add_action( 'admin_head-settings_page_adstxt-settings', __NAMESPACE__ . '\admin_head_css' );
 
@@ -78,9 +78,9 @@ function settings_screen() {
 		$content = $post->post_content;
 		$errors  = get_post_meta( $post->ID, 'adstxt_errors', true );
 	}
-?>
+	?>
 <div class="wrap">
-<?php if ( ! empty( $errors ) ) : ?>
+	<?php if ( ! empty( $errors ) ) : ?>
 	<div class="notice notice-error adstxt-notice">
 		<p><strong><?php echo esc_html__( 'Your Ads.txt contains the following issues:', 'ads-txt' ); ?></strong></p>
 		<ul>
@@ -103,12 +103,12 @@ function settings_screen() {
 					display_formatted_error( $error ); // WPCS: XSS ok.
 				}
 
-				echo  '</li>';
+				echo '</li>';
 			}
 			?>
 		</ul>
 	</div>
-<?php endif; ?>
+	<?php endif; ?>
 
 	<h2><?php echo esc_html__( 'Manage Ads.txt', 'ads-txt' ); ?></h2>
 
@@ -146,11 +146,13 @@ function settings_screen() {
 				<# if ( "<?php echo esc_html( $error_type ); ?>" === error.type ) { #>
 					<li>
 						<?php
-						display_formatted_error( array(
-							'line'  => '{{error.line}}',
-							'type'  => $error_type,
-							'value' => '{{error.value}}',
-						) );
+						display_formatted_error(
+							array(
+								'line'  => '{{error.line}}',
+								'type'  => $error_type,
+								'value' => '{{error.value}}',
+							)
+						);
 						?>
 					</li>
 				<# } #>
@@ -173,7 +175,7 @@ function settings_screen() {
 	</script>
 </div>
 
-<?php
+	<?php
 }
 
 /**
@@ -187,7 +189,7 @@ function settings_screen() {
  *     @type string $value   Optional. Value in question.
  * }
  *
- * @return void       
+ * @return void
  */
 function display_formatted_error( $error ) {
 	$messages = get_error_messages();
