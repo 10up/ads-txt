@@ -1,0 +1,33 @@
+{
+    "name": "10up/ads-txt",
+    "description": "Create, manage, and validate your ads.txt from within WordPress, just like any other content asset.",
+    "authors": [
+        {
+            "name": "10up",
+            "email": "opensource@10up.com"
+        },
+        {
+            "name": "Helen Hou-Sandi",
+            "email": "helen@10up.com"
+        },
+        {
+            "name": "Jake Goldman",
+            "email": "jake@10up.com"
+        },
+        {
+          "name": "Adam Silverstein",
+          "email": "adam@10up.com"
+        }
+      ],
+    "type": "wordpress-plugin",
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.5",
+        "wp-coding-standards/wpcs": "^2.1",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0"
+    },
+    "license": "GPLv2 or later",
+    "scripts": {
+        "lint": "vendor/bin/phpcs --standard=WordPress *.php inc/*.php",
+        "lint-fix": "vendor/bin/phpcbf --standard=WordPress *.php inc/*.php"
+    }
+}
