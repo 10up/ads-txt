@@ -27,6 +27,12 @@ function admin_enqueue_scripts( $hook ) {
 		true
 	);
 	wp_enqueue_style( 'code-editor' );
+	wp_enqueue_style(
+		'adstxt',
+		esc_url( plugins_url( '/css/admin.css', dirname( __FILE__ ) ) ),
+		array(),
+		ADS_TXT_MANAGER_VERSION
+	);
 
 	$strings = array(
 		'saved_message' => esc_html__( 'Ads.txt saved', 'ads-txt' ),
@@ -216,7 +222,7 @@ function settings_screen() {
 				/* translators: Post revisions heading. 1: The number of available revisions */
 				echo wp_kses_post(
 					__( sprintf(
-						'Revisions: <b>%s</b>',
+						'Revisions: <span class="adstxt-revision-count">%s</span>',
 						number_format_i18n( $revision_count )
 					), 'ads-txt' ) );
 			?>
