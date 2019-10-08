@@ -1,4 +1,9 @@
 <?php
+/**
+ * Post Type functionality for Ads.txt.
+ *
+ * @package Ads_Txt_Manager
+ */
 
 namespace Adstxt;
 
