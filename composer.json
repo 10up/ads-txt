@@ -22,11 +22,12 @@
     "type": "wordpress-plugin",
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.5",
-        "wp-coding-standards/wpcs": "^2.1"
+        "wp-coding-standards/wpcs": "^2.1",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0"
     },
     "license": "GPLv2 or later",
     "scripts": {
-    "lint": "vendor/bin/phpcs *.php **/*.php",
-    "lint-fix": "vendor/bin/phpcbf *.php **/*.php"
+        "lint": "vendor/bin/phpcs --standard=WordPress *.php **/*.php",
+        "lint-fix": "vendor/bin/phpcbf --standard=WordPress *.php **/*.php"
     }
 }
