@@ -1,0 +1,9 @@
+language: php
+php:
+  - 7.2
+env:
+  - CMD="lint"
+install:
+  - "composer install"
+script:
+  - "composer $CMD"
