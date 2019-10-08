@@ -27,7 +27,7 @@
     },
     "license": "GPLv2 or later",
     "scripts": {
-        "lint": "vendor/bin/phpcs --standard=WordPress *.php **/*.php",
-        "lint-fix": "vendor/bin/phpcbf --standard=WordPress *.php **/*.php"
+        "lint": "vendor/bin/phpcs --standard=WordPress *.php inc/*.php",
+        "lint-fix": "vendor/bin/phpcbf --standard=WordPress *.php inc/*.php"
     }
 }
