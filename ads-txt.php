@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'ADS_TXT_MANAGER_VERSION', '1.1.0' );
+define( 'ADS_TXT_MANAGE_CAPABILITY', 'edit_ads_txt' );
 
 require_once __DIR__ . '/inc/post-type.php';
 require_once __DIR__ . '/inc/admin.php';
