@@ -1,4 +1,9 @@
 <?php
+/**
+ * Admin functionality for Ads.txt.
+ *
+ * @package Ads_Txt_Manager
+ */
 
 namespace AdsTxt;
 
@@ -14,7 +19,13 @@ function admin_enqueue_scripts( $hook ) {
 		return;
 	}
 
-	wp_enqueue_script( 'adstxt', esc_url( plugins_url( '/js/admin.js', dirname( __FILE__ ) ) ), array( 'jquery', 'wp-backbone', 'wp-codemirror' ), false, true );
+	wp_enqueue_script(
+		'adstxt',
+		esc_url( plugins_url( '/js/admin.js', dirname( __FILE__ ) ) ),
+		array( 'jquery', 'wp-backbone', 'wp-codemirror' ),
+		ADS_TXT_MANAGER_VERSION,
+		true
+	);
 	wp_enqueue_style( 'code-editor' );
 
 	$strings = array(
@@ -35,7 +46,7 @@ add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\admin_enqueue_scripts' );
  * @return void
  */
 function admin_head_css() {
-?>
+	?>
 <style>
 .CodeMirror {
 	width: 100%;
@@ -45,7 +56,7 @@ function admin_head_css() {
 	box-sizing: border-box;
 }
 </style>
-<?php
+	<?php
 }
 add_action( 'admin_head-settings_page_adstxt-settings', __NAMESPACE__ . '\admin_head_css' );
 
@@ -78,9 +89,9 @@ function settings_screen() {
 		$content = $post->post_content;
 		$errors  = get_post_meta( $post->ID, 'adstxt_errors', true );
 	}
-?>
+	?>
 <div class="wrap">
-<?php if ( ! empty( $errors ) ) : ?>
+	<?php if ( ! empty( $errors ) ) : ?>
 	<div class="notice notice-error adstxt-notice">
 		<p><strong><?php echo esc_html__( 'Your Ads.txt contains the following issues:', 'ads-txt' ); ?></strong></p>
 		<ul>
@@ -88,8 +99,8 @@ function settings_screen() {
 			foreach ( $errors as $error ) {
 				echo '<li>';
 
-				// Errors were originally stored as an array
-				// This old style only needs to be accounted for here at runtime display
+				// Errors were originally stored as an array.
+				// This old style only needs to be accounted for here at runtime display.
 				if ( isset( $error['message'] ) ) {
 					$message = sprintf(
 						/* translators: Error message output. 1: Line number, 2: Error message */
@@ -103,12 +114,12 @@ function settings_screen() {
 					display_formatted_error( $error ); // WPCS: XSS ok.
 				}
 
-				echo  '</li>';
+				echo '</li>';
 			}
 			?>
 		</ul>
 	</div>
-<?php endif; ?>
+	<?php endif; ?>
 
 	<h2><?php echo esc_html__( 'Manage Ads.txt', 'ads-txt' ); ?></h2>
 
@@ -146,11 +157,13 @@ function settings_screen() {
 				<# if ( "<?php echo esc_html( $error_type ); ?>" === error.type ) { #>
 					<li>
 						<?php
-						display_formatted_error( array(
-							'line'  => '{{error.line}}',
-							'type'  => $error_type,
-							'value' => '{{error.value}}',
-						) );
+						display_formatted_error(
+							array(
+								'line'  => '{{error.line}}',
+								'type'  => $error_type,
+								'value' => '{{error.value}}',
+							)
+						);
 						?>
 					</li>
 				<# } #>
@@ -173,7 +186,7 @@ function settings_screen() {
 	</script>
 </div>
 
-<?php
+	<?php
 }
 
 /**
@@ -187,7 +200,7 @@ function settings_screen() {
  *     @type string $value   Optional. Value in question.
  * }
  *
- * @return void       
+ * @return string|void
  */
 function display_formatted_error( $error ) {
 	$messages = get_error_messages();
@@ -204,7 +217,7 @@ function display_formatted_error( $error ) {
 
 	printf(
 		/* translators: Error message output. 1: Line number, 2: Error message */
-		__( 'Line %1$s: %2$s', 'ads-txt' ),
+		esc_html__( 'Line %1$s: %2$s', 'ads-txt' ),
 		esc_html( $error['line'] ),
 		wp_kses_post( $message )
 	);
