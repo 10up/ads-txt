@@ -152,7 +152,7 @@ add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
  * @return void
  */
 function settings_screen() {
-	$post_id = get_option( 'adstxt_post' );
+	$post_id = get_option( ADS_TXT_MANAGER_POST_OPTION );
 	$post    = false;
 	$content = false;
 	$errors  = [];
@@ -171,6 +171,21 @@ function settings_screen() {
 		$last_revision_id = $last_revision ? $last_revision->ID : false;
 		$errors  = get_post_meta( $post->ID, 'adstxt_errors', true );
 		$revisions_link = $last_revision_id ? admin_url( 'revision.php?adstxt=1&revision=' . $last_revision_id ) : false;
+
+	} else {
+
+		// Create an initial post so the second save creates a comparable revision.
+		$postarr = array(
+			'post_title'   => 'Ads.txt',
+			'post_content' => '',
+			'post_type'    => 'adstxt',
+			'post_status'  => 'publish',
+		);
+
+		$post_id = wp_insert_post( $postarr );
+		if ( $post_id ) {
+			update_option( ADS_TXT_MANAGER_POST_OPTION, $post_id );
+		}
 	}
 ?>
 <div class="wrap">

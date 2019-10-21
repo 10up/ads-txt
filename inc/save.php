@@ -57,7 +57,6 @@ function save() {
 		$post_id = wp_insert_post( $postarr );
 
 		if ( $post_id ) {
-			update_option( 'adstxt_post', $post_id );
 			$response['saved'] = true;
 		}
 	}

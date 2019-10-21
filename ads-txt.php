@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'ADS_TXT_MANAGER_VERSION', '1.1.0' );
+define( 'ADS_TXT_MANAGER_POST_OPTION', 'adstxt_post' );
 
 require_once __DIR__ . '/inc/post-type.php';
 require_once __DIR__ . '/inc/admin.php';
@@ -29,7 +30,7 @@ require_once __DIR__ . '/inc/save.php';
 function tenup_display_ads_txt() {
 	$request = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : false;
 	if ( '/ads.txt' === $request ) {
-		$post_id = get_option( 'adstxt_post' );
+		$post_id = get_option( ADS_TXT_MANAGER_POST_OPTION );
 
 		// Will fall through if no option found, likely to a 404.
 		if ( ! empty( $post_id ) ) {
