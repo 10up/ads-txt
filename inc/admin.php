@@ -66,7 +66,13 @@ add_action( 'admin_head-settings_page_adstxt-settings', __NAMESPACE__ . '\admin_
  * @return void
  */
 function admin_menu() {
-	add_options_page( esc_html__( 'Ads.txt', 'ads-txt' ), esc_html__( 'Ads.txt', 'ads-txt' ), 'edit_ads_txt', 'adstxt-settings', __NAMESPACE__ . '\settings_screen' );
+	add_options_page(
+		esc_html__( 'Ads.txt', 'ads-txt' ),
+		esc_html__( 'Ads.txt', 'ads-txt' ),
+		ADS_TXT_MANAGE_CAPABILITY,
+		'adstxt-settings',
+		__NAMESPACE__ . '\settings_screen'
+	);
 }
 add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
 
