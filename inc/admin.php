@@ -222,7 +222,7 @@ function settings_screen() {
 	<h2><?php echo esc_html__( 'Manage Ads.txt', 'ads-txt' ); ?></h2>
 
 	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="adstxt-settings-form">
-		<input type="hidden" name="post_id" value="<?php echo ( is_a( $post, 'WP_Post' ) ? esc_attr( $post->ID ) : '' ); ?>" />
+		<input type="hidden" name="post_id" value="<?php echo esc_attr( $post_id ) ? esc_attr( $post_id ) : ''; ?>" />
 		<input type="hidden" name="action" value="adstxt-save" />
 		<?php wp_nonce_field( 'adstxt_save' ); ?>
 

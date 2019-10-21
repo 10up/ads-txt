@@ -21,7 +21,7 @@ function save() {
 	$_post      = stripslashes_deep( $_POST );
 	$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
 
-	$post_id = $_post['post_id'];
+	$post_id = (int) $_post['post_id'];
 	$ays     = isset( $_post['adstxt_ays'] ) ? $_post['adstxt_ays'] : null;
 
 	// Different browsers use different line endings.
