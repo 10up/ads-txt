@@ -53,23 +53,25 @@ function tenup_display_ads_txt() {
 add_action( 'init', 'tenup_display_ads_txt' );
 
 /**
- * Add appropriate capabilities
+ * Add custom capabilities.
  *
  * @return void
  */
 function add_adstxt_capabilities() {
 	$role = get_role( 'administrator' );
-	$role->add_cap( 'edit_ads_txt' );
+	if ( ! has_cap( ADS_TXT_MANAGE_CAPABILITY ) ) {
+		$role->add_cap( ADS_TXT_MANAGE_CAPABILITY );
+	}
 }
-register_activation_hook( __FILE__, 'add_adstxt_capabilities' );
+add_action( 'admin_init', __FILE__, 'add_adstxt_capabilities' );
 
 /**
- * Remove appropriate capabilities
+ * Remove custom capabilities when deactivating the plugin.
  *
  * @return void
  */
 function remove_adstxt_capabilities() {
 	$role = get_role( 'administrator' );
-	$role->remove_cap( 'edit_ads_txt' );
+	$role->remove_cap( ADS_TXT_MANAGE_CAPABILITY );
 }
 register_deactivation_hook( __FILE__, 'remove_adstxt_capabilities' );
