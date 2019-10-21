@@ -59,11 +59,12 @@ add_action( 'init', 'tenup_display_ads_txt' );
  */
 function add_adstxt_capabilities() {
 	$role = get_role( 'administrator' );
-	if ( ! has_cap( ADS_TXT_MANAGE_CAPABILITY ) ) {
+	if ( ! $role->has_cap( ADS_TXT_MANAGE_CAPABILITY ) ) {
 		$role->add_cap( ADS_TXT_MANAGE_CAPABILITY );
 	}
 }
-add_action( 'admin_init', __FILE__, 'add_adstxt_capabilities' );
+add_action( 'admin_init', 'add_adstxt_capabilities' );
+register_activation_hook( __FILE__, 'add_adstxt_capabilities' );
 
 /**
  * Remove custom capabilities when deactivating the plugin.
