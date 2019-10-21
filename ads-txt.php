@@ -50,3 +50,21 @@ function tenup_display_ads_txt() {
 	}
 }
 add_action( 'init', 'tenup_display_ads_txt' );
+
+function tenup_ads_txt_add_query_vars( $qvars ) {
+	$qvars[] = 'ads_txt_saved';
+	return $qvars;
+}
+add_filter( 'query_vars', 'tenup_ads_txt_add_query_vars' );
+
+function sample_admin_notice__success() {
+	if ( ! isset( $_GET['ads_txt_saved'] ) ) {
+		return;
+	}
+	?>
+	<div class="notice notice-success adstxt-notice adstxt-saved">
+		<p><?php echo esc_html__( 'Ads.txt saved', 'ads-txt' ); ?></p>
+	</div>
+	<?php
+}
+add_action( 'admin_notices', 'sample_admin_notice__success' );

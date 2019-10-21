@@ -35,7 +35,6 @@ function admin_enqueue_scripts( $hook ) {
 	);
 
 	$strings = array(
-		'saved_message' => esc_html__( 'Ads.txt saved', 'ads-txt' ),
 		'error_message' => esc_html__( 'Your Ads.txt contains the following issues:', 'ads-txt' ),
 		'unknown_error' => esc_html__( 'An unknown error occurred.', 'ads-txt' ),
 	);
@@ -247,12 +246,6 @@ function settings_screen() {
 	</form>
 
 	<script type="text/template" id="tmpl-adstext-notice">
-		<# if ( ! _.isUndefined( data.saved ) ) { #>
-		<div class="notice notice-success adstxt-notice adstxt-saved">
-			<p>{{ data.saved.saved_message }}</p>
-		</div>
-		<# } #>
-
 		<# if ( ! _.isUndefined( data.errors ) ) { #>
 		<div class="notice notice-error adstxt-notice adstxt-errors">
 			<p><strong>{{ data.errors.error_message }}</strong></p>
