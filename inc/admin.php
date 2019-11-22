@@ -51,7 +51,7 @@ add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\admin_enqueue_scripts' );
  * @return void
  */
 function admin_head_css() {
-?>
+	?>
 <style>
 .CodeMirror {
 	width: 100%;
@@ -61,7 +61,7 @@ function admin_head_css() {
 	box-sizing: border-box;
 	}
 </style>
-<?php
+	<?php
 }
 add_action( 'admin_head-settings_page_adstxt-settings', __NAMESPACE__ . '\admin_head_css' );
 
@@ -83,7 +83,7 @@ function ads_txt_adjust_revisions_return_to_editor_link( $url ) {
 
 	return admin_url( 'options-general.php?page=adstxt-settings' );
 }
-add_filter( 'get_edit_post_link',__NAMESPACE__ . '\ads_txt_adjust_revisions_return_to_editor_link' );
+add_filter( 'get_edit_post_link', __NAMESPACE__ . '\ads_txt_adjust_revisions_return_to_editor_link' );
 
 /**
  * Modifies revisions data to preserve adstxt argument used in determining
@@ -98,7 +98,7 @@ function adstxt_revisions_restore( $revisions_data ) {
 	if ( isset( $_REQUEST['adstxt'] ) ) {
 		$revisions_data['restoreUrl'] = add_query_arg(
 			'adstxt',
-			$_REQUEST['adstxt'],
+			1,
 			$revisions_data['restoreUrl']
 		);
 	}
@@ -187,9 +187,9 @@ function settings_screen() {
 			update_option( ADS_TXT_MANAGER_POST_OPTION, $post_id );
 		}
 	}
-?>
+	?>
 <div class="wrap">
-<?php if ( ! empty( $errors ) ) : ?>
+<	?php if ( ! empty( $errors ) ) : ?>
 	<div class="notice notice-error adstxt-notice">
 		<p><strong><?php echo esc_html__( 'Your Ads.txt contains the following issues:', 'ads-txt' ); ?></strong></p>
 		<ul>
@@ -229,12 +229,12 @@ function settings_screen() {
 		<label class="screen-reader-text" for="adstxt_content"><?php echo esc_html__( 'Ads.txt content', 'ads-txt' ); ?></label>
 		<textarea class="widefat code" rows="25" name="adstxt" id="adstxt_content"><?php echo esc_textarea( $content ); ?></textarea>
 		<?php
-			if ( $revision_count > 1 ) {
-		?>
+		if ( $revision_count > 1 ) {
+			?>
 			<div class="misc-pub-section misc-pub-revisions">
 			<?php
-				/* translators: Post revisions heading. 1: The number of available revisions */
 				echo wp_kses_post(
+					/* translators: Post revisions heading. 1: The number of available revisions */
 					__( sprintf(
 						'Revisions: <span class="adstxt-revision-count">%s</span>',
 						number_format_i18n( $revision_count )
@@ -273,9 +273,9 @@ function settings_screen() {
 						<?php
 						display_formatted_error(
 							array(
-							'line'  => '{{error.line}}',
-							'type'  => $error_type,
-							'value' => '{{error.value}}',
+								'line'  => '{{error.line}}',
+								'type'  => $error_type,
+								'value' => '{{error.value}}',
 							)
 						);
 						?>
@@ -330,7 +330,7 @@ function display_formatted_error( $error ) {
 	$message = sprintf( esc_html( $messages[ $error['type'] ] ), '<code>' . esc_html( $error['value'] ) . '</code>' );
 
 	printf(
-	/* translators: Error message output. 1: Line number, 2: Error message */
+		/* translators: Error message output. 1: Line number, 2: Error message */
 		esc_html__( 'Line %1$s: %2$s', 'ads-txt' ),
 		esc_html( $error['line'] ),
 		wp_kses_post( $message )
@@ -358,6 +358,11 @@ function get_error_messages() {
 	return $messages;
 }
 
+/**
+ * Maybe display admin notices on the Ads.txt settings page.
+ *
+ * @return void
+ */
 function admin_notices() {
 	if ( 'settings_page_adstxt-settings' !== get_current_screen()->base ) {
 		return;

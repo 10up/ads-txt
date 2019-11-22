@@ -52,6 +52,11 @@ function tenup_display_ads_txt() {
 }
 add_action( 'init', 'tenup_display_ads_txt' );
 
+/**
+ * Add a query var to detect when ads.txt has been saved.
+ *
+ * @return array Array of query vars.
+ */
 function tenup_ads_txt_add_query_vars( $qvars ) {
 	$qvars[] = 'ads_txt_saved';
 	return $qvars;
