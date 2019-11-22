@@ -3,7 +3,7 @@
 
 /.gitattributes export-ignore
 /.gitignore export-ignore
-.travis.yml
+/.travis.yml
 /CHANGELOG.md export-ignore
 /composer.json
 /composer.lock
