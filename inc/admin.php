@@ -357,3 +357,24 @@ function get_error_messages() {
 
 	return $messages;
 }
+
+function admin_notices() {
+	if ( 'settings_page_adstxt-settings' !== get_current_screen()->base ) {
+		return;
+	}
+
+	if ( isset( $_GET['ads_txt_saved'] ) ) :
+	?>
+	<div class="notice notice-success adstxt-notice adstxt-saved">
+		<p><?php echo esc_html__( 'Ads.txt saved', 'ads-txt' ); ?></p>
+	</div>
+	<?php
+	elseif ( isset( $_GET['revision'] ) ) :
+	?>
+	<div class="notice notice-success adstxt-notice adstxt-saved">
+		<p><?php echo esc_html__( 'Revision restored', 'ads-txt' ); ?></p>
+	</div>
+	<?php
+	endif;
+}
+add_action( 'admin_notices', __NAMESPACE__ . '\admin_notices' );
