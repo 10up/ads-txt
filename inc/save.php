@@ -188,3 +188,8 @@ function validate_line( $line, $line_number ) {
 		'errors'    => $errors,
 	);
 }
+
+function clear_error_meta( $post_id ) {
+	delete_post_meta( $post_id, 'adstxt_errors' );
+}
+add_action( 'wp_restore_post_revision', __NAMESPACE__ . '\clear_error_meta', 10, 1 );
