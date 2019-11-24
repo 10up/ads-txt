@@ -152,10 +152,10 @@ add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
  * @return void
  */
 function settings_screen() {
-	$post_id = get_option( ADS_TXT_MANAGER_POST_OPTION );
-	$post    = false;
-	$content = false;
-	$errors  = [];
+	$post_id          = get_option( ADS_TXT_MANAGER_POST_OPTION );
+	$post             = false;
+	$content          = false;
+	$errors           = [];
 	$revision_count   = 0;
 	$last_revision_id = false;
 
@@ -164,13 +164,13 @@ function settings_screen() {
 	}
 
 	if ( is_a( $post, 'WP_Post' ) ) {
-		$content = $post->post_content;
-		$revisions = wp_get_post_revisions( $post->ID );
-		$revision_count = count( $revisions );
-		$last_revision = array_shift( $revisions );
+		$content          = $post->post_content;
+		$revisions        = wp_get_post_revisions( $post->ID );
+		$revision_count   = count( $revisions );
+		$last_revision    = array_shift( $revisions );
 		$last_revision_id = $last_revision ? $last_revision->ID : false;
-		$errors  = get_post_meta( $post->ID, 'adstxt_errors', true );
-		$revisions_link = $last_revision_id ? admin_url( 'revision.php?adstxt=1&revision=' . $last_revision_id ) : false;
+		$errors           = get_post_meta( $post->ID, 'adstxt_errors', true );
+		$revisions_link   = $last_revision_id ? admin_url( 'revision.php?adstxt=1&revision=' . $last_revision_id ) : false;
 
 	} else {
 
@@ -189,7 +189,7 @@ function settings_screen() {
 	}
 	?>
 <div class="wrap">
-<?php if ( ! empty( $errors ) ) : ?>
+	<?php if ( ! empty( $errors ) ) : ?>
 	<div class="notice notice-error adstxt-notice">
 		<p><strong><?php echo esc_html__( 'Your Ads.txt contains the following issues:', 'ads-txt' ); ?></strong></p>
 		<ul>
@@ -217,7 +217,7 @@ function settings_screen() {
 			?>
 		</ul>
 	</div>
-<?php endif; ?>
+	<?php endif; ?>
 
 	<h2><?php echo esc_html__( 'Manage Ads.txt', 'ads-txt' ); ?></h2>
 
@@ -235,10 +235,14 @@ function settings_screen() {
 			<?php
 				echo wp_kses_post(
 					/* translators: Post revisions heading. 1: The number of available revisions */
-					__( sprintf(
-						'Revisions: <span class="adstxt-revision-count">%s</span>',
-						number_format_i18n( $revision_count )
-					), 'ads-txt' ) );
+					__(
+						sprintf(
+							'Revisions: <span class="adstxt-revision-count">%s</span>',
+							number_format_i18n( $revision_count )
+						),
+						'ads-txt'
+					)
+				);
 			?>
 				<a class="hide-if-no-js" href="<?php echo esc_url( $revisions_link ); ?>">
 					<span aria-hidden="true">
@@ -248,8 +252,8 @@ function settings_screen() {
 					</span>
 				</a>
 		</div>
-		<?php
-			}
+			<?php
+		}
 		?>
 		<div id="adstxt-notification-area"></div>
 
@@ -300,7 +304,7 @@ function settings_screen() {
 	</script>
 </div>
 
-<?php
+	<?php
 }
 
 /**
@@ -369,17 +373,17 @@ function admin_notices() {
 	}
 
 	if ( isset( $_GET['ads_txt_saved'] ) ) :
-	?>
+		?>
 	<div class="notice notice-success adstxt-notice adstxt-saved">
 		<p><?php echo esc_html__( 'Ads.txt saved', 'ads-txt' ); ?></p>
 	</div>
-	<?php
+		<?php
 	elseif ( isset( $_GET['revision'] ) ) :
-	?>
+		?>
 	<div class="notice notice-success adstxt-notice adstxt-saved">
 		<p><?php echo esc_html__( 'Revision restored', 'ads-txt' ); ?></p>
 	</div>
-	<?php
+		<?php
 	endif;
 }
 add_action( 'admin_notices', __NAMESPACE__ . '\admin_notices' );
