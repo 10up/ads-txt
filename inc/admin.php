@@ -77,7 +77,7 @@ add_action( 'admin_head-settings_page_adstxt-settings', __NAMESPACE__ . '\admin_
 function ads_txt_adjust_revisions_return_to_editor_link( $url ) {
 	global $pagenow;
 
-	if ( 'revision.php' !== $pagenow || ! isset( $_REQUEST['adstxt'] ) ) {
+	if ( 'revision.php' !== $pagenow || ! isset( $_REQUEST['adstxt'] ) ) { // @codingStandardsIgnoreLine Nonce not required.
 		return $url;
 	}
 
@@ -95,7 +95,7 @@ add_filter( 'get_edit_post_link', __NAMESPACE__ . '\ads_txt_adjust_revisions_ret
  * @return array Modified bootstrapped data for the revisions screen.
  */
 function adstxt_revisions_restore( $revisions_data ) {
-	if ( isset( $_REQUEST['adstxt'] ) ) {
+	if ( isset( $_REQUEST['adstxt'] ) ) { // @codingStandardsIgnoreLine Nonce not required.
 		$revisions_data['restoreUrl'] = add_query_arg(
 			'adstxt',
 			1,
@@ -118,7 +118,7 @@ function admin_header_revisions_styles() {
 		return;
 	}
 
-	if ( ! isset( $_REQUEST['adstxt'] ) ) {
+	if ( ! isset( $_REQUEST['adstxt'] ) ) { // @codingStandardsIgnoreLine Nonce not required.
 		return;
 	}
 
@@ -376,13 +376,13 @@ function admin_notices() {
 		return;
 	}
 
-	if ( isset( $_GET['ads_txt_saved'] ) ) :
+	if ( isset( $_GET['ads_txt_saved'] ) ) : // @codingStandardsIgnoreLine Nonce not required.
 		?>
 	<div class="notice notice-success adstxt-notice adstxt-saved">
 		<p><?php echo esc_html__( 'Ads.txt saved', 'ads-txt' ); ?></p>
 	</div>
 		<?php
-	elseif ( isset( $_GET['revision'] ) ) :
+	elseif ( isset( $_GET['revision'] ) ) : // @codingStandardsIgnoreLine Nonce not required.
 		?>
 	<div class="notice notice-success adstxt-notice adstxt-saved">
 		<p><?php echo esc_html__( 'Revision restored', 'ads-txt' ); ?></p>
