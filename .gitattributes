@@ -5,8 +5,10 @@
 /.gitignore export-ignore
 /.travis.yml
 /CHANGELOG.md export-ignore
+/CODE_OF_CONDUCT.md export-ignore
 /composer.json
 /composer.lock
 /CONTRIBUTING.md export-ignore
+/CREDITS.md export-ignore
 /LICENSE.md export-ignore
 /README.md export-ignore
