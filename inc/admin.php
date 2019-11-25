@@ -85,7 +85,7 @@ function settings_screen() {
 		<p><strong><?php echo esc_html_e( 'Existing Ads.txt file found', 'ads-txt' ); ?></strong></p>
 		<p><?php echo esc_html_e( 'You will need to rename or remove the existing ads.txt file before you will be able to see any changes you make to ads.txt inside the WordPress admin.', 'ads-txt' ); ?></p>
 
-		<p><?php echo esc_html_e( 'Removed the existing ads.txt but are still seeing this warning?', 'ads-txt' ); ?> <a class="ads-txt-rerun-check" href="#"><?php echo esc_html_e( 'Re-run the check now', 'ads-txt' ); ?></a></p>
+		<p><?php echo esc_html_e( 'Removed the existing ads.txt but are still seeing this warning?', 'ads-txt' ); ?> <a class="ads-txt-rerun-check" href="#"><?php echo esc_html_e( 'Re-run the check now', 'ads-txt' ); ?></a> <span class="spinner" style="float:none;margin:-2px 5px 0"></span></p>
 	</div>
 
 <?php if ( ! empty( $errors ) ) : ?>	

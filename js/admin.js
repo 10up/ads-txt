@@ -8,10 +8,14 @@
 		} );
 
 	function checkForAdsFile(){
-		var currentTime = Date.now();
-		var adstxtUrl = '/ads.txt?currentTime=' + currentTime;
+		var currentTime = Date.now(),
+			adstxtUrl = '/ads.txt?currentTime=' + currentTime,
+			spinner = $( '.existing-adstxt .spinner' );
+		
+		spinner.addClass( 'is-active' );
 
 		$.get( adstxtUrl, function( data, status ){
+			spinner.removeClass( 'is-active' );
 			$( '.existing-adstxt' ).show();
 		} ).fail( function() {
 			// Ads.txt not found
