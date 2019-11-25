@@ -7,10 +7,14 @@
 			mode: 'shell'
 		} );
 
-	function checkForAdsFile(){
+	function checkForAdsFile( e ){
 		var currentTime = Date.now(),
 			adstxtUrl = '/ads.txt?currentTime=' + currentTime,
 			spinner = $( '.existing-adstxt .spinner' );
+
+		if ( false !== e ) {
+			e.preventDefault();
+		}
 		
 		spinner.addClass( 'is-active' );
 
@@ -24,7 +28,7 @@
 	}
 	
 	// Call our check when we first load the page
-	checkForAdsFile();
+	checkForAdsFile( false );
 
 	$( '.ads-txt-rerun-check' ).on( 'click', checkForAdsFile );
 
