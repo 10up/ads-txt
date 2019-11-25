@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Filtering of the output ads.txt content (props [@ethanclevenger91](https://github.com/ethanclevenger91) via [#36](https://github.com/10up/ads-txt/pull/36))
 
 ### Changed
-- Updated documentation and automation (props [@jeffpaul](https://github.com/jeffpaul), [@adamsilverstein](https://github.com/adamsilverstein), [@helen](https://github.com/helen) via [#33](https://github.com/10up/ads-txt/pull/33), [#34](https://github.com/10up/ads-txt/pull/34), [#39](https://github.com/10up/ads-txt/pull/39), [#41](https://github.com/10up/ads-txt/pull/41))
+- Updated documentation, automation, and coding standards (props [@jeffpaul](https://github.com/jeffpaul), [@adamsilverstein](https://github.com/adamsilverstein), [@helen](https://github.com/helen), [@mmcachran](https://github.com/mmcachran) via [#33](https://github.com/10up/ads-txt/pull/33), [#34](https://github.com/10up/ads-txt/pull/34), [#39](https://github.com/10up/ads-txt/pull/39), [#41](https://github.com/10up/ads-txt/pull/41), [#42](https://github.com/10up/ads-txt/pull/42))
 
 ### Fixed
 - Early escaping (props [@tomjn](https://github.com/tomjn) via [#25](https://github.com/10up/ads-txt/pull/25))
