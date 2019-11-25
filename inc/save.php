@@ -192,6 +192,8 @@ function validate_line( $line, $line_number ) {
 /**
  * Delete `adstxt_errors` meta when restoring a revision.
  *
+ * @param int $post_id Post ID, not revision ID.
+ *
  * @return void
  */
 function clear_error_meta( $post_id ) {

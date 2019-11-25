@@ -77,7 +77,7 @@ add_action( 'admin_head-settings_page_adstxt-settings', __NAMESPACE__ . '\admin_
 function ads_txt_adjust_revisions_return_to_editor_link( $url ) {
 	global $pagenow;
 
-	if ( 'revision.php' !== $pagenow || ! isset( $_REQUEST['adstxt'] ) ) {
+	if ( 'revision.php' !== $pagenow || ! isset( $_REQUEST['adstxt'] ) ) { // @codingStandardsIgnoreLine Nonce not required.
 		return $url;
 	}
 
@@ -95,7 +95,7 @@ add_filter( 'get_edit_post_link', __NAMESPACE__ . '\ads_txt_adjust_revisions_ret
  * @return array Modified bootstrapped data for the revisions screen.
  */
 function adstxt_revisions_restore( $revisions_data ) {
-	if ( isset( $_REQUEST['adstxt'] ) ) {
+	if ( isset( $_REQUEST['adstxt'] ) ) { // @codingStandardsIgnoreLine Nonce not required.
 		$revisions_data['restoreUrl'] = add_query_arg(
 			'adstxt',
 			1,
@@ -118,7 +118,7 @@ function admin_header_revisions_styles() {
 		return;
 	}
 
-	if ( ! isset( $_REQUEST['adstxt'] ) ) {
+	if ( ! isset( $_REQUEST['adstxt'] ) ) { // @codingStandardsIgnoreLine Nonce not required.
 		return;
 	}
 
@@ -152,10 +152,10 @@ add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
  * @return void
  */
 function settings_screen() {
-	$post_id = get_option( ADS_TXT_MANAGER_POST_OPTION );
-	$post    = false;
-	$content = false;
-	$errors  = [];
+	$post_id          = get_option( ADS_TXT_MANAGER_POST_OPTION );
+	$post             = false;
+	$content          = false;
+	$errors           = [];
 	$revision_count   = 0;
 	$last_revision_id = false;
 
@@ -164,13 +164,13 @@ function settings_screen() {
 	}
 
 	if ( is_a( $post, 'WP_Post' ) ) {
-		$content = $post->post_content;
-		$revisions = wp_get_post_revisions( $post->ID );
-		$revision_count = count( $revisions );
-		$last_revision = array_shift( $revisions );
+		$content          = $post->post_content;
+		$revisions        = wp_get_post_revisions( $post->ID );
+		$revision_count   = count( $revisions );
+		$last_revision    = array_shift( $revisions );
 		$last_revision_id = $last_revision ? $last_revision->ID : false;
-		$errors  = get_post_meta( $post->ID, 'adstxt_errors', true );
-		$revisions_link = $last_revision_id ? admin_url( 'revision.php?adstxt=1&revision=' . $last_revision_id ) : false;
+		$errors           = get_post_meta( $post->ID, 'adstxt_errors', true );
+		$revisions_link   = $last_revision_id ? admin_url( 'revision.php?adstxt=1&revision=' . $last_revision_id ) : false;
 
 	} else {
 
@@ -189,7 +189,6 @@ function settings_screen() {
 	}
 	?>
 <div class="wrap">
-
 	<div class="notice notice-error adstxt-notice existing-adstxt" style="display: none;">
 		<p><strong><?php echo esc_html_e( 'Existing Ads.txt file found', 'ads-txt' ); ?></strong></p>
 		<p><?php echo esc_html_e( 'An ads.txt file on the server will take precedence over any content entered here. You will need to rename or remove the existing ads.txt file before you will be able to see any changes you make on this screen.', 'ads-txt' ); ?></p>
@@ -197,7 +196,7 @@ function settings_screen() {
 		<p><?php echo esc_html_e( 'Removed the existing file but are still seeing this warning?', 'ads-txt' ); ?> <a class="ads-txt-rerun-check" href="#"><?php echo esc_html_e( 'Re-run the check now', 'ads-txt' ); ?></a> <span class="spinner" style="float:none;margin:-2px 5px 0"></span></p>
 	</div>
 
-<?php if ( ! empty( $errors ) ) : ?>	
+	<?php if ( ! empty( $errors ) ) : ?>
 	<div class="notice notice-error adstxt-notice">
 		<p><strong><?php echo esc_html__( 'Your Ads.txt contains the following issues:', 'ads-txt' ); ?></strong></p>
 		<ul>
@@ -225,7 +224,7 @@ function settings_screen() {
 			?>
 		</ul>
 	</div>
-<?php endif; ?>
+	<?php endif; ?>
 
 	<h2><?php echo esc_html__( 'Manage Ads.txt', 'ads-txt' ); ?></h2>
 
@@ -242,11 +241,12 @@ function settings_screen() {
 			<div class="misc-pub-section misc-pub-revisions">
 			<?php
 				echo wp_kses_post(
-					/* translators: Post revisions heading. 1: The number of available revisions */
-					__( sprintf(
-						'Revisions: <span class="adstxt-revision-count">%s</span>',
+					sprintf(
+						/* translators: Post revisions heading. 1: The number of available revisions */
+						__( 'Revisions: <span class="adstxt-revision-count">%s</span>', 'ads-txt' ),
 						number_format_i18n( $revision_count )
-					), 'ads-txt' ) );
+					)
+				);
 			?>
 				<a class="hide-if-no-js" href="<?php echo esc_url( $revisions_link ); ?>">
 					<span aria-hidden="true">
@@ -256,8 +256,8 @@ function settings_screen() {
 					</span>
 				</a>
 		</div>
-		<?php
-			}
+			<?php
+		}
 		?>
 		<div id="adstxt-notification-area"></div>
 
@@ -308,7 +308,7 @@ function settings_screen() {
 	</script>
 </div>
 
-<?php
+	<?php
 }
 
 /**
@@ -376,18 +376,18 @@ function admin_notices() {
 		return;
 	}
 
-	if ( isset( $_GET['ads_txt_saved'] ) ) :
-	?>
+	if ( isset( $_GET['ads_txt_saved'] ) ) : // @codingStandardsIgnoreLine Nonce not required.
+		?>
 	<div class="notice notice-success adstxt-notice adstxt-saved">
 		<p><?php echo esc_html__( 'Ads.txt saved', 'ads-txt' ); ?></p>
 	</div>
-	<?php
-	elseif ( isset( $_GET['revision'] ) ) :
-	?>
+		<?php
+	elseif ( isset( $_GET['revision'] ) ) : // @codingStandardsIgnoreLine Nonce not required.
+		?>
 	<div class="notice notice-success adstxt-notice adstxt-saved">
 		<p><?php echo esc_html__( 'Revision restored', 'ads-txt' ); ?></p>
 	</div>
-	<?php
+		<?php
 	endif;
 }
 add_action( 'admin_notices', __NAMESPACE__ . '\admin_notices' );
