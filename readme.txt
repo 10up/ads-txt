@@ -48,6 +48,15 @@ You will need to rename or remove the existing ads.txt file (keeping a copy of t
 
 == Changelog ==
 
+= 1.2.0 =
+* Added: Revisions link and revisions screen integration for the ads.txt file (props [@adamsilverstein](https://profiles.wordpress.org/adamsilverstein), [@helen](https://profiles.wordpress.org/helen))
+* Added: Notice to the edit screen if an ads.txt file already exists (props [@kkoppenhaver](https://profiles.wordpress.org/kkoppenhaver), [@helen](https://profiles.wordpress.org/helen), [@tjnowell](https://profiles.wordpress.org/tjnowell), [@adamsilverstein](https://profiles.wordpress.org/adamsilverstein))
+* Added: Capability for granular assignment, default assignment to admins (props [@eclev91](https://profiles.wordpress.org/eclev91), [@adamsilverstein](https://profiles.wordpress.org/adamsilverstein))
+* Added: Filtering of the output ads.txt content (props [@eclev91](https://profiles.wordpress.org/eclev91))
+* Changed: Updated documentation and automation (props [@jeffpaul](https://profiles.wordpress.org/jeffpaul), [@adamsilverstein](https://profiles.wordpress.org/adamsilverstein), [@helen](https://profiles.wordpress.org/helen)) 
+* Fixed: Early escaping (props [@tjnowell](https://profiles.wordpress.org/tjnowell))
+* Fixed: PHPCS issues and adds PHPCS scanning (props [@adamsilverstein](https://profiles.wordpress.org/adamsilverstein))
+
 = 1.1 =
 * Better error message formatting (wraps values in `<code>` tags for better readability)
 * WordPress.com VIP-approved escaping
