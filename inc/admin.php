@@ -189,7 +189,15 @@ function settings_screen() {
 	}
 	?>
 <div class="wrap">
-<?php if ( ! empty( $errors ) ) : ?>
+
+	<div class="notice notice-error adstxt-notice existing-adstxt" style="display: none;">
+		<p><strong><?php echo esc_html_e( 'Existing Ads.txt file found', 'ads-txt' ); ?></strong></p>
+		<p><?php echo esc_html_e( 'An ads.txt file on the server will take precedence over any content entered here. You will need to rename or remove the existing ads.txt file before you will be able to see any changes you make on this screen.', 'ads-txt' ); ?></p>
+
+		<p><?php echo esc_html_e( 'Removed the existing file but are still seeing this warning?', 'ads-txt' ); ?> <a class="ads-txt-rerun-check" href="#"><?php echo esc_html_e( 'Re-run the check now', 'ads-txt' ); ?></a> <span class="spinner" style="float:none;margin:-2px 5px 0"></span></p>
+	</div>
+
+<?php if ( ! empty( $errors ) ) : ?>	
 	<div class="notice notice-error adstxt-notice">
 		<p><strong><?php echo esc_html__( 'Your Ads.txt contains the following issues:', 'ads-txt' ); ?></strong></p>
 		<ul>
