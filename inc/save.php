@@ -1,4 +1,9 @@
 <?php
+/**
+ * Save functionality for Ads.txt.
+ *
+ * @package Ads_Txt_Manager
+ */
 
 namespace Adstxt;
 
@@ -16,7 +21,7 @@ function save() {
 	$_post      = stripslashes_deep( $_POST );
 	$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
 
-	$post_id = $_post['post_id'];
+	$post_id = (int) $_post['post_id'];
 	$ays     = isset( $_post['adstxt_ays'] ) ? $_post['adstxt_ays'] : null;
 
 	// Different browsers use different line endings.
@@ -52,7 +57,6 @@ function save() {
 		$post_id = wp_insert_post( $postarr );
 
 		if ( $post_id ) {
-			update_option( 'adstxt_post', $post_id );
 			$response['saved'] = true;
 		}
 	}
@@ -184,3 +188,15 @@ function validate_line( $line, $line_number ) {
 		'errors'    => $errors,
 	);
 }
+
+/**
+ * Delete `adstxt_errors` meta when restoring a revision.
+ *
+ * @param int $post_id Post ID, not revision ID.
+ *
+ * @return void
+ */
+function clear_error_meta( $post_id ) {
+	delete_post_meta( $post_id, 'adstxt_errors' );
+}
+add_action( 'wp_restore_post_revision', __NAMESPACE__ . '\clear_error_meta', 10, 1 );
