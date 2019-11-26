@@ -142,7 +142,13 @@ add_action( 'admin_head', __NAMESPACE__ . '\admin_header_revisions_styles' );
  * @return void
  */
 function admin_menu() {
-	add_options_page( esc_html__( 'Ads.txt', 'ads-txt' ), esc_html__( 'Ads.txt', 'ads-txt' ), 'manage_options', 'adstxt-settings', __NAMESPACE__ . '\settings_screen' );
+	add_options_page(
+		esc_html__( 'Ads.txt', 'ads-txt' ),
+		esc_html__( 'Ads.txt', 'ads-txt' ),
+		ADS_TXT_MANAGE_CAPABILITY,
+		'adstxt-settings',
+		__NAMESPACE__ . '\settings_screen'
+	);
 }
 add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
 
