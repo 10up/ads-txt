@@ -38,7 +38,7 @@ function register() {
 				'edit_post'              => 'customize',
 				'edit_posts'             => 'customize',
 				'edit_private_posts'     => 'customize',
-				'edit_published_posts'   => 'customize',
+				'edit_published_posts'   => 'edit_published_posts',
 				'publish_posts'          => 'customize',
 				'read'                   => 'read',
 				'read_post'              => 'customize',

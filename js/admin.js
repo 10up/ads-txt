@@ -7,12 +7,38 @@
 			mode: 'shell'
 		} );
 
+	function checkForAdsFile( e ){
+		var currentTime = Date.now(),
+			adstxtUrl = '/ads.txt?currentTime=' + currentTime,
+			spinner = $( '.existing-adstxt .spinner' );
+
+		if ( false !== e ) {
+			e.preventDefault();
+		}
+		
+		spinner.addClass( 'is-active' );
+
+		$.get( adstxtUrl, function( data, status ){
+			spinner.removeClass( 'is-active' );
+			$( '.existing-adstxt' ).show();
+		} ).fail( function() {
+			// Ads.txt not found
+			$( '.existing-adstxt' ).hide();
+		});
+	}
+	
+	// Call our check when we first load the page
+	checkForAdsFile( false );
+
+	$( '.ads-txt-rerun-check' ).on( 'click', checkForAdsFile );
+
 	submit.on( 'click', function( e ){
 		e.preventDefault();
 
 		var	textarea    = $( document.getElementById( 'adstxt_content' ) ),
 			notices     = $( '.adstxt-notice' ),
 			submit_wrap = $( 'p.submit' ),
+			saveSuccess = false,
 			spinner     = submit_wrap.find( '.spinner' );
 
 		submit.attr( 'disabled', 'disabled' );
@@ -40,9 +66,7 @@
 				}
 
 				if ( 'undefined' !== typeof r.saved && r.saved ) {
-					templateData.saved = {
-						'saved_message': adstxt.saved_message
-					};
+					saveSuccess = true;
 				} else {
 					templateData.errors = {
 						'error_message': adstxt.unknown_error
@@ -55,7 +79,14 @@
 						'errors':        r.errors
 					}
 				}
-				notificationArea.html( notificationTemplate( templateData ) ).show();
+
+				// Refresh after a successful save, otherwise show the error message.
+				if ( saveSuccess ) {
+					document.location = document.location + '&ads_txt_saved=1';
+				} else {
+					notificationArea.html( notificationTemplate( templateData ) ).show();
+				}
+
 			}
 		})
 	});
