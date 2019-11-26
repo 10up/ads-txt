@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Ads.txt Manager
  * Description: Create, manage, and validate your Ads.txt from within WordPress, just like any other content asset. Requires PHP 5.3+ and WordPress 4.9+.
- * Version:     1.1.2.0
+ * Version:     1.2.0
  * Author:      10up
  * Author URI:  https://10up.com
  * License:     GPLv2 or later
@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'ADS_TXT_MANAGER_VERSION', '1.2.0' );
+define( 'ADS_TXT_MANAGE_CAPABILITY', 'edit_ads_txt' );
 define( 'ADS_TXT_MANAGER_POST_OPTION', 'adstxt_post' );
 
 require_once __DIR__ . '/inc/post-type.php';
@@ -53,7 +54,34 @@ function tenup_display_ads_txt() {
 add_action( 'init', 'tenup_display_ads_txt' );
 
 /**
+ * Add custom capabilities.
+ *
+ * @return void
+ */
+function add_adstxt_capabilities() {
+	$role = get_role( 'administrator' );
+	if ( ! $role->has_cap( ADS_TXT_MANAGE_CAPABILITY ) ) {
+		$role->add_cap( ADS_TXT_MANAGE_CAPABILITY );
+	}
+}
+add_action( 'admin_init', 'add_adstxt_capabilities' );
+register_activation_hook( __FILE__, 'add_adstxt_capabilities' );
+
+/**
+ * Remove custom capabilities when deactivating the plugin.
+ *
+ * @return void
+ */
+function remove_adstxt_capabilities() {
+	$role = get_role( 'administrator' );
+	$role->remove_cap( ADS_TXT_MANAGE_CAPABILITY );
+}
+register_deactivation_hook( __FILE__, 'remove_adstxt_capabilities' );
+
+/**
  * Add a query var to detect when ads.txt has been saved.
+ *
+ * @param array $qvars Array of query vars.
  *
  * @return array Array of query vars.
  */
