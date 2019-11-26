@@ -69,7 +69,7 @@ add_action( 'admin_head-settings_page_adstxt-settings', __NAMESPACE__ . '\admin_
  * Appends a query argument to the edit url to make sure it is redirected to
  * the ads.txt screen.
  *
- * @since 1.5.2
+ * @since 1.2.0
  *
  * @param string $url Edit url.
  * @return string Edit url.
