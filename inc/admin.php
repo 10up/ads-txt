@@ -37,6 +37,7 @@ function admin_enqueue_scripts( $hook ) {
 	$strings = array(
 		'error_message' => esc_html__( 'Your Ads.txt contains the following issues:', 'ads-txt' ),
 		'unknown_error' => esc_html__( 'An unknown error occurred.', 'ads-txt' ),
+		'ajaxUrl'       => get_ajax_url(),
 	);
 
 	wp_localize_script( 'adstxt', 'adstxt', $strings );
@@ -391,3 +392,14 @@ function admin_notices() {
 	endif;
 }
 add_action( 'admin_notices', __NAMESPACE__ . '\admin_notices' );
+
+/**
+ * Get the Ajax URL.
+ *
+ * @return string
+ */
+function get_ajax_url() : string {
+	// Multisite fix, use home_url() if domain mapped to avoid cross-domain issues.
+	$http_scheme =  'http' . ( is_ssl() ? 's' : '' );
+	return ( home_url() !== site_url() ) ? home_url( '/wp-admin/admin-ajax.php', $http_scheme ) : site_url( '/wp-admin/admin-ajax.php', $http_scheme );
+}

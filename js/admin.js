@@ -54,7 +54,7 @@
 		$.ajax({
 			type: 'POST',
 			dataType: 'json',
-			url: ajaxurl,
+			url: window.adstxt.ajaxUrl,
 			data: $( '.adstxt-settings-form' ).serialize(),
 			success: function( r ) {
 				var templateData = {};
