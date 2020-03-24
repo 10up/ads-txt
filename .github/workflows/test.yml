@@ -14,9 +14,14 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Install dependencies
-      run: composer install
+    - name: Set PHP version
+      uses: shivammathur/setup-php@v1
+      with:
+        php-version: ${{ matrix.php-versions }}
+        coverage: none
     - name: PHP version
       run: php --version
+    - name: Install dependencies
+      run: composer install --ignore-platform-reqs
     - name: Run PHPCS
       run: composer run lint
