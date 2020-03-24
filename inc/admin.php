@@ -400,6 +400,6 @@ add_action( 'admin_notices', __NAMESPACE__ . '\admin_notices' );
  */
 function get_ajax_url() : string {
 	// Multisite fix, use home_url() if domain mapped to avoid cross-domain issues.
-	$http_scheme =  'http' . ( is_ssl() ? 's' : '' );
+	$http_scheme = 'http' . ( is_ssl() ? 's' : '' );
 	return ( home_url() !== site_url() ) ? home_url( '/wp-admin/admin-ajax.php', $http_scheme ) : site_url( '/wp-admin/admin-ajax.php', $http_scheme );
 }
