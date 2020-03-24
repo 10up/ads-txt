@@ -7,6 +7,9 @@ on:
 jobs:
   test_php:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: ['5.6', '7.3']
     
     steps:
     - name: Checkout
