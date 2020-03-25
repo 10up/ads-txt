@@ -1,4 +1,4 @@
-name: Test
+name: Automated Tests
 
 on:
   pull_request:
@@ -9,6 +9,7 @@ on:
       - develop
 jobs:
   test_php:
+    name: Test PHP
     runs-on: ubuntu-latest
     strategy:
       matrix:
