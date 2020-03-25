@@ -70,7 +70,7 @@ add_action( 'admin_head-settings_page_adstxt-settings', __NAMESPACE__ . '\admin_
  * Appends a query argument to the edit url to make sure it is redirected to
  * the ads.txt screen.
  *
- * @since 1.5.2
+ * @since 1.2.0
  *
  * @param string $url Edit url.
  * @return string Edit url.
@@ -143,7 +143,13 @@ add_action( 'admin_head', __NAMESPACE__ . '\admin_header_revisions_styles' );
  * @return void
  */
 function admin_menu() {
-	add_options_page( esc_html__( 'Ads.txt', 'ads-txt' ), esc_html__( 'Ads.txt', 'ads-txt' ), 'manage_options', 'adstxt-settings', __NAMESPACE__ . '\settings_screen' );
+	add_options_page(
+		esc_html__( 'Ads.txt', 'ads-txt' ),
+		esc_html__( 'Ads.txt', 'ads-txt' ),
+		ADS_TXT_MANAGE_CAPABILITY,
+		'adstxt-settings',
+		__NAMESPACE__ . '\settings_screen'
+	);
 }
 add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
 

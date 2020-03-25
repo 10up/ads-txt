@@ -1,14 +1,14 @@
 === Ads.txt Manager ===
 Contributors: 10up, helen, adamsilverstein, jakemgold
-Author URI: http://10up.com
+Author URI: https://10up.com
 Plugin URI: https://github.com/10up/ads-txt
 Tags: ads.txt, ads, ad manager, advertising, publishing, publishers
 Requires at least: 4.9
-Tested up to: 5.2
+Tested up to: 5.3
 Requires PHP: 5.3
-Stable tag: trunk
+Stable tag: 1.2.0
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 Text Domain: ads-txt
 
 Create, manage, and validate your ads.txt from within WordPress, just like any other content asset. Requires PHP 5.3+ and WordPress 4.9+.
@@ -25,12 +25,17 @@ Ads.txt is an initiative by the Interactive Advertising Bureau to enable publish
 
 * Requires PHP 5.3+.
 * Requires WordPress 4.9+. Older versions of WordPress will not display any syntax highlighting and may break JavaScript and/or be unable to localize the plugin.
+* Ad blockers may break syntax highlighting and pre-save error checking on the edit screen.
 * Rewrites need to be enabled. Without rewrites, WordPress cannot know to supply `/ads.txt` when requested.
 * Your site URL must not contain a path (e.g. `https://example.com/site/` or path-based multisite installs). While the plugin will appear to function in the admin, it will not display the contents at `https://example.com/site/ads.txt`. This is because the plugin follows the IAB spec, which requires that the ads.txt file be located at the root of a domain or subdomain.
 
 === What about ads.cert? ===
 
 We're closely monitoring continued developments in the ad fraud space, and see this plugin as not only a way to create and manage your ads.txt file but also be prepared for future changes and upgrades to specifications. Ads.cert is still in the extremely early stages so we don't see any immediate concerns with implementing ads.txt.
+
+=== What about app-ads.txt? ===
+
+We plan on adding support for this file in the future! If you'd like to follow along with development or even help us get it done, please see [this GitHub issue](https://github.com/10up/ads-txt/issues/40).
 
 == Screenshots ==
 
@@ -47,6 +52,15 @@ Note: If you already have an existing ads.txt file in the web root, the plugin w
 You will need to rename or remove the existing ads.txt file (keeping a copy of the records it contains to put into the new settings screen) before you will be able to see any changes you make to ads.txt inside the WordPress admin.
 
 == Changelog ==
+
+= 1.2.0 =
+* **Added:** Make revisions accessible in the admin - now you can restore older versions of your ads.txt or view how it's changed over time (props [@adamsilverstein](https://github.com/adamsilverstein), [@helen](https://github.com/helen))
+* **Added:** Show a notice on the edit screen if an ads.txt file exists on the server (props [@kkoppenhaver](https://github.com/kkoppenhaver), [@helen](https://github.com/helen), [@tomjn](https://github.com/tomjn), [@adamsilverstein](https://github.com/adamsilverstein))
+* **Added:** Add a custom `edit_ads_txt` capability for granular assignment, which is assigned to administrators by default (props [@ethanclevenger91](https://github.com/ethanclevenger91), [@adamsilverstein](https://github.com/adamsilverstein))
+* **Added:** Enable filtering of the output using `ads_txt_content` (props [@ethanclevenger91](https://github.com/ethanclevenger91))
+* **Changed:** Updated documentation, automation, and coding standards (props [@jeffpaul](https://github.com/jeffpaul), [@adamsilverstein](https://github.com/adamsilverstein), [@helen](https://github.com/helen), [@mmcachran](https://github.com/mmcachran))
+* **Fixed:** Early escaping (props [@tomjn](https://github.com/tomjn))
+* **Fixed:** PHPCS issues and added PHPCS scanning (props [@adamsilverstein](https://github.com/adamsilverstein))
 
 = 1.1 =
 * Better error message formatting (wraps values in `<code>` tags for better readability)

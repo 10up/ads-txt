@@ -2,7 +2,7 @@
 
 > Create, manage, and validate your Ads.txt from within WordPress, just like any other content asset.
 
-[![Build Status](https://travis-ci.org/10up/ads-txt.svg?branch=develop)](https://travis-ci.org/10up/ads-txt) [![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Release Version](https://img.shields.io/github/tag/10up/ads-txt.svg?label=release)](https://github.com/10up/ads-txt/releases/latest) ![WordPress tested up to version](https://img.shields.io/badge/WordPress-v5.2%20tested-success.svg) [![GPLv2 License](https://img.shields.io/github/license/10up/ads-txt.svg)](https://github.com/10up/ads-txt/blob/develop/LICENSE.md)
+[![Automated Tests](https://github.com/10up/ads-txt/workflows/Automated%20Tests/badge.svg)](https://github.com/10up/ads-txt/actions?query=workflow%3A%22Automated+Tests%22) [![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Release Version](https://img.shields.io/github/tag/10up/ads-txt.svg?label=release)](https://github.com/10up/ads-txt/releases/latest) ![WordPress tested up to version](https://img.shields.io/badge/WordPress-v5.3%20tested-success.svg) [![GPLv2 License](https://img.shields.io/github/license/10up/ads-txt.svg)](https://github.com/10up/ads-txt/blob/develop/LICENSE.md)
 
 ## Features
 
@@ -14,10 +14,15 @@
 
 We're closely monitoring continued developments in the ad fraud space, and see this plugin as not only a way to create and manage your ads.txt file but also be prepared for future changes and upgrades to specifications. ads.cert is still in the extremely early stages so we don't see any immediate concerns with implementing ads.txt.
 
+### What about app-ads.txt?
+
+We plan on adding support for this file in the future! If you'd like to follow along with development or even help us get it done, please see #40.
+
 ## Requirements
 
 * Requires PHP 5.3+.
 * Requires WordPress 4.9+. Older versions of WordPress will not display any syntax highlighting and may break JavaScript and/or be unable to localize the plugin.
+* Ad blockers may break syntax highlighting and pre-save error checking on the edit screen. See #20.
 * Rewrites need to be enabled. Without rewrites, WordPress cannot know to supply `/ads.txt` when requested.
 * Your site URL must not contain a path (e.g. `https://example.com/site/` or path-based multisite installs). While the plugin will appear to function in the admin, it will not display the contents at `https://example.com/site/ads.txt`. This is because the plugin follows the IAB spec, which requires that the ads.txt file be located at the root of a domain or subdomain.
 
@@ -36,9 +41,13 @@ You will need to rename or remove the existing ads.txt file (keeping a copy of t
 
 **Active:** 10up is actively working on this, and we expect to continue work for the foreseeable future including keeping tested up to the most recent version of WordPress.  Bug reports, feature requests, questions, and pull requests are welcome.
 
+## Changelog
+
+A complete listing of all notable changes to Ads.txt Manager are documented in [CHANGELOG.md](CHANGELOG.md).
+
 ## Contributing
 
-Want to help? Check out our [contributing guidelines](CONTRIBUTING.md) to get started.
+Please read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for details on our code of conduct, [CONTRIBUTING.md](CONTRIBUTING.md) for details on the process for submitting pull requests to us, and [CREDITS.md](CREDITS.md) for a listing of maintainers of, contributors to, and libraries used by Ads.txt Manager.
 
 ## Like what you see?
 
