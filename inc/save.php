@@ -16,7 +16,7 @@ namespace Adstxt;
  * @return void
  */
 function save() {
-	current_user_can( 'customize' ) || die;
+	current_user_can( ADS_TXT_MANAGE_CAPABILITY ) || die;
 	check_admin_referer( 'adstxt_save' );
 	$_post      = stripslashes_deep( $_POST );
 	$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
