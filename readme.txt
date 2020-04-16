@@ -53,14 +53,22 @@ You will need to rename or remove the existing ads.txt file (keeping a copy of t
 
 == Changelog ==
 
+= 1.3.0 =
+* **Added:** Support for app-ads.txt filetype (props [@helen](https://profiles.wordpress.org/helen/), [@westi](https://profiles.wordpress.org/westi/), [@p0mmy](https://github.com/p0mmy))
+* **Changed:** Bump WordPress version support to 5.4 (props [@tmoorewp](https://profiles.wordpress.org/tmoorewp/), [@jeffpaul](https://profiles.wordpress.org/jeffpaul/))
+* **Changed:** Switched to using GitHub Actions instead of Travis for Continuous Integration (props [@helen](https://profiles.wordpress.org/helen/))
+* **Changed:** Updated plugin screenshots and FAQs (props [@jeffpaul](https://profiles.wordpress.org/jeffpaul/), [@helen](https://profiles.wordpress.org/helen/))
+* **Fixed:** Properly detects ads.txt files on mapped domains (props [@mmcachran](https://profiles.wordpress.org/mmcachran/), [@helen](https://profiles.wordpress.org/helen/), [@pers](https://profiles.wordpress.org/pers/))
+* **Fixed:** Update capability check when saving ads.txt (props [@eclev91](https://profiles.wordpress.org/eclev91/))
+
 = 1.2.0 =
-* **Added:** Make revisions accessible in the admin - now you can restore older versions of your ads.txt or view how it's changed over time (props [@adamsilverstein](https://github.com/adamsilverstein), [@helen](https://github.com/helen))
-* **Added:** Show a notice on the edit screen if an ads.txt file exists on the server (props [@kkoppenhaver](https://github.com/kkoppenhaver), [@helen](https://github.com/helen), [@tomjn](https://github.com/tomjn), [@adamsilverstein](https://github.com/adamsilverstein))
-* **Added:** Add a custom `edit_ads_txt` capability for granular assignment, which is assigned to administrators by default (props [@ethanclevenger91](https://github.com/ethanclevenger91), [@adamsilverstein](https://github.com/adamsilverstein))
-* **Added:** Enable filtering of the output using `ads_txt_content` (props [@ethanclevenger91](https://github.com/ethanclevenger91))
-* **Changed:** Updated documentation, automation, and coding standards (props [@jeffpaul](https://github.com/jeffpaul), [@adamsilverstein](https://github.com/adamsilverstein), [@helen](https://github.com/helen), [@mmcachran](https://github.com/mmcachran))
-* **Fixed:** Early escaping (props [@tomjn](https://github.com/tomjn))
-* **Fixed:** PHPCS issues and added PHPCS scanning (props [@adamsilverstein](https://github.com/adamsilverstein))
+* **Added:** Make revisions accessible in the admin - now you can restore older versions of your ads.txt or view how it's changed over time (props [@adamsilverstein](https://profiles.wordpress.org/adamsilverstein/), [@helen](https://profiles.wordpress.org/helen/))
+* **Added:** Show a notice on the edit screen if an ads.txt file exists on the server (props [@kkoppenhaver](https://profiles.wordpress.org/kkoppenhaver/), [@helen](https://profiles.wordpress.org/helen/), [@tjnowell](https://profiles.wordpress.org/tjnowell/), [@adamsilverstein](https://profiles.wordpress.org/adamsilverstein/))
+* **Added:** Add a custom `edit_ads_txt` capability for granular assignment, which is assigned to administrators by default (props [@eclev91](https://profiles.wordpress.org/eclev91/), [@adamsilverstein](https://profiles.wordpress.org/adamsilverstein/))
+* **Added:** Enable filtering of the output using `ads_txt_content` (props [@eclev91](https://profiles.wordpress.org/eclev91/))
+* **Changed:** Updated documentation, automation, and coding standards (props [@jeffpaul](https://profiles.wordpress.org/jeffpaul/), [@adamsilverstein](https://profiles.wordpress.org/adamsilverstein/), [@helen](https://profiles.wordpress.org/helen/), [@mmcachran](https://profiles.wordpress.org/mmcachran/))
+* **Fixed:** Early escaping (props [@tjnowell](https://profiles.wordpress.org/tjnowell/))
+* **Fixed:** PHPCS issues and added PHPCS scanning (props [@adamsilverstein](https://profiles.wordpress.org/adamsilverstein/))
 
 = 1.1 =
 * Better error message formatting (wraps values in `<code>` tags for better readability)
