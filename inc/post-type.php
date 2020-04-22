@@ -51,7 +51,7 @@ function register() {
 	);
 
 	register_post_type(
-		'appadstxt', array_merge(
+		'app-adstxt', array_merge(
 		array(
 			'labels'           => array(
 				'name'          => esc_html_x( 'App-ads.txt', 'post type general name', 'ads-txt' ),

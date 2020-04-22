@@ -88,7 +88,7 @@ function ads_txt_adjust_revisions_return_to_editor_link( $url ) {
 
 	$type = 'adstxt';
 
-	if ( 'appadstxt' === $post->post_type ) {
+	if ( 'app-adstxt' === $post->post_type ) {
 		$type = 'app-adstxt';
 	}
 
@@ -187,7 +187,6 @@ function adstxt_settings_screen() {
 		'post_title' => 'Ads.txt',
 		'option'     => ADS_TXT_MANAGER_POST_OPTION,
 		'action'     => 'adstxt-save',
-		'nonce_name' => 'adstxt_save'
 	);
 
 	settings_screen( $post_id, $strings, $args );
@@ -205,11 +204,10 @@ function app_adstxt_settings_screen() {
 	);
 
 	$args = array(
-		'post_type'  => 'appadstxt',
+		'post_type'  => 'app-adstxt',
 		'post_title' => 'App-ads.txt',
 		'option'     => APP_ADS_TXT_MANAGER_POST_OPTION,
-		'action'     => 'appadstxt-save',
-		'nonce_name' => 'appadstxt_save'
+		'action'     => 'app-adstxt-save',
 	);
 
 	settings_screen( $post_id, $strings, $args );
@@ -298,8 +296,9 @@ function settings_screen( $post_id, $strings, $args ) {
 
 	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="adstxt-settings-form">
 		<input type="hidden" name="post_id" value="<?php echo esc_attr( $post_id ) ? esc_attr( $post_id ) : ''; ?>" />
+		<input type="hidden" name="adstxt_type" value="<?php echo esc_attr( $args['post_type'] ); ?>" />
 		<input type="hidden" name="action" value="<?php echo esc_attr( $args['action'] ); ?>" />
-		<?php wp_nonce_field( $args['nonce_name'] ); ?>
+		<?php wp_nonce_field( 'adstxt_save' ); ?>
 
 		<label class="screen-reader-text" for="adstxt_content"><?php echo esc_html( $strings['content_label'] ); ?></label>
 		<textarea class="widefat code" rows="25" name="adstxt" id="adstxt_content"><?php echo esc_textarea( $content ); ?></textarea>

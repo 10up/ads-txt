@@ -42,16 +42,29 @@ function save() {
 
 	$sanitized = implode( PHP_EOL, $sanitized );
 
-	$postarr = array(
-		'ID'           => $post_id,
-		'post_title'   => 'Ads.txt',
-		'post_content' => $sanitized,
-		'post_type'    => 'adstxt',
-		'post_status'  => 'publish',
-		'meta_input'   => array(
-			'adstxt_errors' => $errors,
-		),
-	);
+	if ( 'app-adstxt' === $_post['adstxt_type'] ) {
+		$postarr = array(
+			'ID'           => $post_id,
+			'post_title'   => 'App-ads.txt',
+			'post_content' => $sanitized,
+			'post_type'    => 'app-adstxt',
+			'post_status'  => 'publish',
+			'meta_input'   => array(
+				'adstxt_errors' => $errors,
+			),
+		);
+	} else {
+		$postarr = array(
+			'ID'           => $post_id,
+			'post_title'   => 'Ads.txt',
+			'post_content' => $sanitized,
+			'post_type'    => 'adstxt',
+			'post_status'  => 'publish',
+			'meta_input'   => array(
+				'adstxt_errors' => $errors,
+			),
+		);
+	}
 
 	if ( ! $doing_ajax || empty( $errors ) || 'y' === $ays ) {
 		$post_id = wp_insert_post( $postarr );
@@ -76,7 +89,9 @@ function save() {
 	exit;
 }
 add_action( 'admin_post_adstxt-save', __NAMESPACE__ . '\save' );
+add_action( 'admin_post_app-adstxt-save', __NAMESPACE__ . '\save' );
 add_action( 'wp_ajax_adstxt-save', __NAMESPACE__ . '\save' );
+add_action( 'wp_ajax_app-adstxt-save', __NAMESPACE__ . '\save' );
 
 /**
  * Validate a single line.

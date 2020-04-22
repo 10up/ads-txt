@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'ADS_TXT_MANAGER_VERSION', '1.2.0' );
 define( 'ADS_TXT_MANAGE_CAPABILITY', 'edit_ads_txt' );
 define( 'ADS_TXT_MANAGER_POST_OPTION', 'adstxt_post' );
-define( 'APP_ADS_TXT_MANAGER_POST_OPTION', 'appadstxt_post' );
+define( 'APP_ADS_TXT_MANAGER_POST_OPTION', 'app_adstxt_post' );
 
 require_once __DIR__ . '/inc/post-type.php';
 require_once __DIR__ . '/inc/admin.php';
@@ -66,7 +66,7 @@ function tenup_display_ads_txt() {
 			 *
 			 * @param type  $app_adstxt The existing ads.txt content.
 			 */
-			echo esc_html( apply_filters( 'app_ads_txt_content', $app_adstxt ) );
+			echo esc_html( apply_filters( 'app_ads_txt_content', $adstxt ) );
 			die();
 		}
 	}
