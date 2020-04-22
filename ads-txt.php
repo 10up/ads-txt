@@ -50,7 +50,7 @@ function tenup_display_ads_txt() {
 			echo esc_html( apply_filters( 'ads_txt_content', $adstxt ) );
 			die();
 		}
-	} else if ( '/app-ads.txt' === $request ) {
+	} elseif ( '/app-ads.txt' === $request ) {
 		$post_id = get_option( APP_ADS_TXT_MANAGER_POST_OPTION );
 
 		// Will fall through if no option found, likely to a 404.

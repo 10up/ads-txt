@@ -171,9 +171,14 @@ function admin_menu() {
 }
 add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
 
+/**
+ * Set up settings screen for ads.txt.
+ *
+ * @return void
+ */
 function adstxt_settings_screen() {
 	$post_id = get_option( ADS_TXT_MANAGER_POST_OPTION );
-	
+
 	$strings = array(
 		'existing'      => __( 'Existing Ads.txt file found', 'ads-txt' ),
 		'precedence'    => __( 'An ads.txt file on the server will take precedence over any content entered here. You will need to rename or remove the existing ads.txt file before you will be able to see any changes you make on this screen.', 'ads-txt' ),
@@ -192,9 +197,14 @@ function adstxt_settings_screen() {
 	settings_screen( $post_id, $strings, $args );
 }
 
+/**
+ * Set up settings screen for app-ads.txt.
+ *
+ * @return void
+ */
 function app_adstxt_settings_screen() {
 	$post_id = get_option( APP_ADS_TXT_MANAGER_POST_OPTION );
-	
+
 	$strings = array(
 		'existing'      => __( 'Existing App-ads.txt file found', 'ads-txt' ),
 		'precedence'    => __( 'An app-ads.txt file on the server will take precedence over any content entered here. You will need to rename or remove the existing app-ads.txt file before you will be able to see any changes you make on this screen.', 'ads-txt' ),
@@ -215,6 +225,10 @@ function app_adstxt_settings_screen() {
 
 /**
  * Output the settings screen for both files.
+ *
+ * @param int   $post_id Post ID associated with the file.
+ * @param array $strings Translated strings that mention the specific file name.
+ * @param array $args    Array of other necessary information to appropriately name items.
  *
  * @return void
  */
@@ -441,7 +455,7 @@ function get_error_messages() {
 function admin_notices() {
 	if ( 'settings_page_adstxt-settings' === get_current_screen()->base ) {
 		$saved = __( 'Ads.txt saved', 'ads-txt' );
-	} else if ( 'settings_page_app-adstxt-settings' === get_current_screen()->base ) {
+	} elseif ( 'settings_page_app-adstxt-settings' === get_current_screen()->base ) {
 		$saved = __( 'App-ads.txt saved', 'ads-txt' );
 	} else {
 		return;

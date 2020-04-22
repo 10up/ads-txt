@@ -41,23 +41,29 @@ function register() {
 	);
 
 	register_post_type(
-		'adstxt', array_merge(
-		array(
-			'labels'           => array(
-				'name'          => esc_html_x( 'Ads.txt', 'post type general name', 'ads-txt' ),
-				'singular_name' => esc_html_x( 'Ads.txt', 'post type singular name', 'ads-txt' ),
+		'adstxt',
+		array_merge(
+			array(
+				'labels' => array(
+					'name'          => esc_html_x( 'Ads.txt', 'post type general name', 'ads-txt' ),
+					'singular_name' => esc_html_x( 'Ads.txt', 'post type singular name', 'ads-txt' ),
+				),
 			),
-		), $args )
+			$args
+		)
 	);
 
 	register_post_type(
-		'app-adstxt', array_merge(
-		array(
-			'labels'           => array(
-				'name'          => esc_html_x( 'App-ads.txt', 'post type general name', 'ads-txt' ),
-				'singular_name' => esc_html_x( 'App-ads.txt', 'post type singular name', 'ads-txt' ),
+		'app-adstxt',
+		array_merge(
+			array(
+				'labels' => array(
+					'name'          => esc_html_x( 'App-ads.txt', 'post type general name', 'ads-txt' ),
+					'singular_name' => esc_html_x( 'App-ads.txt', 'post type singular name', 'ads-txt' ),
+				),
 			),
-		), $args )
+			$args
+		)
 	);
 }
 
