@@ -41,7 +41,7 @@ function save() {
 	}
 
 	$sanitized = implode( PHP_EOL, $sanitized );
-	$postarr = array(
+	$postarr   = array(
 		'ID'           => $post_id,
 		'post_title'   => 'Ads.txt',
 		'post_content' => $sanitized,
@@ -54,7 +54,7 @@ function save() {
 
 	if ( 'app-adstxt' === $_post['adstxt_type'] ) {
 		$postarr['post_title'] = 'App-ads.txt';
-		$postarr['post_type'] = 'app-adstxt';
+		$postarr['post_type']  = 'app-adstxt';
 	}
 
 	if ( ! $doing_ajax || empty( $errors ) || 'y' === $ays ) {
