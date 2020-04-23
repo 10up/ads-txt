@@ -41,29 +41,20 @@ function save() {
 	}
 
 	$sanitized = implode( PHP_EOL, $sanitized );
+	$postarr = array(
+		'ID'           => $post_id,
+		'post_title'   => 'Ads.txt',
+		'post_content' => $sanitized,
+		'post_type'    => 'adstxt',
+		'post_status'  => 'publish',
+		'meta_input'   => array(
+			'adstxt_errors' => $errors,
+		),
+	);
 
 	if ( 'app-adstxt' === $_post['adstxt_type'] ) {
-		$postarr = array(
-			'ID'           => $post_id,
-			'post_title'   => 'App-ads.txt',
-			'post_content' => $sanitized,
-			'post_type'    => 'app-adstxt',
-			'post_status'  => 'publish',
-			'meta_input'   => array(
-				'adstxt_errors' => $errors,
-			),
-		);
-	} else {
-		$postarr = array(
-			'ID'           => $post_id,
-			'post_title'   => 'Ads.txt',
-			'post_content' => $sanitized,
-			'post_type'    => 'adstxt',
-			'post_status'  => 'publish',
-			'meta_input'   => array(
-				'adstxt_errors' => $errors,
-			),
-		);
+		$postarr['post_title'] = 'App-ads.txt';
+		$postarr['post_type'] = 'app-adstxt';
 	}
 
 	if ( ! $doing_ajax || empty( $errors ) || 'y' === $ays ) {

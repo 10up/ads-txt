@@ -37,6 +37,11 @@ function tenup_display_ads_txt() {
 		// Will fall through if no option found, likely to a 404.
 		if ( ! empty( $post_id ) ) {
 			$post = get_post( $post_id );
+
+			if ( ! $post instanceof WP_Post ) {
+				return;
+			}
+
 			header( 'Content-Type: text/plain' );
 			$adstxt = $post->post_content;
 
@@ -56,6 +61,11 @@ function tenup_display_ads_txt() {
 		// Will fall through if no option found, likely to a 404.
 		if ( ! empty( $post_id ) ) {
 			$post = get_post( $post_id );
+
+			if ( ! $post instanceof WP_Post ) {
+				return;
+			}
+
 			header( 'Content-Type: text/plain' );
 			$adstxt = $post->post_content;
 
