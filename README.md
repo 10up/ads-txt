@@ -18,9 +18,9 @@ We're closely monitoring continued developments in the ad fraud space, and see t
 
 We plan on adding support for this file in the future! If you'd like to follow along with development or even help us get it done, please see #40.
 
-### What about using this on a multisite setup?
+### Can I use this with multisite?
 
-You can only have one ads.txt for a given domain or subdomain per the [ads.txt spec](https://iabtechlab.com/ads-txt/), it is site-by-site but if it’s a multisite subfolder install then only the main site will actually do anything.  Our recommendation is to only activate Ads.txt Manager per-site.
+Yes! However, if you are using a subfolder installation it will only work for the main site. This is because you can only have one ads.txt for a given domain or subdomain per the [ads.txt spec](https://iabtechlab.com/ads-txt/).  Our recommendation is to only activate Ads.txt Manager per-site.
 
 ## Requirements
 
