@@ -43,7 +43,9 @@ Yes! However, if you are using a subfolder installation it will only work for th
 
 == Screenshots ==
 
-1. Example of editing an ads.txt file with errors
+1. Example of editing an ads.txt file with errors and a link to browse ads.txt file revisions.
+2. Example of comparing ads.txt file revisions.
+3. Example of comparing two disparate ads.txt file revisions.
 
 == Installation ==
 1. Install the plugin via the plugin installer, either by searching for it or uploading a .zip file.
