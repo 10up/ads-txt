@@ -37,9 +37,15 @@ We're closely monitoring continued developments in the ad fraud space, and see t
 
 We plan on adding support for this file in the future! If you'd like to follow along with development or even help us get it done, please see [this GitHub issue](https://github.com/10up/ads-txt/issues/40).
 
+=== Can I use this with multisite? ===
+
+Yes! However, if you are using a subfolder installation it will only work for the main site. This is because you can only have one ads.txt for a given domain or subdomain per the [ads.txt spec](https://iabtechlab.com/ads-txt/).  Our recommendation is to only activate Ads.txt Manager per-site.
+
 == Screenshots ==
 
-1. Example of editing an ads.txt file with errors
+1. Example of editing an ads.txt file with errors and a link to browse ads.txt file revisions.
+2. Example of comparing ads.txt file revisions.
+3. Example of comparing two disparate ads.txt file revisions.
 
 == Installation ==
 1. Install the plugin via the plugin installer, either by searching for it or uploading a .zip file.

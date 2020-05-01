@@ -15,7 +15,7 @@ namespace AdsTxt;
  * @return void
  */
 function admin_enqueue_scripts( $hook ) {
-	if ( 'settings_page_adstxt-settings' !== $hook ) {
+	if ( ! preg_match( '/adstxt-settings$/', $hook ) ) {
 		return;
 	}
 
@@ -38,6 +38,10 @@ function admin_enqueue_scripts( $hook ) {
 		'error_message' => esc_html__( 'Your Ads.txt contains the following issues:', 'ads-txt' ),
 		'unknown_error' => esc_html__( 'An unknown error occurred.', 'ads-txt' ),
 	);
+
+	if ( 'settings_page_app-adstxt-settings' === $hook ) {
+		$strings['error_message'] = esc_html__( 'Your app-ads.txt contains the following issues:', 'ads-txt' );
+	}
 
 	wp_localize_script( 'adstxt', 'adstxt', $strings );
 }
@@ -64,6 +68,7 @@ function admin_head_css() {
 	<?php
 }
 add_action( 'admin_head-settings_page_adstxt-settings', __NAMESPACE__ . '\admin_head_css' );
+add_action( 'admin_head-settings_page_app-adstxt-settings', __NAMESPACE__ . '\admin_head_css' );
 
 /**
  * Appends a query argument to the edit url to make sure it is redirected to
@@ -75,13 +80,19 @@ add_action( 'admin_head-settings_page_adstxt-settings', __NAMESPACE__ . '\admin_
  * @return string Edit url.
  */
 function ads_txt_adjust_revisions_return_to_editor_link( $url ) {
-	global $pagenow;
+	global $pagenow, $post;
 
 	if ( 'revision.php' !== $pagenow || ! isset( $_REQUEST['adstxt'] ) ) { // @codingStandardsIgnoreLine Nonce not required.
 		return $url;
 	}
 
-	return admin_url( 'options-general.php?page=adstxt-settings' );
+	$type = 'adstxt';
+
+	if ( 'app-adstxt' === $post->post_type ) {
+		$type = 'app-adstxt';
+	}
+
+	return admin_url( 'options-general.php?page=' . $type . '-settings' );
 }
 add_filter( 'get_edit_post_link', __NAMESPACE__ . '\ads_txt_adjust_revisions_return_to_editor_link' );
 
@@ -147,18 +158,81 @@ function admin_menu() {
 		esc_html__( 'Ads.txt', 'ads-txt' ),
 		ADS_TXT_MANAGE_CAPABILITY,
 		'adstxt-settings',
-		__NAMESPACE__ . '\settings_screen'
+		__NAMESPACE__ . '\adstxt_settings_screen'
+	);
+
+	add_options_page(
+		esc_html__( 'App-ads.txt', 'ads-txt' ),
+		esc_html__( 'App-ads.txt', 'ads-txt' ),
+		ADS_TXT_MANAGE_CAPABILITY,
+		'app-adstxt-settings',
+		__NAMESPACE__ . '\app_adstxt_settings_screen'
 	);
 }
 add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
 
 /**
- * Output the settings screen.
+ * Set up settings screen for ads.txt.
  *
  * @return void
  */
-function settings_screen() {
-	$post_id          = get_option( ADS_TXT_MANAGER_POST_OPTION );
+function adstxt_settings_screen() {
+	$post_id = get_option( ADS_TXT_MANAGER_POST_OPTION );
+
+	$strings = array(
+		'existing'      => __( 'Existing Ads.txt file found', 'ads-txt' ),
+		'precedence'    => __( 'An ads.txt file on the server will take precedence over any content entered here. You will need to rename or remove the existing ads.txt file before you will be able to see any changes you make on this screen.', 'ads-txt' ),
+		'errors'        => __( 'Your Ads.txt contains the following issues:', 'ads-txt' ),
+		'screen_title'  => __( 'Manage Ads.txt', 'ads-txt' ),
+		'content_label' => __( 'Ads.txt content', 'ads-txt' ),
+	);
+
+	$args = array(
+		'post_type'  => 'adstxt',
+		'post_title' => 'Ads.txt',
+		'option'     => ADS_TXT_MANAGER_POST_OPTION,
+		'action'     => 'adstxt-save',
+	);
+
+	settings_screen( $post_id, $strings, $args );
+}
+
+/**
+ * Set up settings screen for app-ads.txt.
+ *
+ * @return void
+ */
+function app_adstxt_settings_screen() {
+	$post_id = get_option( APP_ADS_TXT_MANAGER_POST_OPTION );
+
+	$strings = array(
+		'existing'      => __( 'Existing App-ads.txt file found', 'ads-txt' ),
+		'precedence'    => __( 'An app-ads.txt file on the server will take precedence over any content entered here. You will need to rename or remove the existing app-ads.txt file before you will be able to see any changes you make on this screen.', 'ads-txt' ),
+		'errors'        => __( 'Your app-ads.txt contains the following issues:', 'ads-txt' ),
+		'screen_title'  => __( 'Manage App-ads.txt', 'ads-txt' ),
+		'content_label' => __( 'App-ads.txt content', 'ads-txt' ),
+	);
+
+	$args = array(
+		'post_type'  => 'app-adstxt',
+		'post_title' => 'App-ads.txt',
+		'option'     => APP_ADS_TXT_MANAGER_POST_OPTION,
+		'action'     => 'app-adstxt-save',
+	);
+
+	settings_screen( $post_id, $strings, $args );
+}
+
+/**
+ * Output the settings screen for both files.
+ *
+ * @param int   $post_id Post ID associated with the file.
+ * @param array $strings Translated strings that mention the specific file name.
+ * @param array $args    Array of other necessary information to appropriately name items.
+ *
+ * @return void
+ */
+function settings_screen( $post_id, $strings, $args ) {
 	$post             = false;
 	$content          = false;
 	$errors           = [];
@@ -182,29 +256,22 @@ function settings_screen() {
 
 		// Create an initial post so the second save creates a comparable revision.
 		$postarr = array(
-			'post_title'   => 'Ads.txt',
+			'post_title'   => $args['post_title'],
 			'post_content' => '',
-			'post_type'    => 'adstxt',
+			'post_type'    => $args['post_type'],
 			'post_status'  => 'publish',
 		);
 
 		$post_id = wp_insert_post( $postarr );
 		if ( $post_id ) {
-			update_option( ADS_TXT_MANAGER_POST_OPTION, $post_id );
+			update_option( $args['option'], $post_id );
 		}
 	}
 	?>
 <div class="wrap">
-	<div class="notice notice-error adstxt-notice existing-adstxt" style="display: none;">
-		<p><strong><?php echo esc_html_e( 'Existing Ads.txt file found', 'ads-txt' ); ?></strong></p>
-		<p><?php echo esc_html_e( 'An ads.txt file on the server will take precedence over any content entered here. You will need to rename or remove the existing ads.txt file before you will be able to see any changes you make on this screen.', 'ads-txt' ); ?></p>
-
-		<p><?php echo esc_html_e( 'Removed the existing file but are still seeing this warning?', 'ads-txt' ); ?> <a class="ads-txt-rerun-check" href="#"><?php echo esc_html_e( 'Re-run the check now', 'ads-txt' ); ?></a> <span class="spinner" style="float:none;margin:-2px 5px 0"></span></p>
-	</div>
-
 	<?php if ( ! empty( $errors ) ) : ?>
 	<div class="notice notice-error adstxt-notice">
-		<p><strong><?php echo esc_html__( 'Your Ads.txt contains the following issues:', 'ads-txt' ); ?></strong></p>
+		<p><strong><?php echo esc_html( $strings['errors'] ); ?></strong></p>
 		<ul>
 			<?php
 			foreach ( $errors as $error ) {
@@ -232,14 +299,15 @@ function settings_screen() {
 	</div>
 	<?php endif; ?>
 
-	<h2><?php echo esc_html__( 'Manage Ads.txt', 'ads-txt' ); ?></h2>
+	<h2><?php echo esc_html( $strings['screen_title'] ); ?></h2>
 
 	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="adstxt-settings-form">
 		<input type="hidden" name="post_id" value="<?php echo esc_attr( $post_id ) ? esc_attr( $post_id ) : ''; ?>" />
-		<input type="hidden" name="action" value="adstxt-save" />
+		<input type="hidden" name="adstxt_type" value="<?php echo esc_attr( $args['post_type'] ); ?>" />
+		<input type="hidden" name="action" value="<?php echo esc_attr( $args['action'] ); ?>" />
 		<?php wp_nonce_field( 'adstxt_save' ); ?>
 
-		<label class="screen-reader-text" for="adstxt_content"><?php echo esc_html__( 'Ads.txt content', 'ads-txt' ); ?></label>
+		<label class="screen-reader-text" for="adstxt_content"><?php echo esc_html( $strings['content_label'] ); ?></label>
 		<textarea class="widefat code" rows="25" name="adstxt" id="adstxt_content"><?php echo esc_textarea( $content ); ?></textarea>
 		<?php
 		if ( $revision_count > 1 ) {
@@ -378,14 +446,18 @@ function get_error_messages() {
  * @return void
  */
 function admin_notices() {
-	if ( 'settings_page_adstxt-settings' !== get_current_screen()->base ) {
+	if ( 'settings_page_adstxt-settings' === get_current_screen()->base ) {
+		$saved = __( 'Ads.txt saved', 'ads-txt' );
+	} elseif ( 'settings_page_app-adstxt-settings' === get_current_screen()->base ) {
+		$saved = __( 'App-ads.txt saved', 'ads-txt' );
+	} else {
 		return;
 	}
 
 	if ( isset( $_GET['ads_txt_saved'] ) ) : // @codingStandardsIgnoreLine Nonce not required.
 		?>
 	<div class="notice notice-success adstxt-notice adstxt-saved">
-		<p><?php echo esc_html__( 'Ads.txt saved', 'ads-txt' ); ?></p>
+		<p><?php echo esc_html( $saved ); ?></p>
 	</div>
 		<?php
 	elseif ( isset( $_GET['revision'] ) ) : // @codingStandardsIgnoreLine Nonce not required.
