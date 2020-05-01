@@ -7,8 +7,6 @@
 			mode: 'shell'
 		} );
 
-	$( '.ads-txt-rerun-check' ).on( 'click', checkForAdsFile );
-
 	submit.on( 'click', function( e ){
 		e.preventDefault();
 
