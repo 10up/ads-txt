@@ -49,10 +49,6 @@ During weekly triage, the tested up to version should be compared against the la
 
 New releases are targeted based on number and severity of changes along with human availability. When a release is targeted, a due date will be assigned to the appropriate milestone.
 
-### Roadmap
-
-We are currently working toward [version 1.2](https://github.com/10up/ads-txt/milestone/1), which will include exposing a UI for revisions and detecting the presence of an actual `ads.txt` file. There is not yet a targeted release date, and features and enhancements may still be added to the milestone.
-
 ### Testing
 
 Make an ads.txt with the following contents and ensure that you receive the same errors as below. There are no automated tests at this time - contributions very welcome in this area!

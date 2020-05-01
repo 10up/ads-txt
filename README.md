@@ -2,11 +2,11 @@
 
 > Create, manage, and validate your Ads.txt from within WordPress, just like any other content asset.
 
-[![Build Status](https://travis-ci.org/10up/ads-txt.svg?branch=develop)](https://travis-ci.org/10up/ads-txt) [![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Release Version](https://img.shields.io/github/tag/10up/ads-txt.svg?label=release)](https://github.com/10up/ads-txt/releases/latest) ![WordPress tested up to version](https://img.shields.io/badge/WordPress-v5.3%20tested-success.svg) [![GPLv2 License](https://img.shields.io/github/license/10up/ads-txt.svg)](https://github.com/10up/ads-txt/blob/develop/LICENSE.md)
+[![Automated Tests](https://github.com/10up/ads-txt/workflows/Automated%20Tests/badge.svg)](https://github.com/10up/ads-txt/actions?query=workflow%3A%22Automated+Tests%22) [![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Release Version](https://img.shields.io/github/tag/10up/ads-txt.svg?label=release)](https://github.com/10up/ads-txt/releases/latest) ![WordPress tested up to version](https://img.shields.io/badge/WordPress-v5.4%20tested-success.svg) [![GPLv2 License](https://img.shields.io/github/license/10up/ads-txt.svg)](https://github.com/10up/ads-txt/blob/develop/LICENSE.md)
 
 ## Features
 
-![Screenshot of ads.txt editor](.wordpress-org/screenshot-1.png "Example of editing an ads.txt file with errors")
+![Screenshot of ads.txt editor](.wordpress-org/screenshot-1.png "Example of editing an ads.txt file with errors and a link to browse ads.txt file revisions.")
 
 [Ads.txt](https://iabtechlab.com/ads-txt/) is an initiative by the Interactive Advertising Bureau to enable publishers to take control over who can sell their ad inventory. Through our work at 10up with various publishers, we've created a way to manage and validate your ads.txt file from within WordPress, eliminating the need to upload a file. The validation baked into the plugin helps avoid malformed records, which can cause issues that end up cached for up to 24 hours and can lead to a drop in ad revenue.
 
@@ -16,13 +16,17 @@ We're closely monitoring continued developments in the ad fraud space, and see t
 
 ### What about app-ads.txt?
 
-We plan on adding support for this file in the future! If you'd like to follow along with development or even help us get it done, please see #40.
+We plan on adding support for this file in the future! If you'd like to follow along with development or even help us get it done, please see [#40](https://github.com/10up/ads-txt/issues/40).
+
+### Can I use this with multisite?
+
+Yes! However, if you are using a subfolder installation it will only work for the main site. This is because you can only have one ads.txt for a given domain or subdomain per the [ads.txt spec](https://iabtechlab.com/ads-txt/).  Our recommendation is to only activate Ads.txt Manager per-site.
 
 ## Requirements
 
 * Requires PHP 5.3+.
 * Requires WordPress 4.9+. Older versions of WordPress will not display any syntax highlighting and may break JavaScript and/or be unable to localize the plugin.
-* Ad blockers may break syntax highlighting and pre-save error checking on the edit screen. See #20.
+* Ad blockers may break syntax highlighting and pre-save error checking on the edit screen. See [#20](https://github.com/10up/ads-txt/issues/20).
 * Rewrites need to be enabled. Without rewrites, WordPress cannot know to supply `/ads.txt` when requested.
 * Your site URL must not contain a path (e.g. `https://example.com/site/` or path-based multisite installs). While the plugin will appear to function in the admin, it will not display the contents at `https://example.com/site/ads.txt`. This is because the plugin follows the IAB spec, which requires that the ads.txt file be located at the root of a domain or subdomain.
 
@@ -33,9 +37,23 @@ We plan on adding support for this file in the future! If you'd like to follow a
 1. Head to Settings → Ads.txt and add the records you need.
 1. Check it out at yoursite.com/ads.txt!
 
-Note: If you already have an existing ads.txt file in the web root, the plugin will not read in the contents of that file, and changes you make in WordPress admin will not overwrite contents of the physical file. 
+Note: If you already have an existing ads.txt file in the web root, the plugin will not read in the contents of that file, and changes you make in WordPress admin will not overwrite contents of the physical file.
 
-You will need to rename or remove the existing ads.txt file (keeping a copy of the records it contains to put into the new settings screen) before you will be able to see any changes you make to ads.txt inside the WordPress admin. 
+You will need to rename or remove the existing ads.txt file (keeping a copy of the records it contains to put into the new settings screen) before you will be able to see any changes you make to ads.txt inside the WordPress admin.
+
+## Screenshots
+
+### 1. Example of editing an ads.txt file with errors and a link to browse ads.txt file revisions.
+
+![Screenshot of ads.txt editor](.wordpress-org/screenshot-1.png "Example of editing an ads.txt file with errors and a link to browse ads.txt file revisions.")
+
+### 2. Example of comparing ads.txt file revisions.
+
+![Screenshot of ads.txt in Revisions editor](.wordpress-org/screenshot-2.png "Example of comparing ads.txt file revisions.")
+
+### 3. Example of comparing two disparate ads.txt file revisions.
+
+![Screenshot of ads.txt in Revisions editor](.wordpress-org/screenshot-3.png "Example of comparing two disparate ads.txt file revisions.")
 
 ## Support Level
 

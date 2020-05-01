@@ -16,7 +16,7 @@ namespace Adstxt;
  * @return void
  */
 function save() {
-	current_user_can( 'customize' ) || die;
+	current_user_can( ADS_TXT_MANAGE_CAPABILITY ) || die;
 	check_admin_referer( 'adstxt_save' );
 	$_post      = stripslashes_deep( $_POST );
 	$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
@@ -41,8 +41,7 @@ function save() {
 	}
 
 	$sanitized = implode( PHP_EOL, $sanitized );
-
-	$postarr = array(
+	$postarr   = array(
 		'ID'           => $post_id,
 		'post_title'   => 'Ads.txt',
 		'post_content' => $sanitized,
@@ -52,6 +51,11 @@ function save() {
 			'adstxt_errors' => $errors,
 		),
 	);
+
+	if ( 'app-adstxt' === $_post['adstxt_type'] ) {
+		$postarr['post_title'] = 'App-ads.txt';
+		$postarr['post_type']  = 'app-adstxt';
+	}
 
 	if ( ! $doing_ajax || empty( $errors ) || 'y' === $ays ) {
 		$post_id = wp_insert_post( $postarr );
@@ -76,7 +80,9 @@ function save() {
 	exit;
 }
 add_action( 'admin_post_adstxt-save', __NAMESPACE__ . '\save' );
+add_action( 'admin_post_app-adstxt-save', __NAMESPACE__ . '\save' );
 add_action( 'wp_ajax_adstxt-save', __NAMESPACE__ . '\save' );
+add_action( 'wp_ajax_app-adstxt-save', __NAMESPACE__ . '\save' );
 
 /**
  * Validate a single line.

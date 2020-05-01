@@ -7,31 +7,6 @@
 			mode: 'shell'
 		} );
 
-	function checkForAdsFile( e ){
-		var currentTime = Date.now(),
-			adstxtUrl = '/ads.txt?currentTime=' + currentTime,
-			spinner = $( '.existing-adstxt .spinner' );
-
-		if ( false !== e ) {
-			e.preventDefault();
-		}
-		
-		spinner.addClass( 'is-active' );
-
-		$.get( adstxtUrl, function( data, status ){
-			spinner.removeClass( 'is-active' );
-			$( '.existing-adstxt' ).show();
-		} ).fail( function() {
-			// Ads.txt not found
-			$( '.existing-adstxt' ).hide();
-		});
-	}
-	
-	// Call our check when we first load the page
-	checkForAdsFile( false );
-
-	$( '.ads-txt-rerun-check' ).on( 'click', checkForAdsFile );
-
 	submit.on( 'click', function( e ){
 		e.preventDefault();
 
