@@ -55,10 +55,10 @@ You will need to rename or remove the existing ads.txt file (keeping a copy of t
 
 = 1.3.0 =
 * **Added:** Support for app-ads.txt filetype (props [@helen](https://profiles.wordpress.org/helen/), [@westi](https://profiles.wordpress.org/westi/), [@p0mmy](https://github.com/p0mmy))
+* **Removed:** Stop attempting to show an error notice about an existing `ads.txt` file due to too many false positives. We will bring this back later in a better way.
 * **Changed:** Bump WordPress version support to 5.4 (props [@tmoorewp](https://profiles.wordpress.org/tmoorewp/), [@jeffpaul](https://profiles.wordpress.org/jeffpaul/))
 * **Changed:** Switched to using GitHub Actions instead of Travis for Continuous Integration (props [@helen](https://profiles.wordpress.org/helen/))
 * **Changed:** Updated plugin screenshots and FAQs (props [@jeffpaul](https://profiles.wordpress.org/jeffpaul/), [@helen](https://profiles.wordpress.org/helen/))
-* **Fixed:** Properly detects ads.txt files on mapped domains (props [@mmcachran](https://profiles.wordpress.org/mmcachran/), [@helen](https://profiles.wordpress.org/helen/), [@pers](https://profiles.wordpress.org/pers/))
 * **Fixed:** Update capability check when saving ads.txt (props [@eclev91](https://profiles.wordpress.org/eclev91/))
 
 = 1.2.0 =

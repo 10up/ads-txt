@@ -4,9 +4,12 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
-## [1.3.0] - TBD
+## [1.3.0] - 2020-05-01
 ### Added
-- Support for app-ads.txt filetype (props [@helen](https://github.com/helen), [@westi](https://github.com/westi), [@p0mmy](https://github.com/p0mmy) via []())
+- Support for app-ads.txt filetype (props [@helen](https://github.com/helen), [@westi](https://github.com/westi), [@p0mmy](https://github.com/p0mmy) via [#60](https://github.com/10up/ads-txt/pull/60))
+
+### Removed
+- Stop attempting to show an error notice about an existing `ads.txt` file due to too many false positives. We will bring this back later in a better way. (see [#61](https://github.com/10up/ads-txt/issues/61))
 
 ### Changed
 - Bump WordPress version support to 5.4 (props [@tmoorewp](https://github.com/tmoorewp), [@jeffpaul](https://github.com/jeffpaul) via [#56](https://github.com/10up/ads-txt/pull/56))
@@ -14,7 +17,6 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Updated plugin screenshots and FAQs (props [@jeffpaul](https://github.com/jeffpaul), [@helen](https://github.com/helen) via [#58](https://github.com/10up/ads-txt/pull/58), [#55](https://github.com/10up/ads-txt/pull/55))
 
 ### Fixed
-- Properly detects ads.txt files on mapped domains (props [@mmcachran](https://github.com/mmcachran), [@helen](https://github.com/helen), [@soderlind](https://github.com/soderlind) via [#53](https://github.com/10up/ads-txt/pull/53))
 - Update capability check when saving ads.txt (props [@ethanclevenger91](https://github.com/ethanclevenger91) via [#51](https://github.com/10up/ads-txt/pull/51))
 
 ## [1.2.0] - 2019-11-26
