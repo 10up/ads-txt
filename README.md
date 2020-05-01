@@ -6,7 +6,7 @@
 
 ## Features
 
-![Screenshot of ads.txt editor](.wordpress-org/screenshot-2.png "Example of editing an ads.txt file with errors and a link to browse ads.txt file revisions.")
+![Screenshot of ads.txt editor](.wordpress-org/screenshot-1.png "Example of editing an ads.txt file with errors and a link to browse ads.txt file revisions.")
 
 [Ads.txt](https://iabtechlab.com/ads-txt/) is an initiative by the Interactive Advertising Bureau to enable publishers to take control over who can sell their ad inventory. Through our work at 10up with various publishers, we've created a way to manage and validate your ads.txt file from within WordPress, eliminating the need to upload a file. The validation baked into the plugin helps avoid malformed records, which can cause issues that end up cached for up to 24 hours and can lead to a drop in ad revenue.
 
@@ -39,21 +39,17 @@ You will need to rename or remove the existing ads.txt file (keeping a copy of t
 
 ## Screenshots
 
-### 1. Example of error noting an existing ads.txt file was found on the server.
+### 1. Example of editing an ads.txt file with errors and a link to browse ads.txt file revisions.
 
-![Screenshot of ads.txt editor](.wordpress-org/screenshot-1.png "Example of error noting an existing ads.txt file was found on the server.")
+![Screenshot of ads.txt editor](.wordpress-org/screenshot-1.png "Example of editing an ads.txt file with errors and a link to browse ads.txt file revisions.")
 
-### 2. Example of editing an ads.txt file with errors and a link to browse ads.txt file revisions.
+### 2. Example of comparing ads.txt file revisions.
 
-![Screenshot of ads.txt editor](.wordpress-org/screenshot-2.png "Example of editing an ads.txt file with errors and a link to browse ads.txt file revisions.")
+![Screenshot of ads.txt in Revisions editor](.wordpress-org/screenshot-2.png "Example of comparing ads.txt file revisions.")
 
-### 3. Example of comparing ads.txt file revisions.
+### 3. Example of comparing two disparate ads.txt file revisions.
 
-![Screenshot of ads.txt in Revisions editor](.wordpress-org/screenshot-3.png "Example of comparing ads.txt file revisions.")
-
-### 4. Example of comparing two disparate ads.txt file revisions.
-
-![Screenshot of ads.txt in Revisions editor](.wordpress-org/screenshot-4.png "Example of comparing two disparate ads.txt file revisions.")
+![Screenshot of ads.txt in Revisions editor](.wordpress-org/screenshot-3.png "Example of comparing two disparate ads.txt file revisions.")
 
 ## Support Level
 

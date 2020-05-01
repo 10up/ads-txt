@@ -39,10 +39,9 @@ We plan on adding support for this file in the future! If you'd like to follow a
 
 == Screenshots ==
 
-1. Example of error noting an existing ads.txt file was found on the server.
-2. Example of editing an ads.txt file with errors and a link to browse ads.txt file revisions.
-3. Example of comparing ads.txt file revisions.
-4. Example of comparing two disparate ads.txt file revisions.
+1. Example of editing an ads.txt file with errors and a link to browse ads.txt file revisions.
+2. Example of comparing ads.txt file revisions.
+3. Example of comparing two disparate ads.txt file revisions.
 
 == Installation ==
 1. Install the plugin via the plugin installer, either by searching for it or uploading a .zip file.
