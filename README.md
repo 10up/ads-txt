@@ -1,6 +1,6 @@
 # Ads.txt Manager for WordPress
 
-> Create, manage, and validate your Ads.txt from within WordPress, just like any other content asset.
+> Create, manage, and validate your ads.txt and app-ads.txt from within WordPress, just like any other content asset.
 
 [![Automated Tests](https://github.com/10up/ads-txt/workflows/Automated%20Tests/badge.svg)](https://github.com/10up/ads-txt/actions?query=workflow%3A%22Automated+Tests%22) [![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Release Version](https://img.shields.io/github/tag/10up/ads-txt.svg?label=release)](https://github.com/10up/ads-txt/releases/latest) ![WordPress tested up to version](https://img.shields.io/badge/WordPress-v5.4%20tested-success.svg) [![GPLv2 License](https://img.shields.io/github/license/10up/ads-txt.svg)](https://github.com/10up/ads-txt/blob/develop/LICENSE.md)
 
@@ -13,10 +13,6 @@
 ### What about ads.cert?
 
 We're closely monitoring continued developments in the ad fraud space, and see this plugin as not only a way to create and manage your ads.txt file but also be prepared for future changes and upgrades to specifications. ads.cert is still in the extremely early stages so we don't see any immediate concerns with implementing ads.txt.
-
-### What about app-ads.txt?
-
-We plan on adding support for this file in the future! If you'd like to follow along with development or even help us get it done, please see [#40](https://github.com/10up/ads-txt/issues/40).
 
 ### Can I use this with multisite?
 
@@ -34,12 +30,12 @@ Yes! However, if you are using a subfolder installation it will only work for th
 
 1. Install the plugin via the plugin installer, either by searching for it or uploading a .zip file.
 1. Activate the plugin.
-1. Head to Settings → Ads.txt and add the records you need.
-1. Check it out at yoursite.com/ads.txt!
+1. Head to Settings → Ads.txt or App-ads.txt and add the records you need.
+1. Check it out at yoursite.com/ads.txt or yoursite.com/app-ads.txt!
 
-Note: If you already have an existing ads.txt file in the web root, the plugin will not read in the contents of that file, and changes you make in WordPress admin will not overwrite contents of the physical file.
+Note: If you already have an existing ads.txt or app-ads.txt file in the web root, the plugin will not read in the contents of the respective files, and changes you make in WordPress admin will not overwrite contents of the physical files.
 
-You will need to rename or remove the existing ads.txt file (keeping a copy of the records it contains to put into the new settings screen) before you will be able to see any changes you make to ads.txt inside the WordPress admin.
+You will need to rename or remove the existing (app-)ads.txt file (keeping a copy of the records it contains to put into the new settings screen) before you will be able to see any changes you make to (app-)ads.txt inside the WordPress admin.
 
 ## Screenshots
 
