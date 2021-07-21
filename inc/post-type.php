@@ -28,7 +28,7 @@ function register() {
 			'delete_posts'           => 'customize',
 			'delete_private_posts'   => 'customize',
 			'delete_published_posts' => 'customize',
-			'edit_others_posts'      => 'customize',
+			'edit_others_posts'      => 'edit_others_posts',
 			'edit_post'              => 'customize',
 			'edit_posts'             => 'customize',
 			'edit_private_posts'     => 'customize',
