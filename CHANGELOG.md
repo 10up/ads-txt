@@ -41,7 +41,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 ## [1.0.0] - 2017-12-18
 - Initial plugin release
 
-[Unreleased]: https://github.com/10up/ads-txt/compare/master...develop
+[Unreleased]: https://github.com/10up/ads-txt/compare/trunk...develop
 [1.3.0]: https://github.com/10up/ads-txt/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/10up/ads-txt/compare/1.1...1.2.0
 [1.1.0]: https://github.com/10up/ads-txt/compare/1.0...1.1
