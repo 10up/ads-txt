@@ -9,6 +9,7 @@ describe("Manage app-ads.txt", () => {
   });
 
   it("Can update invalid record anyway", () => {
+    cy.setPermalinkStructure("/%postname%/");
     cy.visitAdminPage("options-general.php?page=app-adstxt-settings");
     cy.get(".adstxt-settings-form .CodeMirror")
       .click()
@@ -30,6 +31,7 @@ describe("Manage app-ads.txt", () => {
   });
 
   it("Can save correct app-ads.txt", () => {
+    cy.setPermalinkStructure("/%postname%/");
     cy.visitAdminPage("options-general.php?page=app-adstxt-settings");
     cy.get(".adstxt-settings-form .CodeMirror")
       .click()
@@ -44,6 +46,7 @@ describe("Manage app-ads.txt", () => {
   });
 
   it("Can manage revisions", () => {
+    cy.setPermalinkStructure("/%postname%/");
     cy.visitAdminPage("options-general.php?page=app-adstxt-settings");
     // cy.get(".app-adstxt-revision-count").should("have.text", "2");
     cy.get(".misc-pub-revisions a").should("contain.text", "Browse").click();
