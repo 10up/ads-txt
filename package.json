@@ -1,0 +1,23 @@
+{
+  "name": "@10up/ads-txt",
+  "version": "1.3.0",
+  "description": "Create, manage, and validate your ads.txt and app-ads.txt from within WordPress, just like any other content asset.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/10up/ads-txt.git"
+  },
+  "author": {
+	"name": "10up",
+    "email": "opensource@10up.com",
+    "url": "https://10up.com",
+    "role": "developer"
+  },
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/10up/ads-txt/issues"
+  },
+  "homepage": "https://github.com/10up/ads-txt"
+}
