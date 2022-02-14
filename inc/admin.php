@@ -235,7 +235,7 @@ function app_adstxt_settings_screen() {
 function settings_screen( $post_id, $strings, $args ) {
 	$post             = false;
 	$content          = false;
-	$errors           = [];
+	$errors           = array();
 	$revision_count   = 0;
 	$last_revision_id = false;
 
