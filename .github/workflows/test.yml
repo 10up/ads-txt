@@ -46,5 +46,7 @@ jobs:
       run: ./tests/bin/set-core-version.js ${{ matrix.core.version }}
     - name: Set up WP environment
       run: npm run env:start
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
     - name: Test
       run: npm run cypress:run
