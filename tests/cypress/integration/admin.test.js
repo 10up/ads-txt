@@ -5,10 +5,4 @@ describe("Admin can login and make sure plugin is activated", () => {
     cy.get("#activate-ads-txt, tr[data-slug=ads-txt] .activate a").click();
     cy.get("#deactivate-ads-txt, tr[data-slug=ads-txt] .deactivate a").should("be.visible");
   });
-
-  it("Can view Hello world", () => {
-    cy.setPermalinkStructure("/%postname%/");
-    cy.wait(2000);
-    cy.visit(`/hello-world/`);
-  });
 });
