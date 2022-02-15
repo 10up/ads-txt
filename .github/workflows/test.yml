@@ -36,7 +36,9 @@ jobs:
     strategy:
       matrix:
         core:
-          - {name: 'WP minimum', version: 'WordPress/WordPress#4.9'}
+          - {name: 'WP latest', version: 'latest'}
+#          - {name: 'WP trunk', version: 'WordPress/WordPress#master'}
+#          - {name: 'WP minimum', version: 'WordPress/WordPress#4.9'}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
