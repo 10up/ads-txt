@@ -31,7 +31,6 @@ describe("Manage app-ads.txt", () => {
   });
 
   it("Can save correct app-ads.txt", () => {
-    cy.setPermalinkStructure("/%postname%/");
     cy.visitAdminPage("options-general.php?page=app-adstxt-settings");
     cy.get(".adstxt-settings-form .CodeMirror")
       .click()
@@ -40,21 +39,21 @@ describe("Manage app-ads.txt", () => {
     cy.get(".adstxt-settings-form #submit").click();
     cy.get(".adstxt-saved").should("contain.text", "App-ads.txt saved");
     cy.get(".notice-error").should("not.exist");
+    cy.wait(2000);
     cy.request(`app-ads.txt`).then((response) => {
       expect(response.body).to.contain(correctRecord);
     });
   });
 
   it("Can manage revisions", () => {
-    cy.setPermalinkStructure("/%postname%/");
     cy.visitAdminPage("options-general.php?page=app-adstxt-settings");
-    // cy.get(".app-adstxt-revision-count").should("have.text", "2");
     cy.get(".misc-pub-revisions a").should("contain.text", "Browse").click();
     cy.get(".long-header").should("contain.text", "Compare Revisions");
     cy.get(".restore-revision.button").should("be.disabled");
     cy.get(".revisions-previous .button").click();
     cy.get(".restore-revision.button").should("be.enabled").click();
     cy.get(".notice-success").should("contain.text", "Revision restored");
+    cy.wait(2000);
     cy.request(`app-ads.txt`).then((response) => {
       expect(response.body).to.contain(incorrectRecord);
     });
