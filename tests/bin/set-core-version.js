@@ -4,7 +4,7 @@ const fs = require( 'fs' );
 
 const path = `${ process.cwd() }/.wp-env.override.json`;
 
-let config = fs.existsSync( path ) ? require( path ) : { plugins: [ '.' ] };
+let config = fs.existsSync( path ) ? require( path ) : {};
 
 const args = process.argv.slice( 2 );
 
