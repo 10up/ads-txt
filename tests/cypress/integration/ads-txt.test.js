@@ -3,6 +3,10 @@ describe("Manage ads.txt", () => {
   const correctRecord =
     "example.com, pub-00000000000, DIRECT, f08c47fec0942fa0";
 
+  before(() => {
+    cy.setPermalinkStructure("/%postname%/");
+  });
+
   it("Can visit manage ads.txt page", () => {
     cy.visitAdminPage("options-general.php?page=adstxt-settings");
     cy.get("#wpbody h2").should("have.text", "Manage Ads.txt");
@@ -30,7 +34,6 @@ describe("Manage ads.txt", () => {
   });
 
   it("Can save correct ads.txt", () => {
-    cy.setPermalinkStructure(`/%postname%/`);
     cy.visitAdminPage("options-general.php?page=adstxt-settings");
     cy.get(".adstxt-settings-form .CodeMirror")
       .click()
@@ -39,14 +42,12 @@ describe("Manage ads.txt", () => {
     cy.get(".adstxt-settings-form #submit").click();
     cy.get(".adstxt-saved").should("contain.text", "Ads.txt saved");
     cy.get(".notice-error").should("not.exist");
-    cy.wait(2000);
     cy.request(`ads.txt`).then((response) => {
       expect(response.body).to.contain(correctRecord);
     });
   });
 
   it("Can manage revisions", () => {
-    cy.setPermalinkStructure(`/%postname%/`);
     cy.visitAdminPage("options-general.php?page=adstxt-settings");
     cy.get(".misc-pub-revisions a").should("contain.text", "Browse").click();
     cy.get(".long-header").should("contain.text", "Compare Revisions");
@@ -54,7 +55,6 @@ describe("Manage ads.txt", () => {
     cy.get(".revisions-previous .button").click();
     cy.get(".restore-revision.button").should("be.enabled").click();
     cy.get(".notice-success").should("contain.text", "Revision restored");
-    cy.wait(2000);
     cy.request(`ads.txt`).then((response) => {
       expect(response.body).to.contain(incorrectRecord);
     });
