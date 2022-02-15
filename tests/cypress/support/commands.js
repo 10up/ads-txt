@@ -86,5 +86,7 @@ Cypress.Commands.add( 'setPermalinkStructure', ( type ) => {
 	cy.visitAdminPage( `options-permalink.php` );
 	cy.get( '#permalink_structure' ).click().type("{selectall}").type( type );
 	cy.get( '#submit' ).click();
+	cy.visitAdminPage( `options-permalink.php` );
 	cy.get( 'h1' ).should("have.text", "Permalink Settings");
+	cy.get( '#permalink_structure' ).should("have.value", type);
 } );
