@@ -37,7 +37,6 @@ jobs:
       matrix:
         core:
           - {name: 'WP latest', version: 'latest'}
-          - {name: 'WP trunk', version: 'WordPress/WordPress#master'}
           - {name: 'WP minimum', version: 'https://wordpress.org/wordpress-4.9.zip'}
     steps:
     - name: Checkout
