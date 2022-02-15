@@ -30,6 +30,7 @@ describe("Manage ads.txt", () => {
   });
 
   it("Can save correct ads.txt", () => {
+    cy.setPermalinkStructure(`/%postname%/`);
     cy.visitAdminPage("options-general.php?page=adstxt-settings");
     cy.get(".adstxt-settings-form .CodeMirror")
       .click()
@@ -45,6 +46,7 @@ describe("Manage ads.txt", () => {
   });
 
   it("Can manage revisions", () => {
+    cy.setPermalinkStructure(`/%postname%/`);
     cy.visitAdminPage("options-general.php?page=adstxt-settings");
     cy.get(".misc-pub-revisions a").should("contain.text", "Browse").click();
     cy.get(".long-header").should("contain.text", "Compare Revisions");
