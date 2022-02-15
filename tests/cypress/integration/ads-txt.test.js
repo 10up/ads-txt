@@ -42,7 +42,7 @@ describe("Manage ads.txt", () => {
     cy.get(".adstxt-settings-form #submit").click();
     cy.get(".adstxt-saved").should("contain.text", "Ads.txt saved");
     cy.get(".notice-error").should("not.exist");
-    cy.request(`ads.txt`).then((response) => {
+    cy.request(`/ads.txt`).then((response) => {
       expect(response.body).to.contain(correctRecord);
     });
   });
@@ -55,7 +55,7 @@ describe("Manage ads.txt", () => {
     cy.get(".revisions-previous .button").click();
     cy.get(".restore-revision.button").should("be.enabled").click();
     cy.get(".notice-success").should("contain.text", "Revision restored");
-    cy.request(`ads.txt`).then((response) => {
+    cy.request(`/ads.txt`).then((response) => {
       expect(response.body).to.contain(incorrectRecord);
     });
   });
