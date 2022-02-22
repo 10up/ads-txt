@@ -4,9 +4,6 @@ on:
   pull_request:
     branches:
       - develop
-  push:
-    branches:
-      - test/wp-env-version
 jobs:
   cypress:
     name: E2E Tests
