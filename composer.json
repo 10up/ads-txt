@@ -24,10 +24,6 @@
 		"10up/phpcs-composer": "dev-master"
     },
     "license": "GPLv2 or later",
-    "scripts": {
-        "lint": "vendor/bin/phpcs --standard=WordPress *.php inc/*.php",
-        "lint-fix": "vendor/bin/phpcbf --standard=WordPress *.php inc/*.php"
-    },
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
