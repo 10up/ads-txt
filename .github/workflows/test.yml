@@ -28,4 +28,4 @@ jobs:
     - name: Install dependencies
       run: composer install --ignore-platform-reqs
     - name: Run PHPCS
-      run: composer run lint
+      run: ./vendor/bin/phpcs --standard=WordPress *.php inc/*.php
