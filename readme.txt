@@ -1,15 +1,15 @@
 === Ads.txt Manager ===
 Contributors: 10up, helen, adamsilverstein, jakemgold
-Author URI: https://10up.com
-Plugin URI: https://github.com/10up/ads-txt
-Tags: ads.txt, ads, ad manager, advertising, publishing, publishers
+Author URI:        https://10up.com
+Plugin URI:        https://github.com/10up/ads-txt
+Tags:              ads.txt, app-ads.txt, ads, ad manager, advertising, publishing, publishers
 Requires at least: 4.9
-Tested up to: 5.9
-Requires PHP: 5.3
-Stable tag: 1.3.0
-License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-Text Domain: ads-txt
+Tested up to:      5.9
+Requires PHP:      5.3
+Stable tag:        1.3.0
+License:           GPLv2 or later
+License URI:       https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Text Domain:       ads-txt
 
 Create, manage, and validate your ads.txt and app-ads.txt from within WordPress, just like any other content asset. Requires PHP 5.3+ and WordPress 4.9+.
 

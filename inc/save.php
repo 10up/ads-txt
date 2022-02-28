@@ -104,8 +104,8 @@ function validate_line( $line, $line_number ) {
 	} elseif ( 0 === strpos( $line, '#' ) ) { // This is a full-line comment.
 		$sanitized = wp_strip_all_tags( $line );
 	} elseif ( 1 < strpos( $line, '=' ) ) { // This is a variable declaration.
-		// The spec currently supports CONTACT and SUBDOMAIN.
-		if ( ! preg_match( '/^(CONTACT|SUBDOMAIN)=/i', $line ) ) {
+		// The spec currently supports CONTACT, INVENTORYPARTNERDOMAIN and SUBDOMAIN.
+		if ( ! preg_match( '/^(CONTACT|SUBDOMAIN|INVENTORYPARTNERDOMAIN)=/i', $line ) ) {
 			$errors[] = array(
 				'line' => $line_number,
 				'type' => 'invalid_variable',
