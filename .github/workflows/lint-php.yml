@@ -10,7 +10,7 @@ on:
       - develop
 
 jobs:
-  php_compatibility:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
