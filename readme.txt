@@ -82,9 +82,4 @@ You will need to rename or remove the existing (app-)ads.txt file (keeping a cop
 * **Fixed:** Early escaping (props [@tjnowell](https://profiles.wordpress.org/tjnowell/))
 * **Fixed:** PHPCS issues and added PHPCS scanning (props [@adamsilverstein](https://profiles.wordpress.org/adamsilverstein/))
 
-= 1.1 =
-* Better error message formatting (wraps values in `<code>` tags for better readability)
-* WordPress.com VIP-approved escaping
-
-= 1.0 =
-* Initial plugin release
+Further changelog entries can be found in the [CHANGELOG.md](https://github.com/10up/ads-txt/blob/trunk/CHANGELOG.md) file.
