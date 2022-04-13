@@ -55,6 +55,16 @@ You will need to rename or remove the existing (app-)ads.txt file (keeping a cop
 
 == Changelog ==
 
+= 1.4.0 =
+* **Added:** support for the `INVENTORYPARTNERDOMAIN` variable (props [@dkotter](https://github.com/dkotter), [@faisal-alvi](https://github.com/faisal-alvi))
+* **Added:** end to end tests with Cypress (props [@cadic](https://github.com/cadic), [@dinhtungdu](https://github.com/dinhtungdu), [@darylldoyle](https://github.com/darylldoyle), [@Sidsector9](https://github.com/Sidsector9))
+* **Changed:** update dealerdirect/phpcodesniffer-composer-installer from 0.5.x to 0.7.1 (props [@evokelektrique](http://github.com/evokelektrique), [@peterwilsoncc](http://github.com/peterwilsoncc))
+* **Changed:** update minimist from 1.2.5 to 1.2.6
+* **Changed:** bump Wordpress tested up to to 5.9 (props [@mohitwp](https://github.com/mohitwp), [@cadic](https://github.com/cadic))
+* **Changed:** automated testing code compatibility against PHP versions from 5.3 to 8.1 (props [@cadic](https://github.com/cadic))
+* **Fixed:** allow admins to access revisions (props [@PypWalters](https://github.com/PypWalters), [@dinhtungdu](https://github.com/dinhtungdu))
+* **Fixed:** coding standards violations (props [@peterwilsoncc](http://github.com/peterwilsoncc))
+
 = 1.3.0 =
 * **Added:** Support for app-ads.txt filetype (props [@helen](https://profiles.wordpress.org/helen/), [@westi](https://profiles.wordpress.org/westi/), [@p0mmy](https://github.com/p0mmy))
 * **Removed:** Stop attempting to show an error notice about an existing `ads.txt` file due to too many false positives. We will bring this back later in a better way.
