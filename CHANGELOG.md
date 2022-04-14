@@ -50,7 +50,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [1.1.0] - 2018-02-05
 ### Fixed
-- Better error message formatting (wraps values in <code> tags for better readability)
+- Better error message formatting (wraps values in `<code>` tags for better readability)
 - WordPress.com VIP-approved escaping
 
 ## [1.0.0] - 2017-12-18
