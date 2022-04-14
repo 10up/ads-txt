@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 ### Changed
 - Update dealerdirect/phpcodesniffer-composer-installer from 0.5.x to 0.7.1 (props [@evokelektrique](http://github.com/evokelektrique), [@peterwilsoncc](http://github.com/peterwilsoncc) via [#77](https://github.com/10up/ads-txt/pull/77))
 - Update minimist from 1.2.5 to 1.2.6 ([#88](https://github.com/10up/ads-txt/pull/88))
-- Bump Wordpress tested up to to 5.9 (props [@mohitwp](https://github.com/mohitwp), [@cadic](https://github.com/cadic) via [#85](https://github.com/10up/ads-txt/pull/85))
+- Bump Wordpress tested up to to 6.0 (props [@mohitwp](https://github.com/mohitwp), [@cadic](https://github.com/cadic), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#85](https://github.com/10up/ads-txt/pull/85), [#90](https://github.com/10up/ads-txt/pull/90))
 - Automated testing code compatibility against PHP versions from 5.3 to 8.1 (props [@cadic](https://github.com/cadic) via [#86](https://github.com/10up/ads-txt/pull/86))
 
 ### Fixed

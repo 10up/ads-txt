@@ -60,7 +60,7 @@ You will need to rename or remove the existing (app-)ads.txt file (keeping a cop
 * **Added:** end to end tests with Cypress (props [@cadic](https://github.com/cadic), [@dinhtungdu](https://github.com/dinhtungdu), [@darylldoyle](https://github.com/darylldoyle), [@Sidsector9](https://github.com/Sidsector9))
 * **Changed:** update dealerdirect/phpcodesniffer-composer-installer from 0.5.x to 0.7.1 (props [@evokelektrique](http://github.com/evokelektrique), [@peterwilsoncc](http://github.com/peterwilsoncc))
 * **Changed:** update minimist from 1.2.5 to 1.2.6
-* **Changed:** bump Wordpress tested up to to 5.9 (props [@mohitwp](https://github.com/mohitwp), [@cadic](https://github.com/cadic))
+* **Changed:** bump Wordpress tested up to to 6.0 (props [@mohitwp](https://github.com/mohitwp), [@cadic](https://github.com/cadic), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#85](https://github.com/10up/ads-txt/pull/85), [#90](https://github.com/10up/ads-txt/pull/90))
 * **Changed:** automated testing code compatibility against PHP versions from 5.3 to 8.1 (props [@cadic](https://github.com/cadic))
 * **Fixed:** allow admins to access revisions (props [@PypWalters](https://github.com/PypWalters), [@dinhtungdu](https://github.com/dinhtungdu))
 * **Fixed:** coding standards violations (props [@peterwilsoncc](http://github.com/peterwilsoncc))
