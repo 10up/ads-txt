@@ -1,0 +1,33 @@
+{
+  "name": "@10up/ads-txt",
+  "version": "1.4.0",
+  "description": "Create, manage, and validate your ads.txt and app-ads.txt from within WordPress, just like any other content asset.",
+  "scripts": {
+    "cypress:open": "cypress open --config-file tests/cypress/config.json",
+    "cypress:run": "cypress run --config-file tests/cypress/config.json",
+    "wp-env": "wp-env",
+    "env:start": "wp-env start",
+    "env:stop": "wp-env stop",
+    "postenv:start": "./tests/bin/initialize.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/10up/ads-txt.git"
+  },
+  "author": {
+    "name": "10up",
+    "email": "opensource@10up.com",
+    "url": "https://10up.com",
+    "role": "developer"
+  },
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/10up/ads-txt/issues"
+  },
+  "homepage": "https://github.com/10up/ads-txt",
+  "devDependencies": {
+    "@wordpress/env": "^4.2.1",
+    "cypress": "^9.4.1",
+    "cypress-file-upload": "^5.0.8"
+  }
+}

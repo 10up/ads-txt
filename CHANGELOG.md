@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+## [1.4.0] - 2022-04-13
+### Added
+- Support for the `INVENTORYPARTNERDOMAIN` variable (props [@dkotter](https://github.com/dkotter), [@faisal-alvi](https://github.com/faisal-alvi) via [#74](https://github.com/10up/ads-txt/pull/74))
+- End to end tests with Cypress (props [@cadic](https://github.com/cadic), [@dinhtungdu](https://github.com/dinhtungdu), [@darylldoyle](https://github.com/darylldoyle), [@Sidsector9](https://github.com/Sidsector9) via [#82](https://github.com/10up/ads-txt/pull/82))
+
+### Changed
+- Update dealerdirect/phpcodesniffer-composer-installer from 0.5.x to 0.7.1 (props [@evokelektrique](http://github.com/evokelektrique), [@peterwilsoncc](http://github.com/peterwilsoncc) via [#77](https://github.com/10up/ads-txt/pull/77))
+- Update minimist from 1.2.5 to 1.2.6 ([#88](https://github.com/10up/ads-txt/pull/88))
+- Bump Wordpress tested up to to 6.0 (props [@mohitwp](https://github.com/mohitwp), [@cadic](https://github.com/cadic), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#85](https://github.com/10up/ads-txt/pull/85), [#90](https://github.com/10up/ads-txt/pull/90))
+- Automated testing code compatibility against PHP versions from 5.3 to 8.1 (props [@cadic](https://github.com/cadic) via [#86](https://github.com/10up/ads-txt/pull/86))
+
+### Fixed
+- Allow admins to access revisions (props [@PypWalters](https://github.com/PypWalters), [@dinhtungdu](https://github.com/dinhtungdu) via [#68](https://github.com/10up/ads-txt/pull/68))
+- Coding standards violations (props [@peterwilsoncc](http://github.com/peterwilsoncc) via [#81](https://github.com/10up/ads-txt/pull/81))
+
 ## [1.3.0] - 2020-05-01
 ### Added
 - Support for app-ads.txt filetype (props [@helen](https://github.com/helen), [@westi](https://github.com/westi), [@p0mmy](https://github.com/p0mmy) via [#60](https://github.com/10up/ads-txt/pull/60))
@@ -35,13 +50,14 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [1.1.0] - 2018-02-05
 ### Fixed
-- Better error message formatting (wraps values in <code> tags for better readability)
+- Better error message formatting (wraps values in `<code>` tags for better readability)
 - WordPress.com VIP-approved escaping
 
 ## [1.0.0] - 2017-12-18
 - Initial plugin release
 
-[Unreleased]: https://github.com/10up/ads-txt/compare/master...develop
+[Unreleased]: https://github.com/10up/ads-txt/compare/trunk...develop
+[1.4.0]: https://github.com/10up/ads-txt/compare/1.3.0...1.4.0
 [1.3.0]: https://github.com/10up/ads-txt/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/10up/ads-txt/compare/1.1...1.2.0
 [1.1.0]: https://github.com/10up/ads-txt/compare/1.0...1.1

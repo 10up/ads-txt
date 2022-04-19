@@ -1,1 +1,8 @@
-/vendor/
+vendor
+node_modules
+artifacts
+tests/cypress/downloads
+tests/cypress/screenshots
+tests/cypress/videos
+
+.wp-env.override.json
