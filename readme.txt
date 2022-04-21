@@ -1,5 +1,5 @@
 === Ads.txt Manager ===
-Contributors: 10up, helen, adamsilverstein, jakemgold
+Contributors:      10up, helen, adamsilverstein, jakemgold, peterwilsoncc
 Author URI:        https://10up.com
 Plugin URI:        https://github.com/10up/ads-txt
 Tags:              ads.txt, app-ads.txt, ads, ad manager, advertising, publishing, publishers
