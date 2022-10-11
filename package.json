@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/10up/ads-txt",
   "devDependencies": {
-    "@wordpress/env": "^4.2.1",
+    "@wordpress/env": "^4.9.0",
     "cypress": "^9.4.1",
     "cypress-file-upload": "^5.0.8"
   }
