@@ -3,9 +3,9 @@ Contributors:      10up, helen, adamsilverstein, jakemgold, peterwilsoncc
 Author URI:        https://10up.com
 Plugin URI:        https://github.com/10up/ads-txt
 Tags:              ads.txt, app-ads.txt, ads, ad manager, advertising, publishing, publishers
-Requires at least: 4.9
+Requires at least: 5.7
 Tested up to:      6.0
-Requires PHP:      5.3
+Requires PHP:      7.4
 Stable tag:        1.4.0
 License:           GPLv2 or later
 License URI:       https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
