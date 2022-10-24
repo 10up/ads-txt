@@ -105,7 +105,7 @@ function validate_line( $line, $line_number ) {
 		$sanitized = wp_strip_all_tags( $line );
 	} elseif ( 1 < strpos( $line, '=' ) ) { // This is a variable declaration.
 		// The spec currently supports CONTACT, INVENTORYPARTNERDOMAIN and SUBDOMAIN.
-		if ( ! preg_match( '/^(CONTACT|SUBDOMAIN|INVENTORYPARTNERDOMAIN)=/i', $line ) ) {
+		if ( ! preg_match( '/^(CONTACT|SUBDOMAIN|INVENTORYPARTNERDOMAIN|OWNERDOMAIN|MANAGERDOMAIN)=/i', $line ) ) {
 			$errors[] = array(
 				'line' => $line_number,
 				'type' => 'invalid_variable',
