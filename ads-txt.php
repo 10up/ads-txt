@@ -1,12 +1,14 @@
 <?php
 /**
- * Plugin Name: Ads.txt Manager
- * Description: Create, manage, and validate your Ads.txt from within WordPress, just like any other content asset. Requires PHP 5.3+ and WordPress 4.9+.
- * Version:     1.3.0
- * Author:      10up
- * Author URI:  https://10up.com
- * License:     GPLv2 or later
- * Text Domain: ads-txt
+ * Plugin Name:       Ads.txt Manager
+ * Description:       Create, manage, and validate your Ads.txt from within WordPress, just like any other content asset. Requires PHP 5.3+ and WordPress 4.9+.
+ * Version:           1.4.0
+ * Author:            10up
+ * Author URI:        https://10up.com
+ * License:           GPLv2 or later
+ * Requires at least: 5.7
+ * Requires PHP:      7.4
+ * Text Domain:       ads-txt
  *
  * @package Ads_Txt_Manager
  */
@@ -15,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'ADS_TXT_MANAGER_VERSION', '1.3.0' );
+define( 'ADS_TXT_MANAGER_VERSION', '1.4.0' );
 define( 'ADS_TXT_MANAGE_CAPABILITY', 'edit_ads_txt' );
 define( 'ADS_TXT_MANAGER_POST_OPTION', 'adstxt_post' );
 define( 'APP_ADS_TXT_MANAGER_POST_OPTION', 'app_adstxt_post' );

@@ -85,8 +85,8 @@ Line 10: f08c47fec0942 does not appear to be a valid TAG-ID
 3. Changelog: Add/update the changelog in both `readme.txt` and `CHANGELOG.md`
 4. New files: Check to be sure any new files/paths that are unnecessary in the production version are included in `.gitattributes`.
 5. Readme updates: Make any other readme changes as necessary. `CHANGELOG.md` and `README.md` are geared toward GitHub and `readme.txt` contains WordPress.org-specific content. The two are slightly different.
-6. Merge: Make a non-fast-forward merge from `develop` to `master` (`git checkout master && git merge --no-ff develop`).
-7. Release: Create a [new release](https://github.com/10up/ads-txt/releases/new), naming the tag and the release with the new version number, and targeting the `master` branch. Paste the changelog from `CHANGELOG.md` into the body of the release and include a link to the closed issues on the milestone (e.g. https://github.com/10up/ads-txt/milestone/1?closed=1).
+6. Merge: Make a non-fast-forward merge from `develop` to `trunk` (`git checkout trunk && git merge --no-ff develop`).
+7. Release: Create a [new release](https://github.com/10up/ads-txt/releases/new), naming the tag and the release with the new version number, and targeting the `trunk` branch. Paste the changelog from `CHANGELOG.md` into the body of the release and include a link to the closed issues on the milestone (e.g. https://github.com/10up/ads-txt/milestone/1?closed=1).
 8. SVN: Wait for the [GitHub Action](https://github.com/10up/ads-txt/actions) to finish deploying to the WordPress.org repository. If all goes well, users with SVN commit access for that plugin will receive an emailed diff of changes.
 9. Check WordPress.org: Ensure that the changes are live on [https://wordpress.org/plugins/ads-txt/](https://wordpress.org/plugins/ads-txt/). This may take a few minutes.
 10. Close milestone: Edit the [X.Y.Z milestone](https://github.com/10up/ads-txt/milestone/#) with release date (in the `Due date (optional)` field) and link to GitHub release (in the `Description` field), then close the milestone.

@@ -88,14 +88,6 @@ class SaveTests extends TestCase {
 					),
 				),
 			),
-			'Validate commented SUBDOMAIN var'    => array(
-				'line'        => 'SUBDOMAIN=subdomain.com # comment',
-				'line_number' => 1,
-				'expected'    => array(
-					'sanitized' => 'SUBDOMAIN=subdomain.com # comment',
-					'errors'    => array(),
-				),
-			),
 			'Invalid SUBDOMAIN var'               => array(
 				'line'        => 'SUBDOMAIN=subdomain',
 				'line_number' => 42,
