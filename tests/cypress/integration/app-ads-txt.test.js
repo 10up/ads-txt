@@ -33,7 +33,7 @@ describe("Manage app-ads.txt", () => {
     );
   });
 
-  it("Can save correct app-ads.txt", () => {
+  it("Can save and visit correct app-ads.txt", () => {
     cy.visitAdminPage("options-general.php?page=app-adstxt-settings");
     cy.get(".adstxt-settings-form .CodeMirror")
       .click()
@@ -42,22 +42,6 @@ describe("Manage app-ads.txt", () => {
     cy.get(".adstxt-settings-form #submit").click();
     cy.get(".adstxt-saved").should("contain.text", "App-ads.txt saved");
     cy.get(".notice-error").should("not.exist");
-    cy.request(`/app-ads.txt`).then((response) => {
-      expect(response.body).to.contain(correctRecord);
-    });
-  });
-
-  it("Can view app-ads.txt file with and without cache-busting querystring", () => {
-    // Configure.
-    cy.visitAdminPage("options-general.php?page=app-adstxt-settings");
-    cy.get(".adstxt-settings-form .CodeMirror")
-      .click()
-      .type("{selectall}")
-      .type(correctRecord);
-    cy.get(".adstxt-settings-form #submit").click();
-    cy.get(".adstxt-saved").should("contain.text", "App-ads.txt saved");
-
-    // Test.
     cy.request(`/app-ads.txt`).then((response) => {
       expect(response.body).to.contain(correctRecord);
     });
