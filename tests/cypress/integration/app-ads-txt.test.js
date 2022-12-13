@@ -59,6 +59,10 @@ describe("Manage app-ads.txt", () => {
     });
   });
 
+  it("Visiting app-ads.txt%3F (URL encoded question mark) results in a 404 error", () => {
+    cy.request({url:'/app-ads.txt%3F',failOnStatusCode: false}).its('status').should('equal', 404);
+  });
+
   it("Can manage revisions", () => {
     cy.visitAdminPage("options-general.php?page=app-adstxt-settings");
     cy.get(".misc-pub-revisions a").should("contain.text", "Browse").click();
