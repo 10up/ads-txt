@@ -20,7 +20,7 @@ Yes! However, if you are using a subfolder installation it will only work for th
 
 ## Requirements
 
-* Requires PHP 5.3+.
+* Requires PHP 7.4+.
 * Requires WordPress 4.9+. Older versions of WordPress will not display any syntax highlighting and may break JavaScript and/or be unable to localize the plugin.
 * Ad blockers may break syntax highlighting and pre-save error checking on the edit screen. See [#20](https://github.com/10up/ads-txt/issues/20).
 * Rewrites need to be enabled. Without rewrites, WordPress cannot know to supply `/ads.txt` when requested.
