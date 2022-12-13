@@ -47,6 +47,15 @@ describe("Manage ads.txt", () => {
     });
   });
 
+  it("Can view ads.txt file with and without cache-busting querystring", () => {
+    cy.request(`/ads.txt`).then((response) => {
+      expect(response.body).to.contain(correctRecord);
+    });
+    cy.request(`/ads.txt?cache-busting=1`).then((response) => {
+      expect(response.body).to.contain(correctRecord);
+    });
+  });
+
   it("Can manage revisions", () => {
     cy.visitAdminPage("options-general.php?page=adstxt-settings");
     cy.get(".misc-pub-revisions a").should("contain.text", "Browse").click();
