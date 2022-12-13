@@ -54,6 +54,9 @@ describe("Manage app-ads.txt", () => {
     cy.request(`/app-ads.txt?cache-busting=1`).then((response) => {
       expect(response.body).to.contain(correctRecord);
     });
+    cy.request(`/app-ads.txt?`).then((response) => {
+      expect(response.body).to.contain(correctRecord);
+    });
   });
 
   it("Can manage revisions", () => {
