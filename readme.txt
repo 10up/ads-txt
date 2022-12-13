@@ -11,11 +11,11 @@ License:           GPLv2 or later
 License URI:       https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 Text Domain:       ads-txt
 
-Create, manage, and validate your ads.txt and app-ads.txt from within WordPress, just like any other content asset. Requires PHP 5.3+ and WordPress 4.9+.
+Create, manage, and validate your ads.txt and app-ads.txt from within WordPress, just like any other content asset. Requires PHP 7.4+ and WordPress 5.7+.
 
 == Description ==
 
-Create, manage, and validate your ads.txt and app-ads.txt from within WordPress, just like any other content asset. Requires PHP 5.3+ and WordPress 4.9+.
+Create, manage, and validate your ads.txt and app-ads.txt from within WordPress, just like any other content asset. Requires PHP 7.4+ and WordPress 5.7+.
 
 === What is ads.txt? ===
 
@@ -23,8 +23,8 @@ Ads.txt is an initiative by the Interactive Advertising Bureau to enable publish
 
 === Technical Notes ===
 
-* Requires PHP 5.3+.
-* Requires WordPress 4.9+. Older versions of WordPress will not display any syntax highlighting and may break JavaScript and/or be unable to localize the plugin.
+* Requires PHP 7.4+.
+* Requires WordPress 5.7+.
 * Ad blockers may break syntax highlighting and pre-save error checking on the edit screen.
 * Rewrites need to be enabled. Without rewrites, WordPress cannot know to supply `/ads.txt` when requested.
 * Your site URL must not contain a path (e.g. `https://example.com/site/` or path-based multisite installs). While the plugin will appear to function in the admin, it will not display the contents at `https://example.com/site/ads.txt`. This is because the plugin follows the IAB spec, which requires that the ads.txt file be located at the root of a domain or subdomain.
