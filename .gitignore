@@ -6,3 +6,4 @@ tests/cypress/screenshots
 tests/cypress/videos
 
 .wp-env.override.json
+.phpunit.result.cache
