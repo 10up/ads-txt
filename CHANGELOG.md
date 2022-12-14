@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+## [1.4.1] - 2022-12-14
+### Added
+- Support for OWNERDOMAIN & MANAGERDOMAIN per version 1.1 of the spec (props [@SoftCreatR](https://github.com/SoftCreatR), [@tott](https://github.com/tott), [@jeffpaul](https://github.com/jeffpaul), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#108](https://github.com/10up/ads-txt/pull/108))
+- Unit tests (props [@jeffpaul](https://github.com/jeffpaul), [@cadic](https://github.com/cadic), [@faisal-alvi](https://github.com/faisal-alvi), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#87](https://github.com/10up/ads-txt/pull/87))
+- Dependency security scanning (props [@jeffpaul](https://github.com/jeffpaul), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#97](https://github.com/10up/ads-txt/pull/97))
+
+### Changed
+- Bump Wordpress tested up to to 6.1 (props [@jayedul](https://github.com/jayedul), [@dkotter](https://github.com/dkotter), [@jeffpaul](https://github.com/jeffpaul), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#113](https://github.com/10up/ads-txt/pull/113))
+- Minimum WP and PHP version requirement bumped to 5.7 and 7.4 respectively (props [@jayedul](https://github.com/jayedul), [@dkotter](https://github.com/dkotter), [@peterwilsoncc](https://github.com/peterwilsoncc), [@cadic](https://github.com/cadic) via [#103](https://github.com/10up/ads-txt/pull/103), [#117](https://github.com/10up/ads-txt/pull/117))
+
+### Fixed
+- Base URL corrected for E2E test suite. (props [@peterwilsoncc](https://github.com/peterwilsoncc), [@cadic](https://github.com/cadic), [@dkotter](https://github.com/dkotter) via [#112](https://github.com/10up/ads-txt/pull/112))
+
+### Security
+- Bump got and @wordpress/env (props [@jeffpaul](https://github.com/jeffpaul), [@peterwilsoncc](https://github.com/peterwilsoncc), [@dependabot](https://github.com/dependabot), [@dkotter](https://github.com/dkotter) via [#104](https://github.com/10up/ads-txt/pull/104))
+- Bump simple-git and @wordpress/env (props [@jeffpaul](https://github.com/jeffpaul), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#105](https://github.com/10up/ads-txt/pull/105))
+
 ## [1.4.0] - 2022-04-13
 ### Added
 - Support for the `INVENTORYPARTNERDOMAIN` variable (props [@dkotter](https://github.com/dkotter), [@faisal-alvi](https://github.com/faisal-alvi) via [#74](https://github.com/10up/ads-txt/pull/74))
@@ -57,6 +74,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Initial plugin release
 
 [Unreleased]: https://github.com/10up/ads-txt/compare/trunk...develop
+[1.4.1]: https://github.com/10up/ads-txt/compare/1.4.0...1.4.1
 [1.4.0]: https://github.com/10up/ads-txt/compare/1.3.0...1.4.0
 [1.3.0]: https://github.com/10up/ads-txt/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/10up/ads-txt/compare/1.1...1.2.0
