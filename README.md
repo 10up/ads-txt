@@ -2,7 +2,7 @@
 
 > Create, manage, and validate your ads.txt and app-ads.txt from within WordPress, just like any other content asset.
 
-[![Automated Tests](https://github.com/10up/ads-txt/workflows/Automated%20Tests/badge.svg)](https://github.com/10up/ads-txt/actions?query=workflow%3A%22Automated+Tests%22) [![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Release Version](https://img.shields.io/github/tag/10up/ads-txt.svg?label=release)](https://github.com/10up/ads-txt/releases/latest) ![WordPress tested up to version](https://img.shields.io/wordpress/plugin/tested/ads-txt?label=WordPress) [![GPLv2 License](https://img.shields.io/github/license/10up/ads-txt.svg)](https://github.com/10up/ads-txt/blob/develop/LICENSE.md)
+[![Support Level](https://img.shields.io/badge/support-stable-blue.svg)](#support-level) [![Automated Tests](https://github.com/10up/ads-txt/workflows/Automated%20Tests/badge.svg)](https://github.com/10up/ads-txt/actions?query=workflow%3A%22Automated+Tests%22) [![Release Version](https://img.shields.io/github/tag/10up/ads-txt.svg?label=release)](https://github.com/10up/ads-txt/releases/latest) ![WordPress tested up to version](https://img.shields.io/wordpress/plugin/tested/ads-txt?label=WordPress) [![GPLv2 License](https://img.shields.io/github/license/10up/ads-txt.svg)](https://github.com/10up/ads-txt/blob/develop/LICENSE.md)
 
 ## Features
 
@@ -53,7 +53,7 @@ You will need to rename or remove the existing (app-)ads.txt file (keeping a cop
 
 ## Support Level
 
-**Active:** 10up is actively working on this, and we expect to continue work for the foreseeable future including keeping tested up to the most recent version of WordPress.  Bug reports, feature requests, questions, and pull requests are welcome.
+**Stable:** 10up is not planning to develop any new features for this, but will still respond to bug reports and security concerns. We welcome PRs, but any that include new features should be small and easy to integrate and should not include breaking changes. We otherwise intend to keep this tested up to the most recent version of WordPress.
 
 ## Changelog
 
