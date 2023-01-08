@@ -33,7 +33,7 @@ require_once __DIR__ . '/inc/save.php';
  */
 function tenup_display_ads_txt() {
 	$request = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : false;
-	if ( '/ads.txt' === $request ) {
+	if ( '/ads.txt' === $request || '/ads.txt?' === substr( $request, 0, 9 ) ) {
 		$post_id = get_option( ADS_TXT_MANAGER_POST_OPTION );
 
 		// Will fall through if no option found, likely to a 404.
@@ -57,7 +57,7 @@ function tenup_display_ads_txt() {
 			echo esc_html( apply_filters( 'ads_txt_content', $adstxt ) );
 			die();
 		}
-	} elseif ( '/app-ads.txt' === $request ) {
+	} elseif ( '/app-ads.txt' === $request || '/app-ads.txt?' === substr( $request, 0, 13 ) ) {
 		$post_id = get_option( APP_ADS_TXT_MANAGER_POST_OPTION );
 
 		// Will fall through if no option found, likely to a 404.
