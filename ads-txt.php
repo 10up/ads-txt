@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name:       Ads.txt Manager
- * Description:       Create, manage, and validate your Ads.txt from within WordPress, just like any other content asset. Requires PHP 5.3+ and WordPress 4.9+.
- * Version:           1.4.0
+ * Description:       Create, manage, and validate your Ads.txt from within WordPress, just like any other content asset. Requires PHP 7.4+ and WordPress 5.7+.
+ * Version:           1.4.1
  * Author:            10up
  * Author URI:        https://10up.com
  * License:           GPLv2 or later
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'ADS_TXT_MANAGER_VERSION', '1.4.0' );
+define( 'ADS_TXT_MANAGER_VERSION', '1.4.1' );
 define( 'ADS_TXT_MANAGE_CAPABILITY', 'edit_ads_txt' );
 define( 'ADS_TXT_MANAGER_POST_OPTION', 'adstxt_post' );
 define( 'APP_ADS_TXT_MANAGER_POST_OPTION', 'app_adstxt_post' );
@@ -33,7 +33,7 @@ require_once __DIR__ . '/inc/save.php';
  */
 function tenup_display_ads_txt() {
 	$request = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : false;
-	if ( '/ads.txt' === $request ) {
+	if ( '/ads.txt' === $request || '/ads.txt?' === substr( $request, 0, 9 ) ) {
 		$post_id = get_option( ADS_TXT_MANAGER_POST_OPTION );
 
 		// Will fall through if no option found, likely to a 404.
@@ -57,7 +57,7 @@ function tenup_display_ads_txt() {
 			echo esc_html( apply_filters( 'ads_txt_content', $adstxt ) );
 			die();
 		}
-	} elseif ( '/app-ads.txt' === $request ) {
+	} elseif ( '/app-ads.txt' === $request || '/app-ads.txt?' === substr( $request, 0, 13 ) ) {
 		$post_id = get_option( APP_ADS_TXT_MANAGER_POST_OPTION );
 
 		// Will fall through if no option found, likely to a 404.

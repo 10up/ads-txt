@@ -2,7 +2,7 @@
 
 > Create, manage, and validate your ads.txt and app-ads.txt from within WordPress, just like any other content asset.
 
-[![Automated Tests](https://github.com/10up/ads-txt/workflows/Automated%20Tests/badge.svg)](https://github.com/10up/ads-txt/actions?query=workflow%3A%22Automated+Tests%22) [![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) [![Release Version](https://img.shields.io/github/tag/10up/ads-txt.svg?label=release)](https://github.com/10up/ads-txt/releases/latest) ![WordPress tested up to version](https://img.shields.io/wordpress/plugin/tested/ads-txt?label=WordPress) [![GPLv2 License](https://img.shields.io/github/license/10up/ads-txt.svg)](https://github.com/10up/ads-txt/blob/develop/LICENSE.md)
+[![Support Level](https://img.shields.io/badge/support-stable-blue.svg)](#support-level) [![Automated Tests](https://github.com/10up/ads-txt/workflows/Automated%20Tests/badge.svg)](https://github.com/10up/ads-txt/actions?query=workflow%3A%22Automated+Tests%22) [![Release Version](https://img.shields.io/github/tag/10up/ads-txt.svg?label=release)](https://github.com/10up/ads-txt/releases/latest) ![WordPress tested up to version](https://img.shields.io/wordpress/plugin/tested/ads-txt?label=WordPress) [![GPLv2 License](https://img.shields.io/github/license/10up/ads-txt.svg)](https://github.com/10up/ads-txt/blob/develop/LICENSE.md)
 
 ## Features
 
@@ -20,8 +20,8 @@ Yes! However, if you are using a subfolder installation it will only work for th
 
 ## Requirements
 
-* Requires PHP 5.3+.
-* Requires WordPress 4.9+. Older versions of WordPress will not display any syntax highlighting and may break JavaScript and/or be unable to localize the plugin.
+* Requires PHP 7.4+.
+* Requires WordPress 5.7+.
 * Ad blockers may break syntax highlighting and pre-save error checking on the edit screen. See [#20](https://github.com/10up/ads-txt/issues/20).
 * Rewrites need to be enabled. Without rewrites, WordPress cannot know to supply `/ads.txt` when requested.
 * Your site URL must not contain a path (e.g. `https://example.com/site/` or path-based multisite installs). While the plugin will appear to function in the admin, it will not display the contents at `https://example.com/site/ads.txt`. This is because the plugin follows the IAB spec, which requires that the ads.txt file be located at the root of a domain or subdomain.
@@ -53,7 +53,7 @@ You will need to rename or remove the existing (app-)ads.txt file (keeping a cop
 
 ## Support Level
 
-**Active:** 10up is actively working on this, and we expect to continue work for the foreseeable future including keeping tested up to the most recent version of WordPress.  Bug reports, feature requests, questions, and pull requests are welcome.
+**Stable:** 10up is not planning to develop any new features for this, but will still respond to bug reports and security concerns. We welcome PRs, but any that include new features should be small and easy to integrate and should not include breaking changes. We otherwise intend to keep this tested up to the most recent version of WordPress.
 
 ## Changelog
 

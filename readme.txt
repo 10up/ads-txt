@@ -1,21 +1,21 @@
 === Ads.txt Manager ===
-Contributors:      10up, helen, adamsilverstein, jakemgold, peterwilsoncc
+Contributors:      10up, helen, adamsilverstein, jakemgold, peterwilsoncc, jeffpaul
 Author URI:        https://10up.com
 Plugin URI:        https://github.com/10up/ads-txt
 Tags:              ads.txt, app-ads.txt, ads, ad manager, advertising, publishing, publishers
 Requires at least: 5.7
 Tested up to:      6.1
 Requires PHP:      7.4
-Stable tag:        1.4.0
+Stable tag:        1.4.1
 License:           GPLv2 or later
 License URI:       https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 Text Domain:       ads-txt
 
-Create, manage, and validate your ads.txt and app-ads.txt from within WordPress, just like any other content asset. Requires PHP 5.3+ and WordPress 4.9+.
+Create, manage, and validate your ads.txt and app-ads.txt from within WordPress, just like any other content asset. Requires PHP 7.4+ and WordPress 5.7+.
 
 == Description ==
 
-Create, manage, and validate your ads.txt and app-ads.txt from within WordPress, just like any other content asset. Requires PHP 5.3+ and WordPress 4.9+.
+Create, manage, and validate your ads.txt and app-ads.txt from within WordPress, just like any other content asset. Requires PHP 7.4+ and WordPress 5.7+.
 
 === What is ads.txt? ===
 
@@ -23,8 +23,8 @@ Ads.txt is an initiative by the Interactive Advertising Bureau to enable publish
 
 === Technical Notes ===
 
-* Requires PHP 5.3+.
-* Requires WordPress 4.9+. Older versions of WordPress will not display any syntax highlighting and may break JavaScript and/or be unable to localize the plugin.
+* Requires PHP 7.4+.
+* Requires WordPress 5.7+.
 * Ad blockers may break syntax highlighting and pre-save error checking on the edit screen.
 * Rewrites need to be enabled. Without rewrites, WordPress cannot know to supply `/ads.txt` when requested.
 * Your site URL must not contain a path (e.g. `https://example.com/site/` or path-based multisite installs). While the plugin will appear to function in the admin, it will not display the contents at `https://example.com/site/ads.txt`. This is because the plugin follows the IAB spec, which requires that the ads.txt file be located at the root of a domain or subdomain.
@@ -55,15 +55,25 @@ You will need to rename or remove the existing (app-)ads.txt file (keeping a cop
 
 == Changelog ==
 
+= 1.4.1 =
+* **Added:** Support for OWNERDOMAIN & MANAGERDOMAIN per version 1.1 of the spec (props [@SoftCreatR](https://github.com/SoftCreatR), [@tott](https://github.com/tott), [@jeffpaul](https://github.com/jeffpaul), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#108](https://github.com/10up/ads-txt/pull/108))
+* **Added:** Unit tests (props [@jeffpaul](https://github.com/jeffpaul), [@cadic](https://github.com/cadic), [@faisal-alvi](https://github.com/faisal-alvi), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#87](https://github.com/10up/ads-txt/pull/87))
+* **Added:** Dependency security scanning (props [@jeffpaul](https://github.com/jeffpaul), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#97](https://github.com/10up/ads-txt/pull/97))
+* **changed:** Bump Wordpress tested up to to 6.1 (props [@jayedul](https://github.com/jayedul), [@dkotter](https://github.com/dkotter), [@jeffpaul](https://github.com/jeffpaul), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#113](https://github.com/10up/ads-txt/pull/113))
+* **changed:** Minimum WP and PHP version requirement bumped to 5.7 and 7.4 respectively (props [@jayedul](https://github.com/jayedul), [@dkotter](https://github.com/dkotter), [@peterwilsoncc](https://github.com/peterwilsoncc), [@cadic](https://github.com/cadic) via [#103](https://github.com/10up/ads-txt/pull/103), [#117](https://github.com/10up/ads-txt/pull/117))
+* **Fixed:** Base URL corrected for E2E test suite. (props [@peterwilsoncc](https://github.com/peterwilsoncc), [@cadic](https://github.com/cadic), [@dkotter](https://github.com/dkotter) via [#112](https://github.com/10up/ads-txt/pull/112))
+* **Security:** Bump got and @wordpress/env (props [@jeffpaul](https://github.com/jeffpaul), [@peterwilsoncc](https://github.com/peterwilsoncc), [@dependabot](https://github.com/dependabot), [@dkotter](https://github.com/dkotter) via [#104](https://github.com/10up/ads-txt/pull/104))
+* **Security:** Bump simple-git and @wordpress/env (props [@jeffpaul](https://github.com/jeffpaul), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#105](https://github.com/10up/ads-txt/pull/105))
+
 = 1.4.0 =
-* **Added:** support for the `INVENTORYPARTNERDOMAIN` variable (props [@dkotter](https://github.com/dkotter), [@faisal-alvi](https://github.com/faisal-alvi))
-* **Added:** end to end tests with Cypress (props [@cadic](https://github.com/cadic), [@dinhtungdu](https://github.com/dinhtungdu), [@darylldoyle](https://github.com/darylldoyle), [@Sidsector9](https://github.com/Sidsector9))
-* **Changed:** update dealerdirect/phpcodesniffer-composer-installer from 0.5.x to 0.7.1 (props [@evokelektrique](http://github.com/evokelektrique), [@peterwilsoncc](http://github.com/peterwilsoncc))
-* **Changed:** update minimist from 1.2.5 to 1.2.6
-* **Changed:** bump Wordpress tested up to to 6.0 (props [@mohitwp](https://github.com/mohitwp), [@cadic](https://github.com/cadic), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#85](https://github.com/10up/ads-txt/pull/85), [#90](https://github.com/10up/ads-txt/pull/90))
-* **Changed:** automated testing code compatibility against PHP versions from 5.3 to 8.1 (props [@cadic](https://github.com/cadic))
-* **Fixed:** allow admins to access revisions (props [@PypWalters](https://github.com/PypWalters), [@dinhtungdu](https://github.com/dinhtungdu))
-* **Fixed:** coding standards violations (props [@peterwilsoncc](http://github.com/peterwilsoncc))
+* **Added:** Support for the `INVENTORYPARTNERDOMAIN` variable (props [@dkotter](https://github.com/dkotter), [@faisal-alvi](https://github.com/faisal-alvi))
+* **Added:** End to end tests with Cypress (props [@cadic](https://github.com/cadic), [@dinhtungdu](https://github.com/dinhtungdu), [@darylldoyle](https://github.com/darylldoyle), [@Sidsector9](https://github.com/Sidsector9))
+* **Changed:** Update dealerdirect/phpcodesniffer-composer-installer from 0.5.x to 0.7.1 (props [@evokelektrique](http://github.com/evokelektrique), [@peterwilsoncc](http://github.com/peterwilsoncc))
+* **Changed:** Update minimist from 1.2.5 to 1.2.6
+* **Changed:** Bump Wordpress tested up to to 6.0 (props [@mohitwp](https://github.com/mohitwp), [@cadic](https://github.com/cadic), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#85](https://github.com/10up/ads-txt/pull/85), [#90](https://github.com/10up/ads-txt/pull/90))
+* **Changed:** Automated testing code compatibility against PHP versions from 5.3 to 8.1 (props [@cadic](https://github.com/cadic))
+* **Fixed:** Allow admins to access revisions (props [@PypWalters](https://github.com/PypWalters), [@dinhtungdu](https://github.com/dinhtungdu))
+* **Fixed:** Coding standards violations (props [@peterwilsoncc](http://github.com/peterwilsoncc))
 
 = 1.3.0 =
 * **Added:** Support for app-ads.txt filetype (props [@helen](https://profiles.wordpress.org/helen/), [@westi](https://profiles.wordpress.org/westi/), [@p0mmy](https://github.com/p0mmy))
@@ -72,14 +82,5 @@ You will need to rename or remove the existing (app-)ads.txt file (keeping a cop
 * **Changed:** Switched to using GitHub Actions instead of Travis for Continuous Integration (props [@helen](https://profiles.wordpress.org/helen/))
 * **Changed:** Updated plugin screenshots and FAQs (props [@jeffpaul](https://profiles.wordpress.org/jeffpaul/), [@helen](https://profiles.wordpress.org/helen/))
 * **Fixed:** Update capability check when saving ads.txt (props [@eclev91](https://profiles.wordpress.org/eclev91/))
-
-= 1.2.0 =
-* **Added:** Make revisions accessible in the admin - now you can restore older versions of your ads.txt or view how it's changed over time (props [@adamsilverstein](https://profiles.wordpress.org/adamsilverstein/), [@helen](https://profiles.wordpress.org/helen/))
-* **Added:** Show a notice on the edit screen if an ads.txt file exists on the server (props [@kkoppenhaver](https://profiles.wordpress.org/kkoppenhaver/), [@helen](https://profiles.wordpress.org/helen/), [@tjnowell](https://profiles.wordpress.org/tjnowell/), [@adamsilverstein](https://profiles.wordpress.org/adamsilverstein/))
-* **Added:** Add a custom `edit_ads_txt` capability for granular assignment, which is assigned to administrators by default (props [@eclev91](https://profiles.wordpress.org/eclev91/), [@adamsilverstein](https://profiles.wordpress.org/adamsilverstein/))
-* **Added:** Enable filtering of the output using `ads_txt_content` (props [@eclev91](https://profiles.wordpress.org/eclev91/))
-* **Changed:** Updated documentation, automation, and coding standards (props [@jeffpaul](https://profiles.wordpress.org/jeffpaul/), [@adamsilverstein](https://profiles.wordpress.org/adamsilverstein/), [@helen](https://profiles.wordpress.org/helen/), [@mmcachran](https://profiles.wordpress.org/mmcachran/))
-* **Fixed:** Early escaping (props [@tjnowell](https://profiles.wordpress.org/tjnowell/))
-* **Fixed:** PHPCS issues and added PHPCS scanning (props [@adamsilverstein](https://profiles.wordpress.org/adamsilverstein/))
 
 Further changelog entries can be found in the [CHANGELOG.md](https://github.com/10up/ads-txt/blob/trunk/CHANGELOG.md) file.

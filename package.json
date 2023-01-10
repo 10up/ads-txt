@@ -1,6 +1,6 @@
 {
   "name": "@10up/ads-txt",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Create, manage, and validate your ads.txt and app-ads.txt from within WordPress, just like any other content asset.",
   "scripts": {
     "cypress:open": "cypress open --config-file tests/cypress/config.config.js",
