@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+## [1.4.2] - 2023-01-16
+### Changed
+- Update Support Level from `Active` to `Stable` (props [@jeffpaul](https://github.com/jeffpaul), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#123](https://github.com/10up/ads-txt/pull/123)).
+- Update Cypress integration to use v11 (props [@jayedul](https://github.com/jayedul), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#116](https://github.com/10up/ads-txt/pull/116)).
+
+### Fixed
+- Display `ads.txt` files for crawlers using a cache busting query string (props [@peterwilsoncc](https://github.com/peterwilsoncc), [@cadic](https://github.com/cadic) via [#118](https://github.com/10up/ads-txt/pull/118)).
+
 ## [1.4.1] - 2022-12-14
 ### Added
 - Support for OWNERDOMAIN & MANAGERDOMAIN per version 1.1 of the spec (props [@SoftCreatR](https://github.com/SoftCreatR), [@tott](https://github.com/tott), [@jeffpaul](https://github.com/jeffpaul), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#108](https://github.com/10up/ads-txt/pull/108))
@@ -74,6 +82,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Initial plugin release
 
 [Unreleased]: https://github.com/10up/ads-txt/compare/trunk...develop
+[1.4.2]: https://github.com/10up/ads-txt/compare/1.4.1...1.4.2
 [1.4.1]: https://github.com/10up/ads-txt/compare/1.4.0...1.4.1
 [1.4.0]: https://github.com/10up/ads-txt/compare/1.3.0...1.4.0
 [1.3.0]: https://github.com/10up/ads-txt/compare/1.2.0...1.3.0
