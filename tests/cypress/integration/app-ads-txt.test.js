@@ -33,7 +33,7 @@ describe("Manage app-ads.txt", () => {
     );
   });
 
-  it("Can save correct app-ads.txt", () => {
+  it("Can save and visit correct app-ads.txt", () => {
     cy.visitAdminPage("options-general.php?page=app-adstxt-settings");
     cy.get(".adstxt-settings-form .CodeMirror")
       .click()
@@ -45,6 +45,16 @@ describe("Manage app-ads.txt", () => {
     cy.request(`/app-ads.txt`).then((response) => {
       expect(response.body).to.contain(correctRecord);
     });
+    cy.request(`/app-ads.txt?cache-busting=1`).then((response) => {
+      expect(response.body).to.contain(correctRecord);
+    });
+    cy.request(`/app-ads.txt?`).then((response) => {
+      expect(response.body).to.contain(correctRecord);
+    });
+  });
+
+  it("Visiting app-ads.txt%3F (URL encoded question mark) results in a 404 error", () => {
+    cy.request({url:'/app-ads.txt%3F',failOnStatusCode: false}).its('status').should('equal', 404);
   });
 
   it("Can manage revisions", () => {
