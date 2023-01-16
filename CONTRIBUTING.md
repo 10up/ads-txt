@@ -81,14 +81,17 @@ Line 10: f08c47fec0942 does not appear to be a valid TAG-ID
 ### Release instructions
 
 1. Branch: Starting from develop, cut a release branch named `release/X.Y.Z` for your changes.
-2. Version bump: Bump the version number in `ads-txt.php` and `readme.txt` if it does not already reflect the version being released.
-3. Changelog: Add/update the changelog in both `readme.txt` and `CHANGELOG.md`
+2. Version bump: Bump the version number in `ads-txt.php`, `package.json`, `package-lock.json` and `readme.txt` if it does not already reflect the version being released. In `ads-txt.php` update both the plugin "Version:" property and the plugin `ADS_TXT_MANAGER_VERSION` constant.
+3. Changelog: Add/update the changelog in both `readme.txt` and `CHANGELOG.md`.
 4. Credits: Update `CREDITS.md` to include new contributors, manually removing any bots.
 5. New files: Check to be sure any new files/paths that are unnecessary in the production version are included in `.gitattributes`.
 6. Readme updates: Make any other readme changes as necessary. `CHANGELOG.md` and `README.md` are geared toward GitHub and `readme.txt` contains WordPress.org-specific content. The two are slightly different.
-7. Merge: Make a non-fast-forward merge from `develop` to `trunk` (`git checkout trunk && git merge --no-ff develop`).
-8. Release: Create a [new release](https://github.com/10up/ads-txt/releases/new), naming the tag and the release with the new version number, and targeting the `trunk` branch. Paste the changelog from `CHANGELOG.md` into the body of the release and include a link to the closed issues on the milestone (e.g. https://github.com/10up/ads-txt/milestone/1?closed=1).
-9. SVN: Wait for the [GitHub Action](https://github.com/10up/ads-txt/actions) to finish deploying to the WordPress.org repository. If all goes well, users with SVN commit access for that plugin will receive an emailed diff of changes.
-10. Check WordPress.org: Ensure that the changes are live on [https://wordpress.org/plugins/ads-txt/](https://wordpress.org/plugins/ads-txt/). This may take a few minutes.
-11. Close milestone: Edit the [X.Y.Z milestone](https://github.com/10up/ads-txt/milestone/#) with release date (in the `Due date (optional)` field) and link to GitHub release (in the `Description` field), then close the milestone.
-12. Punt incomplete items: If any open issues or PRs which were milestoned for `X.Y.Z` do not make it into the release, update their milestone to `X.Y.Z+1`, `X.Y+1.0`, `X+1.0.0` or `Future Release`.
+7. Merge: Make a non-fast-forward merge from your release branch to `develop` (or merge the pull request), then do the same for `develop` into `trunk`, ensuring you pull the most recent changes into `develop` first (`git checkout develop && git pull origin develop && git checkout trunk && git merge --no-ff develop`).  `trunk` contains the stable development version.
+8. Push: Push your `trunk` branch to GitHub (e.g. `git push origin trunk`).
+9. [Compare](https://github.com/10up/ads-txt/compare/trunk...develop) trunk to develop to ensure no additional changes were missed.
+10. Test the pre-release ZIP locally by [downloading](https://github.com/10up/ads-txt/actions/workflows/build-release-zip.yml) it from the Build release zip action artifact and installing it locally. Ensure this zip has all the files we expect, that it installs and activates correctly and that all basic functionality is working.
+11. Release: Create a [new release](https://github.com/10up/ads-txt/releases/new), naming the tag and the release with the new version number, and targeting the `trunk` branch. Paste the changelog from `CHANGELOG.md` into the body of the release and include a link to the closed issues on the `X.Y.Z` milestone (e.g. <https://github.com/10up/ads-txt/milestone/1?closed=1>).
+12. SVN: Wait for the [GitHub Action](https://github.com/10up/ads-txt/actions) to finish deploying to the WordPress.org repository. If all goes well, users with SVN commit access for that plugin will receive an emailed diff of changes.
+13. Check WordPress.org: Ensure that the changes are live on [WordPress.org](https://wordpress.org/plugins/ads-txt/). This may take a few minutes.
+14. Close milestone: Edit the [X.Y.Z milestone](https://github.com/10up/ads-txt/milestone/#) with release date (in the `Due date (optional)` field) and link to GitHub release (in the `Description` field), then close the milestone.
+15. Punt incomplete items: If any open issues or PRs which were milestoned for `X.Y.Z` do not make it into the release, update their milestone to `X.Y.Z+1`, `X.Y+1.0`, `X+1.0.0` or `Future Release`.
