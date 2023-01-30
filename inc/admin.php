@@ -426,15 +426,17 @@ function display_formatted_error( $error ) {
  */
 function get_error_messages() {
 	$messages = array(
-		'invalid_variable'     => __( 'Unrecognized variable' ),
-		'invalid_record'       => __( 'Invalid record' ),
-		'invalid_account_type' => __( 'Third field should be RESELLER or DIRECT' ),
+		'invalid_variable'           => __( 'Unrecognized variable' ),
+		'invalid_record'             => __( 'Invalid record' ),
+		'invalid_account_type'       => __( 'Third field should be RESELLER or DIRECT' ),
 		/* translators: %s: Subdomain */
-		'invalid_subdomain'    => __( '%s does not appear to be a valid subdomain' ),
+		'invalid_subdomain'          => __( '%s does not appear to be a valid subdomain' ),
 		/* translators: %s: Exchange domain */
-		'invalid_exchange'     => __( '%s does not appear to be a valid exchange domain' ),
+		'invalid_exchange'           => __( '%s does not appear to be a valid exchange domain' ),
 		/* translators: %s: Alphanumeric TAG-ID */
-		'invalid_tagid'        => __( '%s does not appear to be a valid TAG-ID' ),
+		'invalid_tagid'              => __( '%s does not appear to be a valid TAG-ID' ),
+		'no_authorized_sellers'      => __( 'Your ads.txt indicates no authorized advertising sellers.' ),
+		'invalid_placeholder_record' => __( 'Ads.txt contains placeholder record with another records.' ),
 	);
 
 	return $messages;

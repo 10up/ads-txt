@@ -28,6 +28,7 @@ function save() {
 	$lines     = preg_split( '/\r\n|\r|\n/', $_post['adstxt'] );
 	$sanitized = array();
 	$errors    = array();
+	$notices   = array();
 	$response  = array();
 
 	foreach ( $lines as $i => $line ) {
@@ -37,6 +38,10 @@ function save() {
 		$sanitized[] = $result['sanitized'];
 		if ( ! empty( $result['errors'] ) ) {
 			$errors = array_merge( $errors, $result['errors'] );
+		}
+
+		if ( ! empty( $result['notices'] ) ) {
+			$notices = array_merge( $notices, $result['notices'] );
 		}
 	}
 
@@ -48,7 +53,8 @@ function save() {
 		'post_type'    => 'adstxt',
 		'post_status'  => 'publish',
 		'meta_input'   => array(
-			'adstxt_errors' => $errors,
+			'adstxt_errors'  => $errors,
+			'adstxt_notices' => $notices,
 		),
 	);
 
@@ -96,8 +102,11 @@ add_action( 'wp_ajax_app-adstxt-save', __NAMESPACE__ . '\save' );
  * }
  */
 function validate_line( $line, $line_number ) {
-	$domain_regex = '/^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$/i';
-	$errors       = array();
+	static $has_placeholder_record = false;
+	static $record_lines           = 0; // Only to count for records, not comments/variables.
+	$domain_regex                  = '/^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$/i';
+	$errors                        = array();
+	$warnings                      = array();
 
 	if ( empty( $line ) ) {
 		$sanitized = '';
@@ -141,36 +150,58 @@ function validate_line( $line, $line_number ) {
 		$fields = explode( ',', $record );
 
 		if ( 3 <= count( $fields ) ) {
-			$exchange     = trim( $fields[0] );
-			$pub_id       = trim( $fields[1] );
-			$account_type = trim( $fields[2] );
+			++$record_lines; // Increment record lines.
+			$exchange              = trim( $fields[0] );
+			$pub_id                = trim( $fields[1] );
+			$account_type          = trim( $fields[2] );
+			$is_placeholder_record = is_placeholder_record( $exchange, $pub_id, $account_type, $fields[3] ? trim( $fields[3] ) : null );
 
-			if ( ! preg_match( $domain_regex, $exchange ) ) {
-				$errors[] = array(
-					'line'  => $line_number,
-					'type'  => 'invalid_exchange',
-					'value' => $exchange,
+			// If the file contains placeholder record, set variable.
+			if ( $is_placeholder_record ) {
+				$has_placeholder_record = true;
+				$warnings[]             = array(
+					'line' => $line_number,
+					'type' => 'no_authorized_sellers',
 				);
 			}
 
-			if ( ! preg_match( '/^(RESELLER|DIRECT)$/i', $account_type ) ) {
+			// If the file contains placeholder text and also has other records, flag error.
+			if ( $has_placeholder_record && $record_lines > 1 ) {
 				$errors[] = array(
 					'line' => $line_number,
-					'type' => 'invalid_account_type',
+					'type' => 'invalid_placeholder_record',
 				);
 			}
 
-			if ( isset( $fields[3] ) ) {
-				$tag_id = trim( $fields[3] );
-
-				// TAG-IDs appear to be 16 character hashes.
-				// TAG-IDs are meant to be checked against their DB - perhaps good for a service or the future.
-				if ( ! empty( $tag_id ) && ! preg_match( '/^[a-f0-9]{16}$/', $tag_id ) ) {
+			// Process further only if the current record is not placeholder record.
+			if ( ! $is_placeholder_record ) {
+				if ( ! preg_match( $domain_regex, $exchange ) ) {
 					$errors[] = array(
 						'line'  => $line_number,
-						'type'  => 'invalid_tagid',
-						'value' => $fields[3],
+						'type'  => 'invalid_exchange',
+						'value' => $exchange,
 					);
+				}
+
+				if ( ! preg_match( '/^(RESELLER|DIRECT)$/i', $account_type ) ) {
+					$errors[] = array(
+						'line' => $line_number,
+						'type' => 'invalid_account_type',
+					);
+				}
+
+				if ( isset( $fields[3] ) ) {
+					$tag_id = trim( $fields[3] );
+
+					// TAG-IDs appear to be 16 character hashes.
+					// TAG-IDs are meant to be checked against their DB - perhaps good for a service or the future.
+					if ( ! empty( $tag_id ) && ! preg_match( '/^[a-f0-9]{16}$/', $tag_id ) ) {
+						$errors[] = array(
+							'line'  => $line_number,
+							'type'  => 'invalid_tagid',
+							'value' => $fields[3],
+						);
+					}
 				}
 			}
 
@@ -192,6 +223,7 @@ function validate_line( $line, $line_number ) {
 	return array(
 		'sanitized' => $sanitized,
 		'errors'    => $errors,
+		'notices'   => $warnings,
 	);
 }
 
@@ -206,3 +238,42 @@ function clear_error_meta( $post_id ) {
 	delete_post_meta( $post_id, 'adstxt_errors' );
 }
 add_action( 'wp_restore_post_revision', __NAMESPACE__ . '\clear_error_meta', 10, 1 );
+
+/**
+ * Checks if the given record is placeholder record.
+ * Placeholder indicates that no advertising system is authorized to buy and sell ads on the website.
+ *
+ * @see https://iabtechlab.com/wp-content/uploads/2021/03/ads.txt-1.0.3.pdf
+ *
+ * @param string      $exchange        Domain name of the advertising system.
+ * @param string      $pub_id          Publisher’s Account ID.
+ * @param string      $account_type    Type of Account/Relationship.
+ * @param string|null $tag_id          Certification Authority ID.
+ *
+ * @return bool
+ */
+function is_placeholder_record( $exchange, $pub_id, $account_type, $tag_id = null ) {
+	$result = true;
+
+	// Check the exchange for placeholder.
+	if ( 'placeholder.example.com' !== $exchange ) {
+		$result = false;
+	}
+
+	// Check the publisher ID for placeholder.
+	if ( 'placeholder' !== $pub_id ) {
+		$result = false;
+	}
+
+	// Check the account type for placeholder.
+	if ( 'DIRECT' !== $account_type ) {
+		$result = false;
+	}
+
+	// Check the tag ID for placeholder.
+	if ( ! empty( $tag_id ) && 'placeholder' !== $tag_id ) {
+		$result = false;
+	}
+
+	return $result;
+}
