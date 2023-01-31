@@ -28,7 +28,7 @@ function save() {
 	$lines     = preg_split( '/\r\n|\r|\n/', $_post['adstxt'] );
 	$sanitized = array();
 	$errors    = array();
-	$notices   = array();
+	$warnings  = array();
 	$response  = array();
 
 	foreach ( $lines as $i => $line ) {
@@ -40,8 +40,8 @@ function save() {
 			$errors = array_merge( $errors, $result['errors'] );
 		}
 
-		if ( ! empty( $result['notices'] ) ) {
-			$notices = array_merge( $notices, $result['notices'] );
+		if ( ! empty( $result['warnings'] ) ) {
+			$warnings = array_merge( $warnings, $result['warnings'] );
 		}
 	}
 
@@ -53,8 +53,8 @@ function save() {
 		'post_type'    => 'adstxt',
 		'post_status'  => 'publish',
 		'meta_input'   => array(
-			'adstxt_errors'  => $errors,
-			'adstxt_notices' => $notices,
+			'adstxt_errors'   => $errors,
+			'adstxt_warnings' => $warnings,
 		),
 	);
 
@@ -156,12 +156,12 @@ function validate_line( $line, $line_number ) {
 			$account_type          = trim( $fields[2] );
 			$is_placeholder_record = is_placeholder_record( $exchange, $pub_id, $account_type, $fields[3] ? trim( $fields[3] ) : null );
 
-			// If the file contains placeholder record, set variable.
-			if ( $is_placeholder_record ) {
+			// If the file contains placeholder record and no placeholder was already present, set variable.
+			if ( $is_placeholder_record && ! $has_placeholder_record ) {
 				$has_placeholder_record = true;
 				$warnings[]             = array(
-					'line' => $line_number,
-					'type' => 'no_authorized_sellers',
+					'type'	  => 'no_authorized_seller',
+					'message' => __( 'Your ads.txt indicates no authorized advertising sellers.', 'ads-txt' ),
 				);
 			}
 
@@ -171,6 +171,15 @@ function validate_line( $line, $line_number ) {
 					'line' => $line_number,
 					'type' => 'invalid_placeholder_record',
 				);
+
+				// Once the error is set, remove no authorized seller warning as it is irrelevant.
+				if ( ! empty( $warnings ) ) {
+					foreach ( $warnings as $key => $warning ) {
+						if ( isset( $warning['type'] ) && 'no_authorized_seller' === $warning['type'] ) {
+							unset( $warnings[ $key ] );
+						}
+					}
+				}
 			}
 
 			// Process further only if the current record is not placeholder record.
@@ -221,9 +230,9 @@ function validate_line( $line, $line_number ) {
 	}
 
 	return array(
-		'sanitized' => $sanitized,
-		'errors'    => $errors,
-		'notices'   => $warnings,
+		'sanitized'  => $sanitized,
+		'errors'     => $errors,
+		'warnings'   => $warnings,
 	);
 }
 

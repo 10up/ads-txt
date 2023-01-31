@@ -250,6 +250,7 @@ function settings_screen( $post_id, $strings, $args ) {
 		$last_revision    = array_shift( $revisions );
 		$last_revision_id = $last_revision ? $last_revision->ID : false;
 		$errors           = get_post_meta( $post->ID, 'adstxt_errors', true );
+		$warnings	      = get_post_meta( $post->ID, 'adstxt_warnings', true );
 		$revisions_link   = $last_revision_id ? admin_url( 'revision.php?adstxt=1&revision=' . $last_revision_id ) : false;
 
 	} else {
@@ -269,6 +270,34 @@ function settings_screen( $post_id, $strings, $args ) {
 	}
 	?>
 <div class="wrap">
+	<?php if ( ! empty( $warnings ) ) : ?>
+		<div class="notice notice-warning adstxt-notice">
+		<ul>
+			<?php
+			foreach ( $warnings as $warning ) {
+				echo '<li>';
+
+				// Errors were originally stored as an array.
+				// This old style only needs to be accounted for here at runtime display.
+				if ( isset( $warning['message'] ) ) {
+					$message = sprintf(
+						/* translators: Error message output. 1: Error message */
+						__( '%1$s', 'ads-txt' ),
+						$warning['message']
+					);
+
+					echo esc_html( $message );
+				} else {
+					display_formatted_error( $warning ); // WPCS: XSS ok.
+				}
+
+				echo '</li>';
+			}
+			?>
+		</ul>
+		</div>
+	<?php endif; ?>
+
 	<?php if ( ! empty( $errors ) ) : ?>
 	<div class="notice notice-error adstxt-notice">
 		<p><strong><?php echo esc_html( $strings['errors'] ); ?></strong></p>
@@ -435,7 +464,6 @@ function get_error_messages() {
 		'invalid_exchange'           => __( '%s does not appear to be a valid exchange domain' ),
 		/* translators: %s: Alphanumeric TAG-ID */
 		'invalid_tagid'              => __( '%s does not appear to be a valid TAG-ID' ),
-		'no_authorized_sellers'      => __( 'Your ads.txt indicates no authorized advertising sellers.' ),
 		'invalid_placeholder_record' => __( 'Ads.txt contains placeholder record with another records.' ),
 	);
 
