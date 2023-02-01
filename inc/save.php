@@ -160,7 +160,7 @@ function validate_line( $line, $line_number ) {
 			if ( $is_placeholder_record && ! $has_placeholder_record ) {
 				$has_placeholder_record = true;
 				$warnings[]             = array(
-					'type'	  => 'no_authorized_seller',
+					'type'    => 'no_authorized_seller',
 					'message' => __( 'Your ads.txt indicates no authorized advertising sellers.', 'ads-txt' ),
 				);
 			}
@@ -230,9 +230,9 @@ function validate_line( $line, $line_number ) {
 	}
 
 	return array(
-		'sanitized'  => $sanitized,
-		'errors'     => $errors,
-		'warnings'   => $warnings,
+		'sanitized' => $sanitized,
+		'errors'    => $errors,
+		'warnings'  => $warnings,
 	);
 }
 

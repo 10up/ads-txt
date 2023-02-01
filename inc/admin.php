@@ -250,7 +250,7 @@ function settings_screen( $post_id, $strings, $args ) {
 		$last_revision    = array_shift( $revisions );
 		$last_revision_id = $last_revision ? $last_revision->ID : false;
 		$errors           = get_post_meta( $post->ID, 'adstxt_errors', true );
-		$warnings	      = get_post_meta( $post->ID, 'adstxt_warnings', true );
+		$warnings         = get_post_meta( $post->ID, 'adstxt_warnings', true );
 		$revisions_link   = $last_revision_id ? admin_url( 'revision.php?adstxt=1&revision=' . $last_revision_id ) : false;
 
 	} else {
@@ -280,9 +280,9 @@ function settings_screen( $post_id, $strings, $args ) {
 				// Errors were originally stored as an array.
 				// This old style only needs to be accounted for here at runtime display.
 				if ( isset( $warning['message'] ) ) {
+					/* translators: Error message output. 1: Error message */
 					$message = sprintf(
-						/* translators: Error message output. 1: Error message */
-						__( '%1$s', 'ads-txt' ),
+						'%1$s',
 						$warning['message']
 					);
 
