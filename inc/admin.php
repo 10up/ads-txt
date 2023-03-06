@@ -269,6 +269,14 @@ function settings_screen( $post_id, $strings, $args ) {
 	}
 	?>
 <div class="wrap">
+	<?php if ( file_exists( ABSPATH . '/ads.txt' ) ) { ?>
+		<div class="notice notice-error adstxt-notice existing-adstxt">
+			<p><strong><?php echo esc_html( $strings['existing'] ); ?></strong></p>
+			<p><?php echo esc_html( $strings['precedence'] ); ?></p>
+
+			<p><?php echo esc_html_e( 'Removed the existing file but are still seeing this warning?', 'ads-txt' ); ?> <a class="ads-txt-rerun-check" href="<?php echo esc_url( admin_url( 'options-general.php?page=' . $args['post_type'] . '-settings' ) ) ?>"><?php echo esc_html_e( 'Re-run the check now', 'ads-txt' ); ?></a> <span class="spinner" style="float:none;margin:-2px 5px 0"></span></p>
+		</div>
+	<?php } ?>
 	<?php if ( ! empty( $errors ) ) : ?>
 	<div class="notice notice-error adstxt-notice">
 		<p><strong><?php echo esc_html( $strings['errors'] ); ?></strong></p>
