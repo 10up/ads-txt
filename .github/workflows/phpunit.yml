@@ -15,7 +15,7 @@ on:
 
 jobs:
   phpunit:
-    name: ${{ matrix.name }}
+    name: ${{ matrix.php.name }}
     runs-on: ubuntu-latest
 
     strategy:
@@ -49,6 +49,6 @@ jobs:
 
     - name: Install dependencies
       run: composer install
-    
+
     - name: Test
       run: ./vendor/bin/phpunit -v
