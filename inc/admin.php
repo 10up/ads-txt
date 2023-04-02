@@ -476,8 +476,6 @@ function admin_notices() {
 }
 add_action( 'admin_notices', __NAMESPACE__ . '\admin_notices' );
 
-add_filter('https_ssl_verify', '__return_false');
-
 /**
  * Check if ads.txt file already exists in the server
  *
