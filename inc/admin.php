@@ -479,25 +479,27 @@ add_action( 'admin_notices', __NAMESPACE__ . '\admin_notices' );
 /**
  * Check if ads.txt file already exists in the server
  *
- * @return json
+ * @return void
  */
 function adstxts_check_for_existing_file() {
 	$home_url_parsed = wp_parse_url( home_url() );
 	if ( empty( $home_url_parsed['path'] ) ) {
-		$response = wp_remote_request( home_url( '/ads.txt' ) );
+		$response   = wp_remote_request( home_url( '/ads.txt' ) );
 		$file_exist = false;
 		if ( ! is_wp_error( $response ) ) {
 			// Get the headers of the response
-			$headers = wp_remote_retrieve_headers( $response );
+			$headers      = wp_remote_retrieve_headers( $response );
 			$content_type = isset( $headers['content-type'] ) ? $headers['content-type'] : '';
-			$file_exist = strpos( $content_type, 'application/octet-stream' ) !== false;
+			$file_exist   = strpos( $content_type, 'application/octet-stream' ) !== false;
 		}
 
 		// Return the response
-		wp_send_json( [
-			'success' => true,
-			'file_exist' => $file_exist,
-		] );
+		wp_send_json(
+			[
+				'success'    => true,
+				'file_exist' => $file_exist,
+			]
+		);
 
 		// Make sure to exit
 		wp_die();
