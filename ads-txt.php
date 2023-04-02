@@ -126,11 +126,11 @@ add_filter( 'query_vars', 'tenup_ads_txt_add_query_vars' );
 /**
  * Clean orphaned posts if found
  *
- * @return void
+ * @return void|boolean
  */
 function clean_orphaned_posts( $option, $post_type ) {
 	if ( ! $option || ! $post_type ) {
-		return;
+		return false;
 	}
 
 	$args = [
@@ -141,7 +141,7 @@ function clean_orphaned_posts( $option, $post_type ) {
 	$ads_posts = get_posts( $args );
 
 	if ( empty( $ads_posts ) ) {
-		return;
+		return false;
 	}
 
 	// Search and remove the element using unset()
@@ -151,7 +151,7 @@ function clean_orphaned_posts( $option, $post_type ) {
 	}
 
 	if ( empty( $ads_posts ) ) {
-		return;
+		return false;
 	}
 
 	foreach ( $ads_posts as $post_id ) {
