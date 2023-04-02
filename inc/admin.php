@@ -269,6 +269,12 @@ function settings_screen( $post_id, $strings, $args ) {
 	}
 	?>
 <div class="wrap">
+	<div class="notice notice-error adstxt-notice existing-adstxt" style="display: none;">
+		<p><strong><?php echo esc_html( $strings['existing'] ); ?></strong></p>
+		<p><?php echo esc_html( $strings['precedence'] ); ?></p>
+
+		<p><?php echo esc_html_e( 'Removed the existing file but are still seeing this warning?', 'ads-txt' ); ?> <a class="ads-txt-rerun-check" href="#"><?php echo esc_html_e( 'Re-run the check now', 'ads-txt' ); ?></a> <span class="spinner" style="float:none;margin:-2px 5px 0"></span></p>
+	</div>
 	<?php if ( ! empty( $errors ) ) : ?>
 	<div class="notice notice-error adstxt-notice">
 		<p><strong><?php echo esc_html( $strings['errors'] ); ?></strong></p>
@@ -469,3 +475,35 @@ function admin_notices() {
 	endif;
 }
 add_action( 'admin_notices', __NAMESPACE__ . '\admin_notices' );
+
+add_filter('https_ssl_verify', '__return_false');
+
+/**
+ * Check if ads.txt file already exists in the server
+ *
+ * @return json
+ */
+function adstxts_check_for_existing_file() {
+	$home_url_parsed = wp_parse_url( home_url() );
+	if ( empty( $home_url_parsed['path'] ) ) {
+		$response = wp_remote_request( home_url( '/ads.txt' ) );
+		$file_exist = false;
+		if ( ! is_wp_error( $response ) ) {
+			// Get the headers of the response
+			$headers = wp_remote_retrieve_headers( $response );
+			$content_type = isset( $headers['content-type'] ) ? $headers['content-type'] : '';
+			$file_exist = strpos( $content_type, 'application/octet-stream' ) !== false;
+		}
+
+		// Return the response
+		wp_send_json( [
+			'success' => true,
+			'file_exist' => $file_exist,
+		] );
+
+		// Make sure to exit
+		wp_die();
+	}
+}
+
+add_action( 'wp_ajax_adstxts_check_for_existing_file', __NAMESPACE__ . '\adstxts_check_for_existing_file' );

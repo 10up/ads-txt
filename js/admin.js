@@ -7,6 +7,37 @@
 			mode: 'shell'
 		} );
 
+	function checkForAdsFile( e ) {
+		var spinner = $( '.existing-adstxt .spinner' );
+
+		if ( false !== e ) {
+			spinner.addClass( 'is-active' );
+			e.preventDefault();
+		}
+
+		$.get({
+			url: window.ajaxurl,
+			type: 'POST',
+			data: {
+				action: 'adstxts_check_for_existing_file',
+			},
+			success: function(response) {
+				spinner.removeClass( 'is-active' );
+				if ( ! response.file_exist ) {
+					// Ads.txt not found
+					$( '.existing-adstxt' ).hide();
+				} else {
+					$( '.existing-adstxt' ).show();
+				}
+			}
+		});
+	}
+
+	// Call our check when we first load the page
+	checkForAdsFile( false );
+
+	$( '.ads-txt-rerun-check' ).on( 'click', checkForAdsFile );
+
 	submit.on( 'click', function( e ){
 		e.preventDefault();
 
