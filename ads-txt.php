@@ -122,3 +122,55 @@ function tenup_ads_txt_add_query_vars( $qvars ) {
 	return $qvars;
 }
 add_filter( 'query_vars', 'tenup_ads_txt_add_query_vars' );
+
+/**
+ * Clean orphaned posts if found
+ *
+ * @return void
+ */
+function clean_orphaned_posts( $option, $post_type ) {
+	if ( ! $option || ! $post_type ) {
+		return;
+	}
+
+	$args = [
+		'fields'    => 'ids', // Only get post IDs
+		'post_type' => $post_type,
+	];
+
+	$ads_posts = get_posts( $args );
+
+	if ( empty( $ads_posts ) ) {
+		return;
+	}
+
+	// Search and remove the element using unset()
+	$index = array_search( $option, $ads_posts );
+	if ( $index !== false ) {
+		unset( $ads_posts[ $index ] );
+	}
+
+	if ( empty( $ads_posts ) ) {
+		return;
+	}
+
+	foreach ( $ads_posts as $post_id ) {
+		wp_delete_post( $post_id, true );
+	}
+}
+
+/**
+ * Filter and clean orphaned posts
+ *
+ * @return void
+ */
+function filter_orphaned_posts() {
+	$ads_post_id     = get_option( ADS_TXT_MANAGER_POST_OPTION );
+	$app_ads_post_id = get_option( APP_ADS_TXT_MANAGER_POST_OPTION );
+
+	// Clean ads.text posts
+	clean_orphaned_posts( $ads_post_id, 'adstxt' );
+	// Clean app ads.txt posts
+	clean_orphaned_posts( $app_ads_post_id, 'app-adstxt' );
+}
+add_action( 'admin_init', 'filter_orphaned_posts' );
