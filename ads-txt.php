@@ -125,6 +125,9 @@ add_filter( 'query_vars', 'tenup_ads_txt_add_query_vars' );
 
 /**
  * Clean orphaned posts if found
+ * 
+ * @param int    $option    adstxt | app_adstxt post id
+ * @param string $post_type post type
  *
  * @return void|boolean
  */
@@ -145,8 +148,8 @@ function clean_orphaned_posts( $option, $post_type ) {
 	}
 
 	// Search and remove the element using unset()
-	$index = array_search( $option, $ads_posts );
-	if ( $index !== false ) {
+	$index = array_search( $option, $ads_posts, true );
+	if ( false !== $index ) {
 		unset( $ads_posts[ $index ] );
 	}
 
