@@ -479,13 +479,9 @@ add_action( 'admin_notices', __NAMESPACE__ . '\admin_notices' );
  * @param int    $option    adstxt | app_adstxt post id
  * @param string $post_type post type
  *
- * @return void|boolean
+ * @return boolean
  */
 function clean_orphaned_posts( $option, $post_type ) {
-	if ( ! $option || ! $post_type ) {
-		return false;
-	}
-
 	$args = [
 		'fields'    => 'ids', // Only get post IDs
 		'post_type' => $post_type,
@@ -493,12 +489,12 @@ function clean_orphaned_posts( $option, $post_type ) {
 
 	$ads_posts = get_posts( $args );
 
-	if ( empty( $ads_posts ) ) {
+	if ( 1 === count( $ads_posts ) && [ (int) $option ] === $ads_posts ) {
 		return false;
 	}
 
 	// Search and remove the element using unset()
-	$index = array_search( $option, $ads_posts, true );
+	$index = array_search( (int) $option, $ads_posts, true );
 	if ( false !== $index ) {
 		unset( $ads_posts[ $index ] );
 	}
@@ -510,4 +506,6 @@ function clean_orphaned_posts( $option, $post_type ) {
 	foreach ( $ads_posts as $post_id ) {
 		wp_delete_post( $post_id, true );
 	}
+
+	return true;
 }
