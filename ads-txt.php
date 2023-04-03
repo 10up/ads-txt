@@ -125,7 +125,7 @@ add_filter( 'query_vars', 'tenup_ads_txt_add_query_vars' );
 
 /**
  * Clean orphaned posts if found
- * 
+ *
  * @param int    $option    adstxt | app_adstxt post id
  * @param string $post_type post type
  *
