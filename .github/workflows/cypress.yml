@@ -1,6 +1,6 @@
 name: End-to-end Tests
 
-on:  
+on:
   push:
     branches:
       - develop
@@ -9,8 +9,8 @@ on:
     branches:
       - develop
 jobs:
-  build: 
-      uses: 10up/ads-txt/.github/workflows/build-release-zip.yml@update/122 # TODO: Update this to develop branch.
+  build:
+      uses: ./.github/workflows/build-release-zip.yml
   cypress:
     needs: build
     name: E2E Tests
@@ -47,7 +47,7 @@ jobs:
       run: npm install
     - name: Composer
       run: composer install --no-dev
-    - name: Set the core version and plugins config 
+    - name: Set the core version and plugins config
       run: ./tests/bin/set-wp-config.js --core=${{ matrix.core.version }} --plugins=./${{ github.event.repository.name }}
     - name: Set up WP environment
       run: npm run env:start
