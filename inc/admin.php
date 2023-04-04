@@ -474,16 +474,16 @@ function admin_notices() {
 add_action( 'admin_notices', __NAMESPACE__ . '\admin_notices' );
 
 /**
- * Clean orphaned posts if found
+ * Clean orphaned posts if found.
  *
- * @param int    $option    adstxt | app_adstxt post id
- * @param string $post_type post type
+ * @param int    $option    adstxt | app_adstxt post ID.
+ * @param string $post_type The post type, either 'adstxt' or 'app_adstxt'.
  *
  * @return boolean
  */
 function clean_orphaned_posts( $option, $post_type ) {
 	$args = [
-		'fields'    => 'ids', // Only get post IDs
+		'fields'    => 'ids', // Only get post IDs.
 		'post_type' => $post_type,
 	];
 
@@ -493,7 +493,7 @@ function clean_orphaned_posts( $option, $post_type ) {
 		return false;
 	}
 
-	// Search and remove the element using unset()
+	// Search for the active post ID and remove it from the array.
 	$index = array_search( (int) $option, $ads_posts, true );
 	if ( false !== $index ) {
 		unset( $ads_posts[ $index ] );
