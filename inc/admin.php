@@ -267,6 +267,9 @@ function settings_screen( $post_id, $strings, $args ) {
 			update_option( $args['option'], $post_id );
 		}
 	}
+
+	// Clean orphaned posts.
+	clean_orphaned_posts( $post_id, $args['post_type'] );
 	?>
 <div class="wrap">
 	<?php if ( ! empty( $errors ) ) : ?>
@@ -469,3 +472,40 @@ function admin_notices() {
 	endif;
 }
 add_action( 'admin_notices', __NAMESPACE__ . '\admin_notices' );
+
+/**
+ * Clean orphaned posts if found.
+ *
+ * @param int    $option    adstxt | app_adstxt post ID.
+ * @param string $post_type The post type, either 'adstxt' or 'app_adstxt'.
+ *
+ * @return boolean
+ */
+function clean_orphaned_posts( $option, $post_type ) {
+	$args = [
+		'fields'    => 'ids', // Only get post IDs.
+		'post_type' => $post_type,
+	];
+
+	$ads_posts = get_posts( $args );
+
+	if ( 1 === count( $ads_posts ) && [ (int) $option ] === $ads_posts ) {
+		return false;
+	}
+
+	// Search for the active post ID and remove it from the array.
+	$index = array_search( (int) $option, $ads_posts, true );
+	if ( false !== $index ) {
+		unset( $ads_posts[ $index ] );
+	}
+
+	if ( empty( $ads_posts ) ) {
+		return false;
+	}
+
+	foreach ( $ads_posts as $post_id ) {
+		wp_delete_post( $post_id, true );
+	}
+
+	return true;
+}
