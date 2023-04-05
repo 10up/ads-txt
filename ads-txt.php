@@ -122,4 +122,3 @@ function tenup_ads_txt_add_query_vars( $qvars ) {
 	return $qvars;
 }
 add_filter( 'query_vars', 'tenup_ads_txt_add_query_vars' );
-
