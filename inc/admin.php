@@ -268,7 +268,7 @@ function settings_screen( $post_id, $strings, $args ) {
 		}
 	}
 
-	// Clean orphaned posts
+	// Clean orphaned posts.
 	clean_orphaned_posts( $post_id, $args['post_type'] );
 	?>
 <div class="wrap">
