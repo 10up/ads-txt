@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<ruleset name="Ads.txt PHP Compatibility sniff">
+	<rule ref="PHPCompatibilityWP" />
+	<file>.</file>
+	<exclude-pattern>release/</exclude-pattern>
+	<exclude-pattern>vendor/</exclude-pattern>
+	<exclude-pattern>tests/</exclude-pattern>
+	<config name="testVersion" value="7.4-"/>
+</ruleset>
