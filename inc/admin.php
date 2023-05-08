@@ -279,7 +279,7 @@ function settings_screen( $post_id, $strings, $args ) {
 		<p><?php echo esc_html_e( 'Removed the existing file but are still seeing this warning?', 'ads-txt' ); ?> <a class="ads-txt-rerun-check" href="#"><?php echo esc_html_e( 'Re-run the check now', 'ads-txt' ); ?></a> <span class="spinner" style="float:none;margin:-2px 5px 0"></span></p>
 	</div>
 	<?php if ( ! empty( $errors ) ) : ?>
-	<div class="notice notice-error adstxt-notice">
+	<div class="notice notice-error adstxt-notice adstxt-notice-save-error">
 		<p><strong><?php echo esc_html( $strings['errors'] ); ?></strong></p>
 		<ul>
 			<?php
@@ -353,7 +353,7 @@ function settings_screen( $post_id, $strings, $args ) {
 
 	<script type="text/template" id="tmpl-adstext-notice">
 		<# if ( ! _.isUndefined( data.errors ) ) { #>
-		<div class="notice notice-error adstxt-notice adstxt-errors">
+		<div class="notice notice-error adstxt-notice adstxt-errors adstxt-notice-save-error">
 			<p><strong>{{ data.errors.error_message }}</strong></p>
 			<# if ( ! _.isUndefined( data.errors.errors ) ) { #>
 			<ul class="adstxt-errors-items">
