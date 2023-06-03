@@ -522,11 +522,11 @@ function clean_orphaned_posts( $option, $post_type ) {
  * @return void
  */
 function adstxts_check_for_existing_file() {
-	current_user_can( ADS_TXT_MANAGE_CAPABILITY ) || die; 
-	check_admin_referer( 'adstxt_save' ); 
+	current_user_can( ADS_TXT_MANAGE_CAPABILITY ) || die;
+	check_admin_referer( 'adstxt_save' );
 
 	$home_url_parsed = wp_parse_url( home_url() );
-	$adstxt_type = sanitize_text_field( $_POST['adstxt_type'] );
+	$adstxt_type     = sanitize_text_field( $_POST['adstxt_type'] );
 
 	if ( 'adstxt' !== $adstxt_type && 'app-adstxt' !== $adstxt_type ) {
 		wp_die();
@@ -536,8 +536,6 @@ function adstxts_check_for_existing_file() {
 
 	if ( empty( $home_url_parsed['path'] ) ) {
 		$response   = wp_remote_request( home_url( $file_name ) );
-
-		error_log( print_r( $response, true ) );
 
 		$file_exist = false;
 		if ( ! is_wp_error( $response ) ) {
@@ -561,4 +559,3 @@ function adstxts_check_for_existing_file() {
 }
 
 add_action( 'wp_ajax_adstxts_check_for_existing_file', __NAMESPACE__ . '\adstxts_check_for_existing_file' );
-add_filter( 'https_ssl_verify', '__return_false' );
