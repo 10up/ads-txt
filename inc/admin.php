@@ -522,15 +522,29 @@ function clean_orphaned_posts( $option, $post_type ) {
  * @return void
  */
 function adstxts_check_for_existing_file() {
+	current_user_can( ADS_TXT_MANAGE_CAPABILITY ) || die; 
+	check_admin_referer( 'adstxt_save' ); 
+
 	$home_url_parsed = wp_parse_url( home_url() );
+	$adstxt_type = sanitize_text_field( $_POST['adstxt_type'] );
+
+	if ( 'adstxt' !== $adstxt_type && 'app-adstxt' !== $adstxt_type ) {
+		wp_die();
+	}
+
+	$file_name = 'adstxt' === $adstxt_type ? '/ads.txt' : '/app-ads.txt';
+
 	if ( empty( $home_url_parsed['path'] ) ) {
-		$response   = wp_remote_request( home_url( '/ads.txt' ) );
+		$response   = wp_remote_request( home_url( $file_name ) );
+
+		error_log( print_r( $response, true ) );
+
 		$file_exist = false;
 		if ( ! is_wp_error( $response ) ) {
-			// Get the headers of the response
-			$headers      = wp_remote_retrieve_headers( $response );
-			$content_type = isset( $headers['content-type'] ) ? $headers['content-type'] : '';
-			$file_exist   = strpos( $content_type, 'application/octet-stream' ) !== false;
+			// Check the ads.txt generator header.
+			$headers    = wp_remote_retrieve_headers( $response );
+			$generator  = isset( $headers['X-Ads-Txt-Generator'] ) ? $headers['X-Ads-Txt-Generator'] : '';
+			$file_exist = 'https://wordpress.org/plugins/ads-txt/' !== $generator;
 		}
 
 		// Return the response
@@ -547,3 +561,4 @@ function adstxts_check_for_existing_file() {
 }
 
 add_action( 'wp_ajax_adstxts_check_for_existing_file', __NAMESPACE__ . '\adstxts_check_for_existing_file' );
+add_filter( 'https_ssl_verify', '__return_false' );

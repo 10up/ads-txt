@@ -15,11 +15,16 @@
 			e.preventDefault();
 		}
 
+		var adstxt_type = $('input[name=adstxt_type]').val();
+		var wpnonce = $('input[name=_wpnonce]').val();
+
 		$.get({
 			url: window.ajaxurl,
 			type: 'POST',
 			data: {
 				action: 'adstxts_check_for_existing_file',
+				adstxt_type: (adstxt_type === "" || adstxt_type === undefined) ? null : adstxt_type,
+				_wpnonce: wpnonce,
 			},
 			success: function(response) {
 				spinner.removeClass( 'is-active' );
