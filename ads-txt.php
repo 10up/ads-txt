@@ -98,6 +98,12 @@ add_action( 'init', 'tenup_display_ads_txt' );
  */
 function add_adstxt_capabilities() {
 	$role = get_role( 'administrator' );
+
+	// Bail early if the administrator role doesn't exist.
+	if ( null === $role ) {
+		return;
+	}
+
 	if ( ! $role->has_cap( ADS_TXT_MANAGE_CAPABILITY ) ) {
 		$role->add_cap( ADS_TXT_MANAGE_CAPABILITY );
 	}
@@ -112,6 +118,12 @@ register_activation_hook( __FILE__, 'add_adstxt_capabilities' );
  */
 function remove_adstxt_capabilities() {
 	$role = get_role( 'administrator' );
+
+	// Bail early if the administrator role doesn't exist.
+	if ( null === $role ) {
+		return;
+	}
+
 	$role->remove_cap( ADS_TXT_MANAGE_CAPABILITY );
 }
 register_deactivation_hook( __FILE__, 'remove_adstxt_capabilities' );
