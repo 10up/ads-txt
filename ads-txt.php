@@ -36,6 +36,9 @@ function tenup_display_ads_txt() {
 	if ( '/ads.txt' === $request || '/ads.txt?' === substr( $request, 0, 9 ) ) {
 		$post_id = get_option( ADS_TXT_MANAGER_POST_OPTION );
 
+		// Set custom header for ads-txt
+		header( 'X-Ads-Txt-Generator: https://wordpress.org/plugins/ads-txt/' );
+
 		// Will fall through if no option found, likely to a 404.
 		if ( ! empty( $post_id ) ) {
 			$post = get_post( $post_id );
@@ -59,6 +62,9 @@ function tenup_display_ads_txt() {
 		}
 	} elseif ( '/app-ads.txt' === $request || '/app-ads.txt?' === substr( $request, 0, 13 ) ) {
 		$post_id = get_option( APP_ADS_TXT_MANAGER_POST_OPTION );
+
+		// Set custom header for ads-txt
+		header( 'X-Ads-Txt-Generator: https://wordpress.org/plugins/ads-txt/' );
 
 		// Will fall through if no option found, likely to a 404.
 		if ( ! empty( $post_id ) ) {
