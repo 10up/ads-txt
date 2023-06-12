@@ -19,7 +19,7 @@ describe("Manage app-ads.txt", () => {
       .type("{selectall}")
       .type(incorrectRecord);
     cy.get(".adstxt-settings-form #submit").click();
-    cy.get(".notice-error").should(
+    cy.get(".adstxt-notice-save-error").should(
       "contain.text",
       "Your app-ads.txt contains the following issues"
     );
@@ -27,7 +27,7 @@ describe("Manage app-ads.txt", () => {
     cy.get("#adstxt-ays-checkbox").click();
     cy.get(".adstxt-settings-form #submit").click();
     cy.get(".adstxt-saved").should("contain.text", "App-ads.txt saved");
-    cy.get(".notice-error").should(
+    cy.get(".adstxt-notice-save-error").should(
       "contain.text",
       "Your app-ads.txt contains the following issues"
     );
@@ -41,7 +41,7 @@ describe("Manage app-ads.txt", () => {
       .type(correctRecord);
     cy.get(".adstxt-settings-form #submit").click();
     cy.get(".adstxt-saved").should("contain.text", "App-ads.txt saved");
-    cy.get(".notice-error").should("not.exist");
+    cy.get(".adstxt-notice-save-error").should("not.exist");
     cy.request(`/app-ads.txt`).then((response) => {
       expect(response.body).to.contain(correctRecord);
     });

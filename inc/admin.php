@@ -272,8 +272,14 @@ function settings_screen( $post_id, $strings, $args ) {
 	clean_orphaned_posts( $post_id, $args['post_type'] );
 	?>
 <div class="wrap">
+	<div class="notice notice-error adstxt-notice existing-adstxt" style="display: none;">
+		<p><strong><?php echo esc_html( $strings['existing'] ); ?></strong></p>
+		<p><?php echo esc_html( $strings['precedence'] ); ?></p>
+
+		<p><?php echo esc_html_e( 'Removed the existing file but are still seeing this warning?', 'ads-txt' ); ?> <a class="ads-txt-rerun-check" href="#"><?php echo esc_html_e( 'Re-run the check now', 'ads-txt' ); ?></a> <span class="spinner" style="float:none;margin:-2px 5px 0"></span></p>
+	</div>
 	<?php if ( ! empty( $errors ) ) : ?>
-	<div class="notice notice-error adstxt-notice">
+	<div class="notice notice-error adstxt-notice adstxt-notice-save-error">
 		<p><strong><?php echo esc_html( $strings['errors'] ); ?></strong></p>
 		<ul>
 			<?php
@@ -347,7 +353,7 @@ function settings_screen( $post_id, $strings, $args ) {
 
 	<script type="text/template" id="tmpl-adstext-notice">
 		<# if ( ! _.isUndefined( data.errors ) ) { #>
-		<div class="notice notice-error adstxt-notice adstxt-errors">
+		<div class="notice notice-error adstxt-notice adstxt-errors adstxt-notice-save-error">
 			<p><strong>{{ data.errors.error_message }}</strong></p>
 			<# if ( ! _.isUndefined( data.errors.errors ) ) { #>
 			<ul class="adstxt-errors-items">
@@ -509,3 +515,47 @@ function clean_orphaned_posts( $option, $post_type ) {
 
 	return true;
 }
+
+/**
+ * Check if ads.txt file already exists in the server
+ *
+ * @return void
+ */
+function adstxts_check_for_existing_file() {
+	current_user_can( ADS_TXT_MANAGE_CAPABILITY ) || die;
+	check_admin_referer( 'adstxt_save' );
+
+	$home_url_parsed = wp_parse_url( home_url() );
+	$adstxt_type     = sanitize_text_field( $_POST['adstxt_type'] );
+
+	if ( 'adstxt' !== $adstxt_type && 'app-adstxt' !== $adstxt_type ) {
+		wp_die();
+	}
+
+	$file_name = 'adstxt' === $adstxt_type ? '/ads.txt' : '/app-ads.txt';
+
+	if ( empty( $home_url_parsed['path'] ) ) {
+		$response   = wp_remote_request( home_url( $file_name ) );
+
+		$file_exist = false;
+		if ( ! is_wp_error( $response ) ) {
+			// Check the ads.txt generator header.
+			$headers    = wp_remote_retrieve_headers( $response );
+			$generator  = isset( $headers['X-Ads-Txt-Generator'] ) ? $headers['X-Ads-Txt-Generator'] : '';
+			$file_exist = 'https://wordpress.org/plugins/ads-txt/' !== $generator;
+		}
+
+		// Return the response
+		wp_send_json(
+			[
+				'success'    => true,
+				'file_exist' => $file_exist,
+			]
+		);
+
+		// Make sure to exit
+		wp_die();
+	}
+}
+
+add_action( 'wp_ajax_adstxts_check_for_existing_file', __NAMESPACE__ . '\adstxts_check_for_existing_file' );
