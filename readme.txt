@@ -6,7 +6,7 @@ Tags:              ads.txt, app-ads.txt, ads, ad manager, advertising, publishin
 Requires at least: 5.7
 Tested up to:      6.2
 Requires PHP:      7.4
-Stable tag:        1.4.2
+Stable tag:        1.4.3
 License:           GPLv2 or later
 License URI:       https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 Text Domain:       ads-txt
