@@ -7,6 +7,16 @@
 
 namespace Adstxt;
 
+// Option name for a flag to tell if ads.txt contains placeholder record.
+if ( ! defined( 'ADS_TXT_HAS_PLACEHOLDER_OPTION_NAME' ) ) {
+	define( 'ADS_TXT_HAS_PLACEHOLDER_OPTION_NAME', 'ads_txt_has_placeholder_record' );
+}
+
+// Option name for a flag to store total number of record lines (temporary).
+if ( ! defined( 'ADS_TXT_RECORD_LINES_OPTION_NAME' ) ) {
+	define( 'ADS_TXT_RECORD_LINES_OPTION_NAME', 'ads_txt_record_lines' );
+}
+
 /**
  * Process and save the ads.txt data.
  *
@@ -44,6 +54,10 @@ function save() {
 			$warnings = array_merge( $warnings, $result['warnings'] );
 		}
 	}
+
+	// Delete the temporary options.
+	delete_option( ADS_TXT_HAS_PLACEHOLDER_OPTION_NAME );
+	delete_option( ADS_TXT_RECORD_LINES_OPTION_NAME );
 
 	$sanitized = implode( PHP_EOL, $sanitized );
 	$postarr   = array(
@@ -102,11 +116,12 @@ add_action( 'wp_ajax_app-adstxt-save', __NAMESPACE__ . '\save' );
  * }
  */
 function validate_line( $line, $line_number ) {
-	static $has_placeholder_record = false;
-	static $record_lines           = 0; // Only to count for records, not comments/variables.
-	$domain_regex                  = '/^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$/i';
-	$errors                        = array();
-	$warnings                      = array();
+	$has_placeholder_record = get_option( ADS_TXT_HAS_PLACEHOLDER_OPTION_NAME, false );
+	$record_lines           = get_option( ADS_TXT_RECORD_LINES_OPTION_NAME, 0 );
+	// Only to count for records, not comments/variables.
+	$domain_regex = '/^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$/i';
+	$errors       = array();
+	$warnings     = array();
 
 	if ( empty( $line ) ) {
 		$sanitized = '';
@@ -150,7 +165,8 @@ function validate_line( $line, $line_number ) {
 		$fields = explode( ',', $record );
 
 		if ( 3 <= count( $fields ) ) {
-			++$record_lines; // Increment record lines.
+			++$record_lines;
+			update_option( ADS_TXT_RECORD_LINES_OPTION_NAME, $record_lines ); // Increment record lines.
 			$exchange              = trim( $fields[0] );
 			$pub_id                = trim( $fields[1] );
 			$account_type          = trim( $fields[2] );
@@ -158,8 +174,8 @@ function validate_line( $line, $line_number ) {
 
 			// If the file contains placeholder record and no placeholder was already present, set variable.
 			if ( $is_placeholder_record && ! $has_placeholder_record ) {
-				$has_placeholder_record = true;
-				$warnings[]             = array(
+				update_option( ADS_TXT_HAS_PLACEHOLDER_OPTION_NAME, true, false );
+				$warnings[] = array(
 					'type'    => 'no_authorized_seller',
 					'message' => __( 'Your ads.txt indicates no authorized advertising sellers.', 'ads-txt' ),
 				);
