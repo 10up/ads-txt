@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Ads.txt Manager
  * Description:       Create, manage, and validate your Ads.txt from within WordPress, just like any other content asset. Requires PHP 7.4+ and WordPress 5.7+.
- * Version:           1.4.2
+ * Version:           1.4.3
  * Author:            10up
  * Author URI:        https://10up.com
  * License:           GPLv2 or later
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'ADS_TXT_MANAGER_VERSION', '1.4.2' );
+define( 'ADS_TXT_MANAGER_VERSION', '1.4.3' );
 define( 'ADS_TXT_MANAGE_CAPABILITY', 'edit_ads_txt' );
 define( 'ADS_TXT_MANAGER_POST_OPTION', 'adstxt_post' );
 define( 'APP_ADS_TXT_MANAGER_POST_OPTION', 'app_adstxt_post' );
@@ -35,6 +35,9 @@ function tenup_display_ads_txt() {
 	$request = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : false;
 	if ( '/ads.txt' === $request || '/ads.txt?' === substr( $request, 0, 9 ) ) {
 		$post_id = get_option( ADS_TXT_MANAGER_POST_OPTION );
+
+		// Set custom header for ads-txt
+		header( 'X-Ads-Txt-Generator: https://wordpress.org/plugins/ads-txt/' );
 
 		// Will fall through if no option found, likely to a 404.
 		if ( ! empty( $post_id ) ) {
@@ -59,6 +62,9 @@ function tenup_display_ads_txt() {
 		}
 	} elseif ( '/app-ads.txt' === $request || '/app-ads.txt?' === substr( $request, 0, 13 ) ) {
 		$post_id = get_option( APP_ADS_TXT_MANAGER_POST_OPTION );
+
+		// Set custom header for ads-txt
+		header( 'X-Ads-Txt-Generator: https://wordpress.org/plugins/ads-txt/' );
 
 		// Will fall through if no option found, likely to a 404.
 		if ( ! empty( $post_id ) ) {
@@ -92,6 +98,12 @@ add_action( 'init', 'tenup_display_ads_txt' );
  */
 function add_adstxt_capabilities() {
 	$role = get_role( 'administrator' );
+
+	// Bail early if the administrator role doesn't exist.
+	if ( null === $role ) {
+		return;
+	}
+
 	if ( ! $role->has_cap( ADS_TXT_MANAGE_CAPABILITY ) ) {
 		$role->add_cap( ADS_TXT_MANAGE_CAPABILITY );
 	}
@@ -106,6 +118,12 @@ register_activation_hook( __FILE__, 'add_adstxt_capabilities' );
  */
 function remove_adstxt_capabilities() {
 	$role = get_role( 'administrator' );
+
+	// Bail early if the administrator role doesn't exist.
+	if ( null === $role ) {
+		return;
+	}
+
 	$role->remove_cap( ADS_TXT_MANAGE_CAPABILITY );
 }
 register_deactivation_hook( __FILE__, 'remove_adstxt_capabilities' );

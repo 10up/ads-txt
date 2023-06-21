@@ -15,13 +15,14 @@ on:
 
 jobs:
   phpunit:
-    name: ${{ matrix.name }}
+    name: ${{ matrix.php.name }}
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         php:
           - {name: 'PHP 7.4', version: '7.4'}
+          - {name: 'PHP 8.0', version: '8.0'}
           - {name: 'PHP 8.1', version: '8.1'}
 
     steps:
@@ -49,6 +50,6 @@ jobs:
 
     - name: Install dependencies
       run: composer install
-    
+
     - name: Test
       run: ./vendor/bin/phpunit -v
