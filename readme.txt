@@ -55,7 +55,7 @@ You will need to rename or remove the existing (app-)ads.txt file (keeping a cop
 
 == Changelog ==
 
-= 1.4.3 - 2023-06-20 =
+= 1.4.3 - 2023-06-21 =
 * **Added:** `ads.txt` file exists check from the backend (props [@sksaju](https://github.com/sksaju), [@peterwilsoncc](https://github.com/peterwilsoncc), [@mmcachran](https://github.com/mmcachran), [@dinhtungdu](https://github.com/dinhtungdu), [@helen](https://github.com/helen), [@jeffpaul](https://github.com/jeffpaul) via [#131](https://github.com/10up/ads-txt/pull/131)).
 * **Added:** Check for and delete orphan `(app-)ads.txt` posts not referenced in the option (props [@sksaju](https://github.com/sksaju), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#138](https://github.com/10up/ads-txt/pull/138)).
 * **Added:** Mochawesome reporter added for Cypress test report (props [@jayedul](https://github.com/jayedul), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#141](https://github.com/10up/ads-txt/pull/141)).
