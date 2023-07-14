@@ -157,7 +157,6 @@ function validate_line( $line, $line_number, $has_placeholder_record = false ) {
 
 		if ( 3 <= count( $fields ) ) {
 			++$record_lines;
-			update_option( ADS_TXT_RECORD_LINES_OPTION_NAME, $record_lines ); // Increment record lines.
 			$exchange              = trim( $fields[0] );
 			$pub_id                = trim( $fields[1] );
 			$account_type          = trim( $fields[2] );
