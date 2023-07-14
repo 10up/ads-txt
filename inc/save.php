@@ -25,11 +25,11 @@ function save() {
 	$ays     = isset( $_post['adstxt_ays'] ) ? $_post['adstxt_ays'] : null;
 
 	// Different browsers use different line endings.
-	$lines     = preg_split( '/\r\n|\r|\n/', $_post['adstxt'] );
-	$sanitized = array();
-	$errors    = array();
-	$warnings  = array();
-	$response  = array();
+	$lines                  = preg_split( '/\r\n|\r|\n/', $_post['adstxt'] );
+	$sanitized              = array();
+	$errors                 = array();
+	$warnings               = array();
+	$response               = array();
 	$has_placeholder_record = false;
 
 	foreach ( $lines as $i => $line ) {
@@ -107,7 +107,7 @@ add_action( 'wp_ajax_app-adstxt-save', __NAMESPACE__ . '\save' );
  * }
  */
 function validate_line( $line, $line_number, $has_placeholder_record = false ) {
-	static $record_lines           = 0;
+	static $record_lines   = 0;
 	$is_placeholder_record = false;
 	// Only to count for records, not comments/variables.
 	$domain_regex = '/^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$/i';
@@ -218,9 +218,9 @@ function validate_line( $line, $line_number, $has_placeholder_record = false ) {
 	}
 
 	return array(
-		'sanitized' => $sanitized,
-		'errors'    => $errors,
-		'warnings'  => $warnings,
+		'sanitized'             => $sanitized,
+		'errors'                => $errors,
+		'warnings'              => $warnings,
 		'is_placeholder_record' => $is_placeholder_record,
 	);
 }

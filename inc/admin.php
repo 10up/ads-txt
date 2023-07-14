@@ -463,15 +463,15 @@ function display_formatted_error( $error ) {
  */
 function get_error_messages() {
 	$messages = array(
-		'invalid_variable'           => __( 'Unrecognized variable' ),
-		'invalid_record'             => __( 'Invalid record' ),
-		'invalid_account_type'       => __( 'Third field should be RESELLER or DIRECT' ),
+		'invalid_variable'     => __( 'Unrecognized variable' ),
+		'invalid_record'       => __( 'Invalid record' ),
+		'invalid_account_type' => __( 'Third field should be RESELLER or DIRECT' ),
 		/* translators: %s: Subdomain */
-		'invalid_subdomain'          => __( '%s does not appear to be a valid subdomain' ),
+		'invalid_subdomain'    => __( '%s does not appear to be a valid subdomain' ),
 		/* translators: %s: Exchange domain */
-		'invalid_exchange'           => __( '%s does not appear to be a valid exchange domain' ),
+		'invalid_exchange'     => __( '%s does not appear to be a valid exchange domain' ),
 		/* translators: %s: Alphanumeric TAG-ID */
-		'invalid_tagid'              => __( '%s does not appear to be a valid TAG-ID' ),
+		'invalid_tagid'        => __( '%s does not appear to be a valid TAG-ID' ),
 	);
 
 	return $messages;
@@ -563,7 +563,7 @@ function adstxts_check_for_existing_file() {
 	$file_name = 'adstxt' === $adstxt_type ? '/ads.txt' : '/app-ads.txt';
 
 	if ( empty( $home_url_parsed['path'] ) ) {
-		$response   = wp_remote_request( home_url( $file_name ) );
+		$response = wp_remote_request( home_url( $file_name ) );
 
 		$file_exist = false;
 		if ( ! is_wp_error( $response ) ) {
