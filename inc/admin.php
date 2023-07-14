@@ -472,7 +472,6 @@ function get_error_messages() {
 		'invalid_exchange'           => __( '%s does not appear to be a valid exchange domain' ),
 		/* translators: %s: Alphanumeric TAG-ID */
 		'invalid_tagid'              => __( '%s does not appear to be a valid TAG-ID' ),
-		'invalid_placeholder_record' => __( 'Ads.txt contains placeholder record with another records.' ),
 	);
 
 	return $messages;

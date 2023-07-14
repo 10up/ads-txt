@@ -34,7 +34,7 @@ function save() {
 
 	foreach ( $lines as $i => $line ) {
 		$line_number = $i + 1;
-		$result      = validate_line( $line, $line_number );
+		$result      = validate_line( $line, $line_number, $has_placeholder_record );
 
 		$sanitized[] = $result['sanitized'];
 		if ( ! empty( $result['errors'] ) ) {
@@ -168,23 +168,6 @@ function validate_line( $line, $line_number, $has_placeholder_record = false ) {
 					'type'    => 'no_authorized_seller',
 					'message' => __( 'Your ads.txt indicates no authorized advertising sellers.', 'ads-txt' ),
 				);
-			}
-
-			// If the file contains placeholder text and also has other records, flag error.
-			if ( $has_placeholder_record && $record_lines > 1 ) {
-				$errors[] = array(
-					'line' => $line_number,
-					'type' => 'invalid_placeholder_record',
-				);
-
-				// Once the error is set, remove no authorized seller warning as it is irrelevant.
-				if ( ! empty( $warnings ) ) {
-					foreach ( $warnings as $key => $warning ) {
-						if ( isset( $warning['type'] ) && 'no_authorized_seller' === $warning['type'] ) {
-							unset( $warnings[ $key ] );
-						}
-					}
-				}
 			}
 
 			// Process further only if the current record is not placeholder record.
