@@ -164,7 +164,6 @@ function validate_line( $line, $line_number, $has_placeholder_record = false ) {
 
 			// If the file contains placeholder record and no placeholder was already present, set variable.
 			if ( $is_placeholder_record && ! $has_placeholder_record ) {
-				update_option( ADS_TXT_HAS_PLACEHOLDER_OPTION_NAME, true, false );
 				$warnings[] = array(
 					'type'    => 'no_authorized_seller',
 					'message' => __( 'Your ads.txt indicates no authorized advertising sellers.', 'ads-txt' ),
