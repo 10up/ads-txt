@@ -42,6 +42,7 @@ class SaveTests extends TestCase {
 					'sanitized'   => '',
 					'errors'      => array(),
 					'warnings'    => array(),
+					'is_placeholder_record' => false,
 				),
 			),
 			'Validate comment'                    => array(
@@ -51,6 +52,7 @@ class SaveTests extends TestCase {
 					'sanitized' => '# comment',
 					'errors'    => array(),
 					'warnings'    => array(),
+					'is_placeholder_record' => false,
 				),
 			),
 			'Validate CONTACT var'                => array(
@@ -60,6 +62,7 @@ class SaveTests extends TestCase {
 					'sanitized' => 'CONTACT=contact',
 					'errors'    => array(),
 					'warnings'    => array(),
+					'is_placeholder_record' => false,
 				),
 			),
 			'Validate SUBDOMAIN var'              => array(
@@ -69,6 +72,7 @@ class SaveTests extends TestCase {
 					'sanitized' => 'SUBDOMAIN=subdomain.com',
 					'errors'    => array(),
 					'warnings'    => array(),
+					'is_placeholder_record' => false,
 				),
 			),
 			'Validate INVENTORYPARTNERDOMAIN var' => array(
@@ -78,6 +82,7 @@ class SaveTests extends TestCase {
 					'sanitized' => 'INVENTORYPARTNERDOMAIN=subdomain.com',
 					'errors'    => array(),
 					'warnings'    => array(),
+					'is_placeholder_record' => false,
 				),
 			),
 			'Invalid var'                         => array(
@@ -92,6 +97,7 @@ class SaveTests extends TestCase {
 						),
 					),
 					'warnings'    => array(),
+					'is_placeholder_record' => false,
 				),
 			),
 			'Invalid SUBDOMAIN var'               => array(
@@ -107,6 +113,7 @@ class SaveTests extends TestCase {
 						),
 					),
 					'warnings'    => array(),
+					'is_placeholder_record' => false,
 				),
 			),
 			'Validate reseller record'            => array(
@@ -116,6 +123,7 @@ class SaveTests extends TestCase {
 					'sanitized' => 'example.exchange.com,pub-id123456789,RESELLER,abcdef0123456789',
 					'errors'    => array(),
 					'warnings'    => array(),
+					'is_placeholder_record' => false,
 				),
 			),
 			'Validate direct record'              => array(
@@ -125,6 +133,7 @@ class SaveTests extends TestCase {
 					'sanitized' => 'example.exchange.com,pub-id123456789,DIRECT,abcdef0123456789',
 					'errors'    => array(),
 					'warnings'    => array(),
+					'is_placeholder_record' => false,
 				),
 			),
 			'Validate commented record'           => array(
@@ -134,6 +143,7 @@ class SaveTests extends TestCase {
 					'sanitized' => 'example.exchange.com,pub-id123456789,RESELLER,abcdef0123456789 # comment',
 					'errors'    => array(),
 					'warnings'    => array(),
+					'is_placeholder_record' => false,
 				),
 			),
 			'Invalid exchange'                    => array(
@@ -149,6 +159,7 @@ class SaveTests extends TestCase {
 						),
 					),
 					'warnings'    => array(),
+					'is_placeholder_record' => false,
 				),
 			),
 			'Invalid account type'                => array(
@@ -163,6 +174,7 @@ class SaveTests extends TestCase {
 						),
 					),
 					'warnings'    => array(),
+					'is_placeholder_record' => false,
 				),
 			),
 			'Invalid record'                      => array(
@@ -177,6 +189,7 @@ class SaveTests extends TestCase {
 						),
 					),
 					'warnings'    => array(),
+					'is_placeholder_record' => false,
 				),
 			),
 			'Multiple errors'                     => array(
@@ -196,6 +209,7 @@ class SaveTests extends TestCase {
 						),
 					),
 					'warnings'    => array(),
+					'is_placeholder_record' => false,
 				),
 			),
 		);
