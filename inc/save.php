@@ -98,8 +98,9 @@ add_action( 'wp_ajax_app-adstxt-save', __NAMESPACE__ . '\save' );
 /**
  * Validate a single line.
  *
- * @param string $line        The line to validate.
- * @param string $line_number The line number being evaluated.
+ * @param string $line                   The line to validate.
+ * @param string $line_number            The line number being evaluated.
+ * @param string $has_placeholder_record Flag for presence of placeholder record.
  *
  * @return array {
  *     @type string $sanitized Sanitized version of the original line.
