@@ -106,7 +106,7 @@ add_action( 'wp_ajax_app-adstxt-save', __NAMESPACE__ . '\save' );
  *     @type array  $errors    Array of errors associated with the line.
  * }
  */
-function validate_line( $line, $line_number ) {
+function validate_line( $line, $line_number, $has_placeholder_record = false ) {
 	$has_placeholder_record = get_option( ADS_TXT_HAS_PLACEHOLDER_OPTION_NAME, false );
 	$record_lines           = get_option( ADS_TXT_RECORD_LINES_OPTION_NAME, 0 );
 	// Only to count for records, not comments/variables.
