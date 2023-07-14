@@ -50,10 +50,6 @@ function save() {
 		}
 	}
 
-	// Delete the temporary options.
-	delete_option( ADS_TXT_HAS_PLACEHOLDER_OPTION_NAME );
-	delete_option( ADS_TXT_RECORD_LINES_OPTION_NAME );
-
 	$sanitized = implode( PHP_EOL, $sanitized );
 	$postarr   = array(
 		'ID'           => $post_id,
