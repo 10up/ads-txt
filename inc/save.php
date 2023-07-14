@@ -44,6 +44,10 @@ function save() {
 		if ( ! empty( $result['warnings'] ) ) {
 			$warnings = array_merge( $warnings, $result['warnings'] );
 		}
+
+		if ( ! empty( $result['is_placeholder_record'] ) ) {
+			$has_placeholder_record = true;
+		}
 	}
 
 	// Delete the temporary options.
