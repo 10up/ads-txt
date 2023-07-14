@@ -30,6 +30,7 @@ function save() {
 	$errors    = array();
 	$warnings  = array();
 	$response  = array();
+	$has_placeholder_record = false;
 
 	foreach ( $lines as $i => $line ) {
 		$line_number = $i + 1;
