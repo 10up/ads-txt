@@ -107,8 +107,8 @@ add_action( 'wp_ajax_app-adstxt-save', __NAMESPACE__ . '\save' );
  * }
  */
 function validate_line( $line, $line_number, $has_placeholder_record = false ) {
-	$has_placeholder_record = get_option( ADS_TXT_HAS_PLACEHOLDER_OPTION_NAME, false );
-	$record_lines           = get_option( ADS_TXT_RECORD_LINES_OPTION_NAME, 0 );
+	static $record_lines           = 0;
+	$is_placeholder_record = false;
 	// Only to count for records, not comments/variables.
 	$domain_regex = '/^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$/i';
 	$errors       = array();
