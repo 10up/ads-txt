@@ -7,16 +7,6 @@
 
 namespace Adstxt;
 
-// Option name for a flag to tell if ads.txt contains placeholder record.
-if ( ! defined( 'ADS_TXT_HAS_PLACEHOLDER_OPTION_NAME' ) ) {
-	define( 'ADS_TXT_HAS_PLACEHOLDER_OPTION_NAME', 'ads_txt_has_placeholder_record' );
-}
-
-// Option name for a flag to store total number of record lines (temporary).
-if ( ! defined( 'ADS_TXT_RECORD_LINES_OPTION_NAME' ) ) {
-	define( 'ADS_TXT_RECORD_LINES_OPTION_NAME', 'ads_txt_record_lines' );
-}
-
 /**
  * Process and save the ads.txt data.
  *
