@@ -238,6 +238,7 @@ function validate_line( $line, $line_number, $has_placeholder_record = false ) {
 		'sanitized' => $sanitized,
 		'errors'    => $errors,
 		'warnings'  => $warnings,
+		'is_placeholder_record' => $is_placeholder_record,
 	);
 }
 
