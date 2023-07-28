@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Ads.txt Manager
  * Description:       Create, manage, and validate your Ads.txt from within WordPress, just like any other content asset. Requires PHP 7.4+ and WordPress 5.7+.
- * Version:           1.4.4
+ * Version:           1.4.3
  * Author:            10up
  * Author URI:        https://10up.com
  * License:           GPLv2 or later
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'ADS_TXT_MANAGER_VERSION', '1.4.4' );
+define( 'ADS_TXT_MANAGER_VERSION', '1.4.3' );
 define( 'ADS_TXT_MANAGE_CAPABILITY', 'edit_ads_txt' );
 define( 'ADS_TXT_MANAGER_POST_OPTION', 'adstxt_post' );
 define( 'APP_ADS_TXT_MANAGER_POST_OPTION', 'app_adstxt_post' );
@@ -25,27 +25,23 @@ define( 'APP_ADS_TXT_MANAGER_POST_OPTION', 'app_adstxt_post' );
 /**
  * Get the minimum version of PHP required by this plugin.
  *
- * @since 1.4.4
- *
  * @return string Minimum version required.
  */
-function minimum_php_requirement() {
+function adstxt_minimum_php_requirement() {
 	return '7.4';
 }
 
 /**
  * Whether PHP installation meets the minimum requirements
  *
- * @since 1.4.4
- *
  * @return bool True if meets minimum requirements, false otherwise.
  */
-function site_meets_php_requirements() {
-	return version_compare( phpversion(), minimum_php_requirement(), '>=' );
+function adstxt_site_meets_php_requirements() {
+	return version_compare( phpversion(), adstxt_minimum_php_requirement(), '>=' );
 }
 
 // Ensuring our PHP version requirement is met first before loading plugin.
-if ( ! site_meets_php_requirements() ) {
+if ( ! adstxt_site_meets_php_requirements() ) {
 	add_action(
 		'admin_notices',
 		function() {
@@ -57,7 +53,7 @@ if ( ! site_meets_php_requirements() ) {
 						sprintf(
 							/* translators: %s: Minimum required PHP version */
 							__( 'Ads.txt requires PHP version %s or later. Please upgrade PHP or disable the plugin.', 'ads-txt' ),
-							esc_html( minimum_php_requirement() )
+							esc_html( adstxt_minimum_php_requirement() )
 						)
 					);
 					?>
