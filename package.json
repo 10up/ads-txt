@@ -26,11 +26,8 @@
   },
   "homepage": "https://github.com/10up/ads-txt",
   "devDependencies": {
-    "@wordpress/env": "^5.7.0",
-    "cypress": "^11.2.0",
-    "cypress-file-upload": "^5.0.8"
-  },
-  "dependencies": {
-    "cypress-mochawesome-reporter": "^3.4.0"
+    "@wordpress/env": "^8.7.0",
+    "cypress": "^13.2.0",
+    "cypress-mochawesome-reporter": "^3.6.0"
   }
 }
