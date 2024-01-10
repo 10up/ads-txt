@@ -25,7 +25,7 @@ class AdminTests extends TestCase {
 	/** @test Query var is set
 	 */
 	public function test_query_vars() {
-		$vars = AdsTxt\tenup_ads_txt_add_query_vars( array( 'existing', 'vars' ) );
+		$vars = AdsTxt\add_query_vars( array( 'existing', 'vars' ) );
 
 		$this->assertContains( 'ads_txt_saved', $vars );
 	}

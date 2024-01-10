@@ -12,7 +12,7 @@ namespace AdsTxt;
  *
  * @return void
  */
-function tenup_display_ads_txt() {
+function display_ads_txt() {
 	$request = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : false;
 	if ( '/ads.txt' === $request || '/ads.txt?' === substr( $request, 0, 9 ) ) {
 		$post_id = get_option( ADS_TXT_MANAGER_POST_OPTION );
@@ -70,14 +70,14 @@ function tenup_display_ads_txt() {
 		}
 	}
 }
-add_action( 'init', __NAMESPACE__ . '\tenup_display_ads_txt' );
+add_action( 'init', __NAMESPACE__ . '\display_ads_txt' );
 
 /**
  * Add custom capabilities.
  *
  * @return void
  */
-function add_adstxt_capabilities() {
+function add_capabilities() {
 	$role = get_role( 'administrator' );
 
 	// Bail early if the administrator role doesn't exist.
@@ -89,15 +89,15 @@ function add_adstxt_capabilities() {
 		$role->add_cap( ADS_TXT_MANAGE_CAPABILITY );
 	}
 }
-add_action( 'admin_init', __NAMESPACE__ . '\add_adstxt_capabilities' );
-register_activation_hook( __FILE__, __NAMESPACE__ . '\add_adstxt_capabilities' );
+add_action( 'admin_init', __NAMESPACE__ . '\add_capabilities' );
+register_activation_hook( __FILE__, __NAMESPACE__ . '\add_capabilities' );
 
 /**
  * Remove custom capabilities when deactivating the plugin.
  *
  * @return void
  */
-function remove_adstxt_capabilities() {
+function remove_capabilities() {
 	$role = get_role( 'administrator' );
 
 	// Bail early if the administrator role doesn't exist.
@@ -107,7 +107,7 @@ function remove_adstxt_capabilities() {
 
 	$role->remove_cap( ADS_TXT_MANAGE_CAPABILITY );
 }
-register_deactivation_hook( __FILE__, __NAMESPACE__ . '\remove_adstxt_capabilities' );
+register_deactivation_hook( __FILE__, __NAMESPACE__ . '\remove_capabilities' );
 
 /**
  * Add a query var to detect when ads.txt has been saved.
@@ -116,8 +116,8 @@ register_deactivation_hook( __FILE__, __NAMESPACE__ . '\remove_adstxt_capabiliti
  *
  * @return array Array of query vars.
  */
-function tenup_ads_txt_add_query_vars( $qvars ) {
+function add_query_vars( $qvars ) {
 	$qvars[] = 'ads_txt_saved';
 	return $qvars;
 }
-add_filter( 'query_vars', __NAMESPACE__ . '\tenup_ads_txt_add_query_vars' );
+add_filter( 'query_vars', __NAMESPACE__ . '\add_query_vars' );
