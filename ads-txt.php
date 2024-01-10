@@ -49,12 +49,10 @@ if ( ! adstxt_site_meets_php_requirements() ) {
 			<div class="notice notice-error">
 				<p>
 					<?php
-					echo wp_kses_post(
-						sprintf(
-							/* translators: %s: Minimum required PHP version */
-							__( 'Ads.txt requires PHP version %s or later. Please upgrade PHP or disable the plugin.', 'ads-txt' ),
-							esc_html( adstxt_minimum_php_requirement() )
-						)
+					printf(
+						/* translators: %s: Minimum required PHP version */
+						esc_html__( 'Ads.txt requires PHP version %s or later. Please upgrade PHP or disable the plugin.', 'ads-txt' ),
+						esc_html( adstxt_minimum_php_requirement() )
 					);
 					?>
 				</p>
