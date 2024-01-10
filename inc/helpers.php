@@ -24,7 +24,7 @@ function tenup_display_ads_txt() {
 		if ( ! empty( $post_id ) ) {
 			$post = get_post( $post_id );
 
-			if ( ! $post instanceof WP_Post ) {
+			if ( ! $post instanceof \WP_Post ) {
 				return;
 			}
 
@@ -51,7 +51,7 @@ function tenup_display_ads_txt() {
 		if ( ! empty( $post_id ) ) {
 			$post = get_post( $post_id );
 
-			if ( ! $post instanceof WP_Post ) {
+			if ( ! $post instanceof \WP_Post ) {
 				return;
 			}
 
@@ -70,7 +70,7 @@ function tenup_display_ads_txt() {
 		}
 	}
 }
-add_action( 'init', 'tenup_display_ads_txt' );
+add_action( 'init', __NAMESPACE__ . '\tenup_display_ads_txt' );
 
 /**
  * Add custom capabilities.
@@ -89,8 +89,8 @@ function add_adstxt_capabilities() {
 		$role->add_cap( ADS_TXT_MANAGE_CAPABILITY );
 	}
 }
-add_action( 'admin_init', 'add_adstxt_capabilities' );
-register_activation_hook( __FILE__, 'add_adstxt_capabilities' );
+add_action( 'admin_init', __NAMESPACE__ . '\add_adstxt_capabilities' );
+register_activation_hook( __FILE__, __NAMESPACE__ . '\add_adstxt_capabilities' );
 
 /**
  * Remove custom capabilities when deactivating the plugin.
@@ -107,7 +107,7 @@ function remove_adstxt_capabilities() {
 
 	$role->remove_cap( ADS_TXT_MANAGE_CAPABILITY );
 }
-register_deactivation_hook( __FILE__, 'remove_adstxt_capabilities' );
+register_deactivation_hook( __FILE__, __NAMESPACE__ . '\remove_adstxt_capabilities' );
 
 /**
  * Add a query var to detect when ads.txt has been saved.
@@ -120,4 +120,4 @@ function tenup_ads_txt_add_query_vars( $qvars ) {
 	$qvars[] = 'ads_txt_saved';
 	return $qvars;
 }
-add_filter( 'query_vars', 'tenup_ads_txt_add_query_vars' );
+add_filter( 'query_vars', __NAMESPACE__ . '\tenup_ads_txt_add_query_vars' );
