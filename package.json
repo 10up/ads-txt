@@ -28,6 +28,7 @@
   "devDependencies": {
     "@wordpress/env": "^8.7.0",
     "cypress": "^13.2.0",
-    "cypress-mochawesome-reporter": "^3.6.0"
+    "cypress-mochawesome-reporter": "^3.6.0",
+    "mochawesome-json-to-md": "^0.7.2"
   }
 }
