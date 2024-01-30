@@ -1,0 +1,36 @@
+{
+	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
+	"landingPage": "\/wp-admin\/options-general.php?page=adstxt-settings",
+	"preferredVersions": {
+		"php": "7.4",
+		"wp": "latest"
+	},
+	"phpExtensionBundles": ["kitchen-sink"],
+	"steps": [
+		{
+			"step": "login",
+			"username": "admin",
+			"password": "password"
+		},
+		{
+			"step": "setSiteOptions",
+			"options": {
+				"permalink_structure": "\/%25postname%25\/"
+			}
+		},
+		{
+			"step": "installPlugin",
+			"pluginZipFile": {
+				"resource": "wordpress.org\/plugins",
+				"slug": "ads-txt"
+			},
+			"options": {
+				"activate": true
+			}
+		},
+		{
+			"step": "runPHP",
+			"code": "<?php require_once 'wordpress\/wp-load.php'; $adstxt_id = wp_insert_post( array( 'post_title' => 'Ads.txt', 'post_content' => '# Example information\ncontact=test@example.com\n\n# Example record\ngoogle.com, pub-1234567890, DIRECT, f08c47fec0942fa0', 'post_status' => 'publish', 'post_type' => 'adstxt' ) ); $app_adstxt_id = wp_insert_post( array( 'post_title' => 'App-ads.txt', 'post_content' => '# Example information\ncontact=test@example.com\n\n# Example record\ngoogle.com, pub-1234567890, DIRECT, f08c47fec0942fa0', 'post_status' => 'publish', 'post_type' => 'app-adstxt' ) ); if ( ! $adstxt_id instanceof WP_Error ) { update_option( 'adstxt_post', (int) $adstxt_id ); } if ( ! $app_adstxt_id instanceof WP_Error ) { update_option( 'app_adstxt_post', (int) $app_adstxt_id ); }"
+		}
+	]
+}
