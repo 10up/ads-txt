@@ -25,16 +25,16 @@ function save() {
 	$ays     = isset( $_post['adstxt_ays'] ) ? $_post['adstxt_ays'] : null;
 
 	// Different browsers use different line endings.
-	$lines                  = preg_split( '/\r\n|\r|\n/', $_post['adstxt'] );
-	$sanitized              = array();
-	$errors                 = array();
-	$warnings               = array();
-	$response               = array();
-	$has_placeholder_record = false;
+	$lines                        = preg_split( '/\r\n|\r|\n/', $_post['adstxt'] );
+	$sanitized                    = array();
+	$errors                       = array();
+	$warnings                     = array();
+	$response                     = array();
+	$has_only_placeholder_records = null;
 
 	foreach ( $lines as $i => $line ) {
 		$line_number = $i + 1;
-		$result      = validate_line( $line, $line_number, $has_placeholder_record );
+		$result      = validate_line( $line, $line_number, $has_only_placeholder_records );
 
 		$sanitized[] = $result['sanitized'];
 		if ( ! empty( $result['errors'] ) ) {
@@ -46,7 +46,24 @@ function save() {
 		}
 
 		if ( ! empty( $result['is_placeholder_record'] ) ) {
-			$has_placeholder_record = true;
+			if ( is_null( $has_only_placeholder_records ) ) {
+				$has_only_placeholder_records = true;
+			}
+		}
+
+		list( 'errors' => $errors_data, 'warnings' => $warnings_data, 'is_placeholder_record' => $is_placeholder, 'is_empty_record' => $is_empty_line, 'is_comment' => $is_comment ) = $result;
+
+		// Check if the line is valid, then set $has_only_placeholder_records to false.
+		if ( empty( $is_placeholder ) && empty( $errors_data ) && empty( $warnings_data ) && ( ! $is_comment && ! $is_empty_line ) ) {
+			$has_only_placeholder_records = false;
+		}
+	}
+
+	// If $has_only_placeholder_records is false, remove no_authorized_seller warning.
+	if ( false === $has_only_placeholder_records ) {
+		$key = array_search( 'no_authorized_seller', array_column( $warnings, 'type' ) );
+		if ( false !== $key ) {
+			unset( $warnings[ $key ] );
 		}
 	}
 
@@ -98,27 +115,32 @@ add_action( 'wp_ajax_app-adstxt-save', __NAMESPACE__ . '\save' );
 /**
  * Validate a single line.
  *
- * @param string $line                   The line to validate.
- * @param string $line_number            The line number being evaluated.
- * @param string $has_placeholder_record Flag for presence of placeholder record.
+ * @param string $line                         The line to validate.
+ * @param string $line_number                  The line number being evaluated.
+ * @param string $has_only_placeholder_records Flag for presence of placeholder record.
  *
  * @return array {
  *     @type string $sanitized Sanitized version of the original line.
  *     @type array  $errors    Array of errors associated with the line.
  * }
  */
-function validate_line( $line, $line_number, $has_placeholder_record = false ) {
+function validate_line( $line, $line_number, $has_only_placeholder_records = null ) {
 	static $record_lines   = 0;
 	$is_placeholder_record = false;
+	$is_empty_record       = false;
+	$is_comment            = false;
+
 	// Only to count for records, not comments/variables.
 	$domain_regex = '/^((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}$/i';
 	$errors       = array();
 	$warnings     = array();
 
 	if ( empty( $line ) ) {
-		$sanitized = '';
+		$sanitized       = '';
+		$is_empty_record = true;
 	} elseif ( 0 === strpos( $line, '#' ) ) { // This is a full-line comment.
-		$sanitized = wp_strip_all_tags( $line );
+		$sanitized  = wp_strip_all_tags( $line );
+		$is_comment = true;
 	} elseif ( 1 < strpos( $line, '=' ) ) { // This is a variable declaration.
 		// The spec currently supports CONTACT, INVENTORYPARTNERDOMAIN, SUBDOMAIN, OWNERDOMAIN and MANAGERDOMAIN.
 		if ( ! preg_match( '/^(CONTACT|SUBDOMAIN|INVENTORYPARTNERDOMAIN|OWNERDOMAIN|MANAGERDOMAIN)=/i', $line ) ) {
@@ -164,7 +186,7 @@ function validate_line( $line, $line_number, $has_placeholder_record = false ) {
 			$is_placeholder_record = is_placeholder_record( $exchange, $pub_id, $account_type, $fields[3] ? trim( $fields[3] ) : null );
 
 			// If the file contains placeholder record and no placeholder was already present, set variable.
-			if ( $is_placeholder_record && ! $has_placeholder_record ) {
+			if ( $is_placeholder_record && is_null( $has_only_placeholder_records ) ) {
 				$warnings[] = array(
 					'type'    => 'no_authorized_seller',
 					'message' => __( 'Your ads.txt indicates no authorized advertising sellers.', 'ads-txt' ),
@@ -223,6 +245,8 @@ function validate_line( $line, $line_number, $has_placeholder_record = false ) {
 		'errors'                => $errors,
 		'warnings'              => $warnings,
 		'is_placeholder_record' => $is_placeholder_record,
+		'is_empty_record'       => $is_empty_record,
+		'is_comment'            => $is_comment,
 	);
 }
 
