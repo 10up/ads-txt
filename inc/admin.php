@@ -250,6 +250,7 @@ function settings_screen( $post_id, $strings, $args ) {
 		$last_revision    = array_shift( $revisions );
 		$last_revision_id = $last_revision ? $last_revision->ID : false;
 		$errors           = get_post_meta( $post->ID, 'adstxt_errors', true );
+		$warnings         = get_post_meta( $post->ID, 'adstxt_warnings', true );
 		$revisions_link   = $last_revision_id ? admin_url( 'revision.php?adstxt=1&revision=' . $last_revision_id ) : false;
 
 	} else {
@@ -272,6 +273,33 @@ function settings_screen( $post_id, $strings, $args ) {
 	clean_orphaned_posts( $post_id, $args['post_type'] );
 	?>
 <div class="wrap">
+	<?php if ( ! empty( $warnings ) ) : ?>
+		<div class="notice notice-warning adstxt-notice">
+		<ul>
+			<?php
+			foreach ( $warnings as $warning ) {
+				echo '<li>';
+
+				// Errors were originally stored as an array.
+				// This old style only needs to be accounted for here at runtime display.
+				if ( isset( $warning['message'] ) ) {
+					/* translators: Error message output. 1: Error message */
+					$message = sprintf(
+						'%1$s',
+						$warning['message']
+					);
+
+					echo esc_html( $message );
+				} else {
+					display_formatted_error( $warning );
+				}
+
+				echo '</li>';
+			}
+			?>
+		</ul>
+		</div>
+	<?php endif; ?>
 	<div class="notice notice-error adstxt-notice existing-adstxt" style="display: none;">
 		<p><strong><?php echo esc_html( $strings['existing'] ); ?></strong></p>
 		<p><?php echo esc_html( $strings['precedence'] ); ?></p>
@@ -298,7 +326,7 @@ function settings_screen( $post_id, $strings, $args ) {
 
 					echo esc_html( $message );
 				} else {
-					display_formatted_error( $error ); // WPCS: XSS ok.
+					display_formatted_error( $error );
 				}
 
 				echo '</li>';
@@ -535,7 +563,7 @@ function adstxts_check_for_existing_file() {
 	$file_name = 'adstxt' === $adstxt_type ? '/ads.txt' : '/app-ads.txt';
 
 	if ( empty( $home_url_parsed['path'] ) ) {
-		$response   = wp_remote_request( home_url( $file_name ) );
+		$response = wp_remote_request( home_url( $file_name ) );
 
 		$file_exist = false;
 		if ( ! is_wp_error( $response ) ) {

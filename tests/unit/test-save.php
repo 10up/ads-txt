@@ -39,8 +39,12 @@ class SaveTests extends TestCase {
 				'line'        => '',
 				'line_number' => 1,
 				'expected'    => array(
-					'sanitized' => '',
-					'errors'    => array(),
+					'sanitized'   => '',
+					'errors'      => array(),
+					'warnings'    => array(),
+					'is_placeholder_record' => false,
+					'is_empty_record'       => true,
+					'is_comment'            => false,
 				),
 			),
 			'Validate comment'                    => array(
@@ -49,6 +53,10 @@ class SaveTests extends TestCase {
 				'expected'    => array(
 					'sanitized' => '# comment',
 					'errors'    => array(),
+					'warnings'    => array(),
+					'is_placeholder_record' => false,
+					'is_empty_record'       => false,
+					'is_comment'            => true,
 				),
 			),
 			'Validate CONTACT var'                => array(
@@ -57,6 +65,10 @@ class SaveTests extends TestCase {
 				'expected'    => array(
 					'sanitized' => 'CONTACT=contact',
 					'errors'    => array(),
+					'warnings'    => array(),
+					'is_placeholder_record' => false,
+					'is_empty_record'       => false,
+					'is_comment'            => false,
 				),
 			),
 			'Validate SUBDOMAIN var'              => array(
@@ -65,6 +77,10 @@ class SaveTests extends TestCase {
 				'expected'    => array(
 					'sanitized' => 'SUBDOMAIN=subdomain.com',
 					'errors'    => array(),
+					'warnings'    => array(),
+					'is_placeholder_record' => false,
+					'is_empty_record'       => false,
+					'is_comment'            => false,
 				),
 			),
 			'Validate INVENTORYPARTNERDOMAIN var' => array(
@@ -73,6 +89,10 @@ class SaveTests extends TestCase {
 				'expected'    => array(
 					'sanitized' => 'INVENTORYPARTNERDOMAIN=subdomain.com',
 					'errors'    => array(),
+					'warnings'    => array(),
+					'is_placeholder_record' => false,
+					'is_empty_record'       => false,
+					'is_comment'            => false,
 				),
 			),
 			'Invalid var'                         => array(
@@ -86,6 +106,10 @@ class SaveTests extends TestCase {
 							'type' => 'invalid_variable',
 						),
 					),
+					'warnings'    => array(),
+					'is_placeholder_record' => false,
+					'is_empty_record'       => false,
+					'is_comment'            => false,
 				),
 			),
 			'Invalid SUBDOMAIN var'               => array(
@@ -100,6 +124,10 @@ class SaveTests extends TestCase {
 							'value' => 'subdomain',
 						),
 					),
+					'warnings'    => array(),
+					'is_placeholder_record' => false,
+					'is_empty_record'       => false,
+					'is_comment'            => false,
 				),
 			),
 			'Validate reseller record'            => array(
@@ -108,6 +136,10 @@ class SaveTests extends TestCase {
 				'expected'    => array(
 					'sanitized' => 'example.exchange.com,pub-id123456789,RESELLER,abcdef0123456789',
 					'errors'    => array(),
+					'warnings'    => array(),
+					'is_placeholder_record' => false,
+					'is_empty_record'       => false,
+					'is_comment'            => false,
 				),
 			),
 			'Validate direct record'              => array(
@@ -116,6 +148,10 @@ class SaveTests extends TestCase {
 				'expected'    => array(
 					'sanitized' => 'example.exchange.com,pub-id123456789,DIRECT,abcdef0123456789',
 					'errors'    => array(),
+					'warnings'    => array(),
+					'is_placeholder_record' => false,
+					'is_empty_record'       => false,
+					'is_comment'            => false,
 				),
 			),
 			'Validate commented record'           => array(
@@ -124,6 +160,10 @@ class SaveTests extends TestCase {
 				'expected'    => array(
 					'sanitized' => 'example.exchange.com,pub-id123456789,RESELLER,abcdef0123456789 # comment',
 					'errors'    => array(),
+					'warnings'    => array(),
+					'is_placeholder_record' => false,
+					'is_empty_record'       => false,
+					'is_comment'            => false,
 				),
 			),
 			'Invalid exchange'                    => array(
@@ -138,6 +178,10 @@ class SaveTests extends TestCase {
 							'value' => 'wrongexchange',
 						),
 					),
+					'warnings'    => array(),
+					'is_placeholder_record' => false,
+					'is_empty_record'       => false,
+					'is_comment'            => false,
 				),
 			),
 			'Invalid account type'                => array(
@@ -151,6 +195,10 @@ class SaveTests extends TestCase {
 							'type' => 'invalid_account_type',
 						),
 					),
+					'warnings'    => array(),
+					'is_placeholder_record' => false,
+					'is_empty_record'       => false,
+					'is_comment'            => false,
 				),
 			),
 			'Invalid record'                      => array(
@@ -164,6 +212,10 @@ class SaveTests extends TestCase {
 							'type' => 'invalid_record',
 						),
 					),
+					'warnings'    => array(),
+					'is_placeholder_record' => false,
+					'is_empty_record'       => false,
+					'is_comment'            => false,
 				),
 			),
 			'Multiple errors'                     => array(
@@ -182,6 +234,27 @@ class SaveTests extends TestCase {
 							'type' => 'invalid_account_type',
 						),
 					),
+					'warnings'    => array(),
+					'is_placeholder_record' => false,
+					'is_empty_record'       => false,
+					'is_comment'            => false,
+				),
+			),
+			'No authorized advertising sellers' => array(
+				'line'        => 'placeholder.example.com,placeholder,DIRECT,placeholder',
+				'line_number' => 132,
+				'expected'    => array(
+					'sanitized' => 'placeholder.example.com,placeholder,DIRECT,placeholder',
+					'errors'    => array(),
+					'warnings'    => array(
+						array(
+							'type'    => 'no_authorized_seller',
+							'message' => 'Your ads.txt indicates no authorized advertising sellers.',
+						),
+					),
+					'is_placeholder_record' => true,
+					'is_empty_record'       => false,
+					'is_comment'            => false,
 				),
 			),
 		);
