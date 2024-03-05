@@ -183,7 +183,8 @@ function validate_line( $line, $line_number, $has_only_placeholder_records = nul
 			$exchange              = trim( $fields[0] );
 			$pub_id                = trim( $fields[1] );
 			$account_type          = trim( $fields[2] );
-			$is_placeholder_record = is_placeholder_record( $exchange, $pub_id, $account_type, $fields[3] ? trim( $fields[3] ) : null );
+			$tag_id                = ! empty( $fields[3] ) ? trim( $fields[3] ) : null;
+			$is_placeholder_record = is_placeholder_record( $exchange, $pub_id, $account_type, $tag_id );
 
 			// If the file contains placeholder record and no placeholder was already present, set variable.
 			if ( $is_placeholder_record && is_null( $has_only_placeholder_records ) ) {
