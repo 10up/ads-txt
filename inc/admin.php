@@ -291,7 +291,7 @@ function settings_screen( $post_id, $strings, $args ) {
 
 					echo esc_html( $message );
 				} else {
-					display_formatted_error( $warning ); // WPCS: XSS ok.
+					display_formatted_error( $warning );
 				}
 
 				echo '</li>';
@@ -326,7 +326,7 @@ function settings_screen( $post_id, $strings, $args ) {
 
 					echo esc_html( $message );
 				} else {
-					display_formatted_error( $error ); // WPCS: XSS ok.
+					display_formatted_error( $error );
 				}
 
 				echo '</li>';
