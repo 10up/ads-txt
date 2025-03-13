@@ -23,7 +23,7 @@ jobs:
           - {name: 'WP trunk', version: 'WordPress/WordPress#master'}
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Download build zip
       uses: actions/download-artifact@v4
       with:
@@ -34,7 +34,7 @@ jobs:
       working-directory: ${{ github.event.repository.name }}
     - name: Cache node_modules
       id: cache-node-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       env:
         cache-name: cache-node-modules
       with:
