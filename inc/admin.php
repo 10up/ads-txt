@@ -21,7 +21,7 @@ function admin_enqueue_scripts( $hook ) {
 
 	wp_enqueue_script(
 		'adstxt',
-		esc_url( plugins_url( '/js/admin.js', dirname( __FILE__ ) ) ),
+		esc_url( plugins_url( '/js/admin.js', __DIR__ ) ),
 		array( 'jquery', 'wp-backbone', 'wp-codemirror' ),
 		ADS_TXT_MANAGER_VERSION,
 		true
@@ -29,7 +29,7 @@ function admin_enqueue_scripts( $hook ) {
 	wp_enqueue_style( 'code-editor' );
 	wp_enqueue_style(
 		'adstxt',
-		esc_url( plugins_url( '/css/admin.css', dirname( __FILE__ ) ) ),
+		esc_url( plugins_url( '/css/admin.css', __DIR__ ) ),
 		array(),
 		ADS_TXT_MANAGER_VERSION
 	);
@@ -304,7 +304,7 @@ function settings_screen( $post_id, $strings, $args ) {
 		<p><strong><?php echo esc_html( $strings['existing'] ); ?></strong></p>
 		<p><?php echo esc_html( $strings['precedence'] ); ?></p>
 
-		<p><?php echo esc_html_e( 'Removed the existing file but are still seeing this warning?', 'ads-txt' ); ?> <a class="ads-txt-rerun-check" href="#"><?php echo esc_html_e( 'Re-run the check now', 'ads-txt' ); ?></a> <span class="spinner" style="float:none;margin:-2px 5px 0"></span></p>
+		<p><?php esc_html_e( 'Removed the existing file but are still seeing this warning?', 'ads-txt' ); ?> <a class="ads-txt-rerun-check" href="#"><?php esc_html_e( 'Re-run the check now', 'ads-txt' ); ?></a> <span class="spinner" style="float:none;margin:-2px 5px 0"></span></p>
 	</div>
 	<?php if ( ! empty( $errors ) ) : ?>
 	<div class="notice notice-error adstxt-notice adstxt-notice-save-error">
