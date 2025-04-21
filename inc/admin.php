@@ -523,6 +523,10 @@ function clean_orphaned_posts( $option, $post_type ) {
 
 	$ads_posts = get_posts( $args );
 
+	if ( empty( $ads_posts ) ) {
+		return false;
+	}
+
 	if ( 1 === count( $ads_posts ) && [ (int) $option ] === $ads_posts ) {
 		return false;
 	}
@@ -531,10 +535,6 @@ function clean_orphaned_posts( $option, $post_type ) {
 	$index = array_search( (int) $option, $ads_posts, true );
 	if ( false !== $index ) {
 		unset( $ads_posts[ $index ] );
-	}
-
-	if ( empty( $ads_posts ) ) {
-		return false;
 	}
 
 	foreach ( $ads_posts as $post_id ) {
