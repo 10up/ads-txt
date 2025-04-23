@@ -523,18 +523,16 @@ function clean_orphaned_posts( $option, $post_type ) {
 
 	$ads_posts = get_posts( $args );
 
+	// Remove the active post ID from the array.
+	$ads_posts = array_filter(
+		$ads_posts,
+		function ( $ads_post ) use ( $option ) {
+			return $ads_post !== (int) $option;
+		}
+	);
+
 	if ( empty( $ads_posts ) ) {
 		return false;
-	}
-
-	if ( 1 === count( $ads_posts ) && [ (int) $option ] === $ads_posts ) {
-		return false;
-	}
-
-	// Search for the active post ID and remove it from the array.
-	$index = array_search( (int) $option, $ads_posts, true );
-	if ( false !== $index ) {
-		unset( $ads_posts[ $index ] );
 	}
 
 	foreach ( $ads_posts as $post_id ) {
