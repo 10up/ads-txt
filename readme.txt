@@ -1,8 +1,8 @@
 === Ads.txt Manager ===
 Contributors:      10up, helen, adamsilverstein, jakemgold, peterwilsoncc, jeffpaul
 Tags:              ads.txt, app-ads.txt, ads, ad manager, advertising
-Requires at least: 6.5
-Tested up to:      6.7
+Requires at least: 6.6
+Tested up to:      6.8
 Stable tag:        1.4.5
 License:           GPL-2.0-or-later
 License URI:       https://spdx.org/licenses/GPL-2.0-or-later.html
@@ -11,7 +11,7 @@ Create, manage, and validate your ads.txt and app-ads.txt from within WordPress,
 
 == Description ==
 
-Create, manage, and validate your ads.txt and app-ads.txt from within WordPress, like any other content asset. Requires PHP 7.4+ and WordPress 5.7+.
+Create, manage, and validate your ads.txt and app-ads.txt from within WordPress, like any other content asset. Requires PHP 7.4+.
 
 === What is ads.txt? ===
 
@@ -20,7 +20,6 @@ Ads.txt is an initiative by the Interactive Advertising Bureau to enable publish
 === Technical Notes ===
 
 * Requires PHP 7.4+.
-* Requires WordPress 6.3+.
 * Ad blockers may break syntax highlighting and pre-save error checking on the edit screen.
 * Rewrites need to be enabled. Without rewrites, WordPress cannot know to supply `/ads.txt` when requested.
 * Your site URL must not contain a path (e.g. `https://example.com/site/` or path-based multisite installs). While the plugin will appear to function in the admin, it will not display the contents at `https://example.com/site/ads.txt`. This is because the plugin follows the IAB spec, which requires that the ads.txt file be located at the root of a domain or subdomain.
