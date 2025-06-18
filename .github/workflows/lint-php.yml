@@ -1,5 +1,8 @@
 name: Lint PHP
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
