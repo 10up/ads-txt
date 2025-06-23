@@ -1,5 +1,8 @@
 name: End-to-end Tests
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
