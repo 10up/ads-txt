@@ -49,6 +49,15 @@ You will need to rename or remove the existing (app-)ads.txt file (keeping a cop
 
 == Changelog ==
 
+= 1.4.6 - 2025-07-14 =
+* **Changed:** Replace `dirname( __FILE__ )` calls with `__DIR__` magic constant (props [@Soean](https://github.com/Soean), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#187](https://github.com/10up/ads-txt/pull/187)).
+* **Changed:** Bump WordPress "tested up to" version 6.8 (props [@jeffpaul](https://github.com/jeffpaul), [@godleman](https://github.com/godleman) via [#183](https://github.com/10up/ads-txt/pull/183), [#184](https://github.com/10up/ads-txt/pull/184), [#194](https://github.com/10up/ads-txt/pull/194), [#195](https://github.com/10up/ads-txt/pull/195)).
+* **Changed:** Bump WordPress minimum supported version to 6.6 (props [@jeffpaul](https://github.com/jeffpaul), [@godleman](https://github.com/godleman) via [#183](https://github.com/10up/ads-txt/pull/183), [#184](https://github.com/10up/ads-txt/pull/184), [#194](https://github.com/10up/ads-txt/pull/194), [#195](https://github.com/10up/ads-txt/pull/195)).
+* **Fixed:** Add missing text domain and fix wrong text domain (props [@mehrazmorshed](https://github.com/mehrazmorshed), [@dkotter](https://github.com/dkotter) via [#182](https://github.com/10up/ads-txt/pull/182)).
+* **Fixed:** Remove unnecessary `echo` statement (props [@Soean](https://github.com/Soean), [@dkotter](https://github.com/dkotter) via [#186](https://github.com/10up/ads-txt/pull/186)).
+* **Fixed:** Improve performance of the `clean_orphaned_posts` function (props [@dilipbheda](https://github.com/dilipbheda), [@dkotter](https://github.com/dkotter) via [#192](https://github.com/10up/ads-txt/pull/192)).
+* **Security:** Bump `serialize-javascript` from 6.0.0 to 6.0.2 and `mocha` from 10.2.0 to 11.1.0 (props [@dependabot](https://github.com/apps/dependabot), [@faisal-alvi](https://github.com/faisal-alvi) via [#185](https://github.com/10up/ads-txt/pull/185)).
+
 = 1.4.5 - 2024-09-26 =
 * **Changed:** Bump WordPress "tested up to" version 6.6 (props [@ankitguptaindia](https://github.com/ankitguptaindia), [@jeffpaul](https://github.com/jeffpaul), [@sudip-md](https://github.com/sudip-md) via [#172](https://github.com/10up/ads-txt/pull/172), [#173](https://github.com/10up/ads-txt/pull/173)).
 * **Changed:** Bump WordPress minimum supported version from 6.3 to 6.4 (props [@ankitguptaindia](https://github.com/ankitguptaindia), [@jeffpaul](https://github.com/jeffpaul), [@sudip-md](https://github.com/sudip-md) via [#172](https://github.com/10up/ads-txt/pull/172), [#173](https://github.com/10up/ads-txt/pull/173)).
