@@ -1,6 +1,6 @@
 {
   "name": "@10up/ads-txt",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "description": "Create, manage, and validate your ads.txt and app-ads.txt from within WordPress, just like any other content asset.",
   "homepage": "https://github.com/10up/ads-txt",
   "bugs": {

@@ -36,7 +36,7 @@ function display_ads_txt() {
 			 *
 			 * @since 1.2.0
 			 *
-			 * @param type  $adstxt The existing ads.txt content.
+			 * @param string $adstxt The existing ads.txt content.
 			 */
 			echo esc_html( apply_filters( 'ads_txt_content', $adstxt ) );
 			die();
@@ -63,7 +63,7 @@ function display_ads_txt() {
 			 *
 			 * @since 1.3.0
 			 *
-			 * @param type  $app_adstxt The existing ads.txt content.
+			 * @param string $app_adstxt The existing ads.txt content.
 			 */
 			echo esc_html( apply_filters( 'app_ads_txt_content', $adstxt ) );
 			die();

@@ -21,7 +21,7 @@ function admin_enqueue_scripts( $hook ) {
 
 	wp_enqueue_script(
 		'adstxt',
-		esc_url( plugins_url( '/js/admin.js', dirname( __FILE__ ) ) ),
+		esc_url( plugins_url( '/js/admin.js', __DIR__ ) ),
 		array( 'jquery', 'wp-backbone', 'wp-codemirror' ),
 		ADS_TXT_MANAGER_VERSION,
 		true
@@ -29,7 +29,7 @@ function admin_enqueue_scripts( $hook ) {
 	wp_enqueue_style( 'code-editor' );
 	wp_enqueue_style(
 		'adstxt',
-		esc_url( plugins_url( '/css/admin.css', dirname( __FILE__ ) ) ),
+		esc_url( plugins_url( '/css/admin.css', __DIR__ ) ),
 		array(),
 		ADS_TXT_MANAGER_VERSION
 	);
@@ -304,7 +304,7 @@ function settings_screen( $post_id, $strings, $args ) {
 		<p><strong><?php echo esc_html( $strings['existing'] ); ?></strong></p>
 		<p><?php echo esc_html( $strings['precedence'] ); ?></p>
 
-		<p><?php echo esc_html_e( 'Removed the existing file but are still seeing this warning?', 'ads-txt' ); ?> <a class="ads-txt-rerun-check" href="#"><?php echo esc_html_e( 'Re-run the check now', 'ads-txt' ); ?></a> <span class="spinner" style="float:none;margin:-2px 5px 0"></span></p>
+		<p><?php esc_html_e( 'Removed the existing file but are still seeing this warning?', 'ads-txt' ); ?> <a class="ads-txt-rerun-check" href="#"><?php esc_html_e( 'Re-run the check now', 'ads-txt' ); ?></a> <span class="spinner" style="float:none;margin:-2px 5px 0"></span></p>
 	</div>
 	<?php if ( ! empty( $errors ) ) : ?>
 	<div class="notice notice-error adstxt-notice adstxt-notice-save-error">
@@ -439,7 +439,7 @@ function display_formatted_error( $error ) {
 	$messages = get_error_messages();
 
 	if ( ! isset( $messages[ $error['type'] ] ) ) {
-		return __( 'Unknown error', 'adstxt' );
+		return __( 'Unknown error', 'ads-txt' );
 	}
 
 	if ( ! isset( $error['value'] ) ) {
@@ -463,15 +463,15 @@ function display_formatted_error( $error ) {
  */
 function get_error_messages() {
 	$messages = array(
-		'invalid_variable'     => __( 'Unrecognized variable' ),
-		'invalid_record'       => __( 'Invalid record' ),
-		'invalid_account_type' => __( 'Third field should be RESELLER or DIRECT' ),
+		'invalid_variable'     => __( 'Unrecognized variable', 'ads-txt' ),
+		'invalid_record'       => __( 'Invalid record', 'ads-txt' ),
+		'invalid_account_type' => __( 'Third field should be RESELLER or DIRECT', 'ads-txt' ),
 		/* translators: %s: Subdomain */
-		'invalid_subdomain'    => __( '%s does not appear to be a valid subdomain' ),
+		'invalid_subdomain'    => __( '%s does not appear to be a valid subdomain', 'ads-txt' ),
 		/* translators: %s: Exchange domain */
-		'invalid_exchange'     => __( '%s does not appear to be a valid exchange domain' ),
+		'invalid_exchange'     => __( '%s does not appear to be a valid exchange domain', 'ads-txt' ),
 		/* translators: %s: Alphanumeric TAG-ID */
-		'invalid_tagid'        => __( '%s does not appear to be a valid TAG-ID' ),
+		'invalid_tagid'        => __( '%s does not appear to be a valid TAG-ID', 'ads-txt' ),
 	);
 
 	return $messages;
@@ -523,15 +523,13 @@ function clean_orphaned_posts( $option, $post_type ) {
 
 	$ads_posts = get_posts( $args );
 
-	if ( 1 === count( $ads_posts ) && [ (int) $option ] === $ads_posts ) {
-		return false;
-	}
-
-	// Search for the active post ID and remove it from the array.
-	$index = array_search( (int) $option, $ads_posts, true );
-	if ( false !== $index ) {
-		unset( $ads_posts[ $index ] );
-	}
+	// Remove the active post ID from the array.
+	$ads_posts = array_filter(
+		$ads_posts,
+		function ( $ads_post ) use ( $option ) {
+			return $ads_post !== (int) $option;
+		}
+	);
 
 	if ( empty( $ads_posts ) ) {
 		return false;
