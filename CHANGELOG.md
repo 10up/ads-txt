@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+## [1.4.6] - 2025-07-14
+**Note that this release bumps the WordPress minimum version from 6.4 to 6.6.**
+
+### Changed
+- Replace `dirname( __FILE__ )` calls with `__DIR__` magic constant (props [@Soean](https://github.com/Soean), [@peterwilsoncc](https://github.com/peterwilsoncc) via [#187](https://github.com/10up/ads-txt/pull/187)).
+- Bump WordPress "tested up to" version 6.8 (props [@jeffpaul](https://github.com/jeffpaul), [@godleman](https://github.com/godleman) via [#183](https://github.com/10up/ads-txt/pull/183), [#184](https://github.com/10up/ads-txt/pull/184), [#194](https://github.com/10up/ads-txt/pull/194), [#195](https://github.com/10up/ads-txt/pull/195)).
+- Bump WordPress minimum supported version to 6.6 (props [@jeffpaul](https://github.com/jeffpaul), [@godleman](https://github.com/godleman) via [#183](https://github.com/10up/ads-txt/pull/183), [#184](https://github.com/10up/ads-txt/pull/184), [#194](https://github.com/10up/ads-txt/pull/194), [#195](https://github.com/10up/ads-txt/pull/195)).
+
+### Fixed
+- Add missing text domain and fix wrong text domain (props [@mehrazmorshed](https://github.com/mehrazmorshed), [@dkotter](https://github.com/dkotter) via [#182](https://github.com/10up/ads-txt/pull/182)).
+- Remove unnecessary `echo` statement (props [@Soean](https://github.com/Soean), [@dkotter](https://github.com/dkotter) via [#186](https://github.com/10up/ads-txt/pull/186)).
+- Improve performance of the `clean_orphaned_posts` function (props [@dilipbheda](https://github.com/dilipbheda), [@dkotter](https://github.com/dkotter) via [#192](https://github.com/10up/ads-txt/pull/192)).
+
+### Security
+- Bump `serialize-javascript` from 6.0.0 to 6.0.2 and `mocha` from 10.2.0 to 11.1.0 (props [@dependabot](https://github.com/apps/dependabot), [@faisal-alvi](https://github.com/faisal-alvi) via [#185](https://github.com/10up/ads-txt/pull/185)).
+
+### Developer
+- Update badges shown in the `README.md` file (props [@jeffpaul](https://github.com/jeffpaul), [@dkotter](https://github.com/dkotter) via [#179](https://github.com/10up/ads-txt/pull/179)).
+- Update all out-dated GitHub Action Workflows we rely on to their latest version (props [@jeffpaul](https://github.com/jeffpaul), [@dkotter](https://github.com/dkotter) via [#188](https://github.com/10up/ads-txt/pull/188)).
+- Update all third-party actions our workflows rely on to use versions based on specific commit hashes (props [@jeffpaul](https://github.com/jeffpaul), [@dkotter](https://github.com/dkotter) via [#190](https://github.com/10up/ads-txt/pull/190)).
+- Ensure our GitHub Actions all have proper permissions (props [@jeffpaul](https://github.com/jeffpaul), [@dkotter](https://github.com/dkotter) via [#196](https://github.com/10up/ads-txt/pull/196)).
+- Improve documentation of a few hooks (props [@Soean](https://github.com/Soean), [@dkotter](https://github.com/dkotter) via [#189](https://github.com/10up/ads-txt/pull/189)).
+
 ## [1.4.5] - 2024-09-26
 **Note that this release bumps the WordPress minimum version from 6.3 to 6.4.**
 
@@ -140,6 +163,7 @@ All notable changes to this project will be documented in this file, per [the Ke
 - Initial plugin release
 
 [Unreleased]: https://github.com/10up/ads-txt/compare/trunk...develop
+[1.4.6]: https://github.com/10up/ads-txt/compare/1.4.5...1.4.6
 [1.4.5]: https://github.com/10up/ads-txt/compare/1.4.4...1.4.5
 [1.4.4]: https://github.com/10up/ads-txt/compare/1.4.3...1.4.4
 [1.4.3]: https://github.com/10up/ads-txt/compare/1.4.2...1.4.3
