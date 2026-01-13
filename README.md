@@ -39,6 +39,12 @@ Note: If you already have an existing ads.txt or app-ads.txt file in the web roo
 
 You will need to rename or remove the existing (app-)ads.txt file (keeping a copy of the records it contains to put into the new settings screen) before you will be able to see any changes you make to (app-)ads.txt inside the WordPress admin.
 
+## Frequently Asked Questions
+
+### Where do I report security bugs found in this plugin?
+
+Please report security bugs found in the source code of the Ads.txt Manager plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/6f8c7990-9291-4a21-a0f1-289c90187b84).  The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
+
 ## Screenshots
 
 ### 1. Example of editing an ads.txt file with errors and a link to browse ads.txt file revisions.
