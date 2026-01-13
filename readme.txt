@@ -31,6 +31,12 @@ We're closely monitoring continued developments in the ad fraud space, and see t
 
 Yes! However, if you are using a subfolder installation it will only work for the main site. This is because you can only have one ads.txt for a given domain or subdomain per the [ads.txt spec](https://iabtechlab.com/ads-txt/).  Our recommendation is to only activate Ads.txt Manager per-site.
 
+== Frequently Asked Questions ==
+
+= Where do I report security bugs found in this plugin? =
+
+Please report security bugs found in the source code of the Ads.txt Manager plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/6f8c7990-9291-4a21-a0f1-289c90187b84).  The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
+
 == Screenshots ==
 
 1. Example of editing an ads.txt file with errors and a link to browse ads.txt file revisions.
