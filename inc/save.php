@@ -61,7 +61,7 @@ function save() {
 
 	// If $has_only_placeholder_records is false, remove no_authorized_seller warning.
 	if ( false === $has_only_placeholder_records ) {
-		$key = array_search( 'no_authorized_seller', array_column( $warnings, 'type' ) );
+		$key = array_search( 'no_authorized_seller', array_column( $warnings, 'type' ), true );
 		if ( false !== $key ) {
 			unset( $warnings[ $key ] );
 		}
