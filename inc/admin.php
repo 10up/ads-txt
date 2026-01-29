@@ -552,7 +552,7 @@ function adstxts_check_for_existing_file() {
 	check_admin_referer( 'adstxt_save' );
 
 	$home_url_parsed = wp_parse_url( home_url() );
-	$adstxt_type     = sanitize_text_field( $_POST['adstxt_type'] );
+	$adstxt_type     = isset( $_POST['adstxt_type'] ) ? sanitize_text_field( wp_unslash( $_POST['adstxt_type'] ) ) : '';
 
 	if ( 'adstxt' !== $adstxt_type && 'app-adstxt' !== $adstxt_type ) {
 		wp_die();
