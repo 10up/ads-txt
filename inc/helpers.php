@@ -14,7 +14,7 @@ namespace AdsTxt;
  */
 function display_ads_txt() {
 	$request = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : false;
-	if ( '/ads.txt' === $request || '/ads.txt?' === substr( $request, 0, 9 ) ) {
+	if ( '/ads.txt' === $request || str_starts_with( $request, '/ads.txt?' ) ) {
 		$post_id = get_option( ADS_TXT_MANAGER_POST_OPTION );
 
 		// Set custom header for ads-txt
@@ -41,7 +41,7 @@ function display_ads_txt() {
 			echo esc_html( apply_filters( 'ads_txt_content', $adstxt ) );
 			die();
 		}
-	} elseif ( '/app-ads.txt' === $request || '/app-ads.txt?' === substr( $request, 0, 13 ) ) {
+	} elseif ( '/app-ads.txt' === $request || str_starts_with( $request, '/app-ads.txt?' ) ) {
 		$post_id = get_option( APP_ADS_TXT_MANAGER_POST_OPTION );
 
 		// Set custom header for ads-txt

@@ -138,7 +138,7 @@ function validate_line( $line, $line_number, $has_only_placeholder_records = nul
 	if ( empty( $line ) ) {
 		$sanitized       = '';
 		$is_empty_record = true;
-	} elseif ( 0 === strpos( $line, '#' ) ) { // This is a full-line comment.
+	} elseif ( str_starts_with( $line, '#' ) ) { // This is a full-line comment.
 		$sanitized  = wp_strip_all_tags( $line );
 		$is_comment = true;
 	} elseif ( 1 < strpos( $line, '=' ) ) { // This is a variable declaration.
