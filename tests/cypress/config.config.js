@@ -1,6 +1,7 @@
 const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
+  experimentalMemoryManagement: true,
   fixturesFolder: __dirname+'/fixtures',
   screenshotsFolder: __dirname+'/screenshots',
   videosFolder: __dirname+'/videos',
