@@ -65,7 +65,7 @@ jobs:
       run: npm run env:start
 
     - name: Test
-      run: npm run cypress:run
+      run: npm run cypress:run -- --browser chrome
 
     - name: Update summary
       if: always()
