@@ -69,7 +69,7 @@ jobs:
       env:
         # These flags shrink the renderer footprint to try and avoid
         # software-GPU memory spikes, particularly on the revisions page.
-        ELECTRON_EXTRA_LAUNCH_ARGS: '--disable-dev-shm-usage --disable-gpu --disable-software-rasterizer --js-flags=--max-old-space-size=2048'
+        ELECTRON_EXTRA_LAUNCH_ARGS: '--disable-dev-shm-usage --disable-gpu --disable-software-rasterizer --js-flags=--max-old-space-size=1536'
 
     - name: Update summary
       if: always()
