@@ -55,28 +55,30 @@ describe("Manage app-ads.txt", () => {
 
   it("Can manage revisions", () => {
     cy.visitAdminPage("options-general.php?page=app-adstxt-settings");
-    cy.get(".misc-pub-revisions a").should("contain.text", "Browse").click();
-    cy.get(".long-header").should("contain.text", "Compare Revisions");
 
-    // Trying to use the revisions UI in WordPress 7.0+
-	// is causing crashes when run in CI. Since we technically
-	// don't care about the actual UI, as WordPress is responsible
-	// for displaying the correct content, we'll just visit the previous
-	// revision's restore URL directly.
-    cy.window().then((win) => {
-      const revisions = win._wpRevisionsSettings.revisionData.filter(
-        (revision) => !revision.autosave
-      );
-      const current = revisions.findIndex((revision) => revision.current);
-      const previous = revisions[current - 1];
+    // Rendering revision.php crashes the headless CI renderer in WordPress 7.0+
+    cy.get(".misc-pub-revisions a")
+      .should("contain.text", "Browse")
+      .invoke("prop", "href")
+      .then((compareUrl) => {
+        cy.request(compareUrl).then((response) => {
+          const match = response.body.match(/var _wpRevisionsSettings = (.+);/);
+          expect(match, "_wpRevisionsSettings bootstrap").to.not.be.null;
 
-      expect(
-        previous && previous.restoreUrl,
-        "previous revision restore URL"
-      ).to.be.a("string");
+          const revisions = JSON.parse(match[1]).revisionData.filter(
+            (revision) => !revision.autosave
+          );
+          const current = revisions.findIndex((revision) => revision.current);
+          const previous = revisions[current - 1];
 
-      cy.visit(previous.restoreUrl);
-    });
+          expect(
+            previous && previous.restoreUrl,
+            "previous revision restore URL"
+          ).to.be.a("string");
+
+          cy.visit(previous.restoreUrl);
+        });
+      });
 
     cy.get(".notice-success").should("contain.text", "Revision restored");
     cy.request(`/app-ads.txt`).then((response) => {
