@@ -1,13 +1,11 @@
 const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
-  experimentalMemoryManagement: true,
-  numTestsKeptInMemory: 0,
   fixturesFolder: __dirname+'/fixtures',
   screenshotsFolder: __dirname+'/screenshots',
   videosFolder: __dirname+'/videos',
   downloadsFolder: __dirname+'/downloads',
-  video: false,
+  video: true,
   reporter: 'mochawesome',
   reporterOptions: {
     mochaFile: "mochawesome-[name]",
