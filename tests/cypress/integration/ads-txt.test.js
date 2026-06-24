@@ -57,9 +57,27 @@ describe("Manage ads.txt", () => {
     cy.visitAdminPage("options-general.php?page=adstxt-settings");
     cy.get(".misc-pub-revisions a").should("contain.text", "Browse").click();
     cy.get(".long-header").should("contain.text", "Compare Revisions");
-    cy.get(".restore-revision.button").should("be.disabled");
-    cy.get(".revisions-previous .button").click();
-    cy.get(".restore-revision.button").should("be.enabled").click();
+
+	// Trying to use the revisions UI in WordPress 7.0+
+	// is causing crashes when run in CI. Since we technically
+	// don't care about the actual UI, as WordPress is responsible
+	// for displaying the correct content, we'll just visit the previous
+	// revision's restore URL directly.
+    cy.window().then((win) => {
+      const revisions = win._wpRevisionsSettings.revisionData.filter(
+        (revision) => !revision.autosave
+      );
+      const current = revisions.findIndex((revision) => revision.current);
+      const previous = revisions[current - 1];
+
+      expect(
+        previous && previous.restoreUrl,
+        "previous revision restore URL"
+      ).to.be.a("string");
+
+      cy.visit(previous.restoreUrl);
+    });
+
     cy.get(".notice-success").should("contain.text", "Revision restored");
     cy.request(`/ads.txt`).then((response) => {
       expect(response.body).to.contain(incorrectRecord);
