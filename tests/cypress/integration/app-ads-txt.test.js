@@ -59,11 +59,31 @@ describe("Manage app-ads.txt", () => {
 
   it("Can manage revisions", () => {
     cy.visitAdminPage("options-general.php?page=app-adstxt-settings");
-    cy.get(".misc-pub-revisions a").should("contain.text", "Browse").click();
-    cy.get(".long-header").should("contain.text", "Compare Revisions");
-    cy.get(".restore-revision.button").should("be.disabled");
-    cy.get(".revisions-previous .button").click();
-    cy.get(".restore-revision.button").should("be.enabled").click();
+
+    // Rendering revision.php crashes the headless CI renderer in WordPress 7.0+
+    cy.get(".misc-pub-revisions a")
+      .should("contain.text", "Browse")
+      .invoke("prop", "href")
+      .then((compareUrl) => {
+        cy.request(compareUrl).then((response) => {
+          const match = response.body.match(/var _wpRevisionsSettings = (.+);/);
+          expect(match, "_wpRevisionsSettings bootstrap").to.not.be.null;
+
+          const revisions = JSON.parse(match[1]).revisionData.filter(
+            (revision) => !revision.autosave
+          );
+          const current = revisions.findIndex((revision) => revision.current);
+          const previous = revisions[current - 1];
+
+          expect(
+            previous && previous.restoreUrl,
+            "previous revision restore URL"
+          ).to.be.a("string");
+
+          cy.visit(previous.restoreUrl);
+        });
+      });
+
     cy.get(".notice-success").should("contain.text", "Revision restored");
     cy.request(`/app-ads.txt`).then((response) => {
       expect(response.body).to.contain(incorrectRecord);
