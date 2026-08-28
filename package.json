@@ -26,8 +26,8 @@
     "postenv:start": "./tests/bin/initialize.sh"
   },
   "devDependencies": {
-    "@wordpress/env": "^10.28.0",
-    "cypress": "^13.2.0",
+    "@wordpress/env": "^11.8.1",
+    "cypress": "^15.18.0",
     "cypress-mochawesome-reporter": "^3.6.0",
     "mochawesome-json-to-md": "^0.7.2"
   }
