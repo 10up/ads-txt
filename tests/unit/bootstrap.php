@@ -11,6 +11,9 @@ define( 'TEST_PLUGIN_DIR', dirname( dirname( __DIR__ ) ) . '/' );
 // First we need to load the composer autoloader so we can use WP Mock.
 require_once TEST_PLUGIN_DIR . '/vendor/autoload.php';
 
+// Compatibility shims for PHP functions polyfilled by WordPress.
+require_once __DIR__ . '/compat.php';
+
 // Now call the bootstrap method of WP Mock.
 WP_Mock::bootstrap();
 
