@@ -12,6 +12,8 @@
 
 [Ads.txt](https://iabtechlab.com/ads-txt/) is an initiative by the Interactive Advertising Bureau to enable publishers to take control over who can sell their ad inventory. Through our work at 10up with various publishers, we've created a way to manage and validate your ads.txt file from within WordPress, eliminating the need to upload a file. The validation baked into the plugin helps avoid malformed records, which can cause issues that end up cached for up to 24 hours and can lead to a drop in ad revenue.
 
+Use `ads.txt` for website advertising inventory and `app-ads.txt` for advertising inventory within mobile or connected TV apps.
+
 ### What about ads.cert?
 
 We're closely monitoring continued developments in the ad fraud space, and see this plugin as not only a way to create and manage your ads.txt file but also be prepared for future changes and upgrades to specifications. ads.cert is still in the extremely early stages so we don't see any immediate concerns with implementing ads.txt.
@@ -40,6 +42,10 @@ Note: If you already have an existing ads.txt or app-ads.txt file in the web roo
 You will need to rename or remove the existing (app-)ads.txt file (keeping a copy of the records it contains to put into the new settings screen) before you will be able to see any changes you make to (app-)ads.txt inside the WordPress admin.
 
 ## Frequently Asked Questions
+
+### What is the difference between ads.txt and app-ads.txt?
+
+`ads.txt` is used to authorize companies that sell advertising on your website. `app-ads.txt` serves the same purpose for advertising shown inside mobile apps, connected TV apps, and other app-based platforms. If you only monetize your WordPress website, you generally only need `ads.txt`. You need `app-ads.txt` only if you also publish and monetize an app.
 
 ### Where do I report security bugs found in this plugin?
 
