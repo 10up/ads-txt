@@ -15,4 +15,14 @@ describe("Admin can login and make sure plugin is activated", () => {
       "be.visible"
     );
   });
+
+  it("Can navigate to Ads.txt settings from the plugin list", () => {
+    cy.visitAdminPage("plugins.php");
+
+    cy.get('tr[data-slug="ads-txt"] .settings a')
+      .should("be.visible")
+      .click();
+
+    cy.url().should("include", "options-general.php?page=adstxt-settings");
+  });
 });

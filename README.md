@@ -34,7 +34,7 @@ Yes! However, if you are using a subfolder installation it will only work for th
 
 1. Install the plugin via the plugin installer, either by searching for it or uploading a .zip file.
 1. Activate the plugin.
-1. Head to Settings → Ads.txt or App-ads.txt and add the records you need.
+1. Head to Settings → Ads.txt or App-ads.txt and add the records you need. You can also access the Ads.txt settings directly from the Installed Plugins screen using the Settings link beneath Ads.txt Manager.
 1. Check it out at yoursite.com/ads.txt or yoursite.com/app-ads.txt!
 
 Note: If you already have an existing ads.txt or app-ads.txt file in the web root, the plugin will not read in the contents of the respective files, and changes you make in WordPress admin will not overwrite contents of the physical files.
