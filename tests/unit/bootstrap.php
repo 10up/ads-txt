@@ -19,5 +19,7 @@ WP_Mock::bootstrap();
 
 WP_Mock::userFunction( 'register_activation_hook' );
 WP_Mock::userFunction( 'register_deactivation_hook' );
+WP_Mock::userFunction( 'plugin_basename' )
+	->andReturn( 'ads-txt/ads-txt.php' );
 
 require TEST_PLUGIN_DIR . 'ads-txt.php';

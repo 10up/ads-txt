@@ -19,10 +19,20 @@ describe("Admin can login and make sure plugin is activated", () => {
   it("Can navigate to Ads.txt settings from the plugin list", () => {
     cy.visitAdminPage("plugins.php");
 
-    cy.get('tr[data-slug="ads-txt"] .settings a')
+    cy.get('tr[data-slug="ads-txt"] .ads_txt_settings a')
       .should("be.visible")
       .click();
 
     cy.url().should("include", "options-general.php?page=adstxt-settings");
+  });
+
+  it("Can navigate to App-ads.txt settings from the plugin list", () => {
+    cy.visitAdminPage("plugins.php");
+
+    cy.get('tr[data-slug="ads-txt"] .app_ads_txt_settings a')
+      .should("be.visible")
+      .click();
+
+    cy.url().should("include", "options-general.php?page=app-adstxt-settings");
   });
 });

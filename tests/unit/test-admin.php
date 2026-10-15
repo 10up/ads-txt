@@ -42,7 +42,7 @@ class AdminTests extends TestCase {
 			'deactivate' => '<a href="#">Deactivate</a>',
 		);
 
-		$links = AdsTxt\adstxt_plugin_action_links( $existing_links );
+		$links = AdsTxt\plugin_action_links( $existing_links );
 
 		$this->assertSame( $existing_links, $links );
 	}
