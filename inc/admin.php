@@ -172,6 +172,33 @@ function admin_menu() {
 add_action( 'admin_menu', __NAMESPACE__ . '\admin_menu' );
 
 /**
+ * Add custom action links to the plugin list entry.
+ *
+ * @param array $links Existing plugin action links.
+ * @return array Modified plugin action links.
+ */
+function plugin_action_links( $links ) {
+	$custom_links = array();
+
+	if ( current_user_can( ADS_TXT_MANAGE_CAPABILITY ) ) {
+		$custom_links['ads_txt_settings'] = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( admin_url( 'options-general.php?page=adstxt-settings' ) ),
+			esc_html__( 'Ads.txt Settings', 'ads-txt' )
+		);
+
+		$custom_links['app_ads_txt_settings'] = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( admin_url( 'options-general.php?page=app-adstxt-settings' ) ),
+			esc_html__( 'App-ads.txt Settings', 'ads-txt' )
+		);
+	}
+
+	return array_merge( $custom_links, $links );
+}
+add_filter( 'plugin_action_links_' . plugin_basename( ADS_TXT_MANAGER_PLUGIN_FILE ), __NAMESPACE__ . '\plugin_action_links' );
+
+/**
  * Set up settings screen for ads.txt.
  *
  * @return void

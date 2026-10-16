@@ -23,6 +23,7 @@ define( 'ADS_TXT_MANAGER_VERSION', '1.4.6' );
 define( 'ADS_TXT_MANAGE_CAPABILITY', 'edit_ads_txt' );
 define( 'ADS_TXT_MANAGER_POST_OPTION', 'adstxt_post' );
 define( 'APP_ADS_TXT_MANAGER_POST_OPTION', 'app_adstxt_post' );
+define( 'ADS_TXT_MANAGER_PLUGIN_FILE', __FILE__ );
 
 /**
  * Get the minimum version of PHP required by this plugin.

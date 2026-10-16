@@ -30,4 +30,21 @@ class AdminTests extends TestCase {
 		$this->assertContains( 'ads_txt_saved', $vars );
 	}
 
+	/**
+	 * Test that users without permission do not receive a Settings link.
+	 */
+	public function test_plugin_action_links_unauthorized() {
+		\WP_Mock::userFunction( 'current_user_can' )
+			->with( ADS_TXT_MANAGE_CAPABILITY )
+			->andReturn( false );
+
+		$existing_links = array(
+			'deactivate' => '<a href="#">Deactivate</a>',
+		);
+
+		$links = AdsTxt\plugin_action_links( $existing_links );
+
+		$this->assertSame( $existing_links, $links );
+	}
+
 }
