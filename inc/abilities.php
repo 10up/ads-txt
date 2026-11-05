@@ -226,7 +226,12 @@ function register_abilities() {
 			),
 			'execute_callback'    => __NAMESPACE__ . '\execute_validate',
 			'permission_callback' => __NAMESPACE__ . '\permission_check',
-			'meta'                => get_meta( true ),
+			/*
+			 * This ability saves nothing, but it is not marked read-only on purpose.
+			 * Core sends read-only abilities as GET with the input in the URL, which
+			 * cannot carry a large ads.txt. Any other ability is sent as POST.
+			 */
+			'meta'                => get_meta( false ),
 		)
 	);
 

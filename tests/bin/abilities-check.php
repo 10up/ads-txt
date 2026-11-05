@@ -117,6 +117,17 @@ try {
 	wp_set_current_user( $admin );
 	$req = new WP_REST_Request( 'GET', '/wp-abilities/v1/abilities/ads-txt/get-content/run' );
 	$check( 'REST admin read is 200', 200 === rest_do_request( $req )->get_status() );
+
+	// A large file must validate over POST. The ability is not a GET, so the URL length does not limit it.
+	$big = str_repeat( "example.com, pub-123456789, DIRECT, f08c47fec0942fa0\n", 1000 );
+	$req = new WP_REST_Request( 'POST', '/wp-abilities/v1/abilities/ads-txt/validate-content/run' );
+	$req->set_header( 'content-type', 'application/json' );
+	$req->set_body( wp_json_encode( array( 'input' => array( 'content' => $big ) ) ) );
+	$response = rest_do_request( $req );
+	$data     = $response->get_data();
+	$check( 'Large file validates over POST', 200 === $response->get_status() && ! empty( $data['valid'] ), 'status ' . $response->get_status() . ', size ' . strlen( $big ) );
+	$req = new WP_REST_Request( 'GET', '/wp-abilities/v1/abilities/ads-txt/validate-content/run' );
+	$check( 'Validate is not available over GET', 200 !== rest_do_request( $req )->get_status() );
 } finally {
 	// Undo the capability only if this script added it.
 	if ( $added_cap && $admin_role ) {
