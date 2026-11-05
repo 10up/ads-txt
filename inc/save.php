@@ -8,28 +8,24 @@
 namespace Adstxt;
 
 /**
- * Process and save the ads.txt data.
+ * Validate and sanitize the full text of an ads.txt or app-ads.txt file.
  *
- * Handles both AJAX and POST saves via `admin-ajax.php` and `admin-post.php` respectively.
- * AJAX calls output JSON; POST calls redirect back to the Ads.txt edit screen.
+ * @since 1.5.0
  *
- * @return void
+ * @param string $content Raw file content.
+ *
+ * @return array {
+ *     @type string $sanitized Sanitized content.
+ *     @type array  $errors    Errors found, keyed by line.
+ *     @type array  $warnings  Warnings found.
+ * }
  */
-function save() {
-	current_user_can( ADS_TXT_MANAGE_CAPABILITY ) || die;
-	check_admin_referer( 'adstxt_save' );
-	$_post      = stripslashes_deep( $_POST );
-	$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
-
-	$post_id = (int) $_post['post_id'];
-	$ays     = isset( $_post['adstxt_ays'] ) ? $_post['adstxt_ays'] : null;
-
+function validate_content( $content ) {
 	// Different browsers use different line endings.
-	$lines                        = preg_split( '/\r\n|\r|\n/', $_post['adstxt'] );
+	$lines                        = preg_split( '/\r\n|\r|\n/', (string) $content );
 	$sanitized                    = array();
 	$errors                       = array();
 	$warnings                     = array();
-	$response                     = array();
 	$has_only_placeholder_records = null;
 
 	foreach ( $lines as $i => $line ) {
@@ -67,28 +63,67 @@ function save() {
 		}
 	}
 
-	$sanitized = implode( PHP_EOL, $sanitized );
-	$postarr   = array(
-		'ID'           => $post_id,
-		'post_title'   => 'Ads.txt',
-		'post_content' => $sanitized,
-		'post_type'    => 'adstxt',
+	return array(
+		'sanitized' => implode( PHP_EOL, $sanitized ),
+		'errors'    => $errors,
+		'warnings'  => array_values( $warnings ),
+	);
+}
+
+/**
+ * Save validated content to the ads.txt or app-ads.txt post.
+ *
+ * @since 1.5.0
+ *
+ * @param string $post_type Either `adstxt` or `app-adstxt`.
+ * @param array  $validated Result of validate_content().
+ * @param int    $post_id   Existing post ID. Zero creates a new post.
+ *
+ * @return int|\WP_Error Post ID on success, 0 or WP_Error on failure.
+ */
+function save_content( $post_type, $validated, $post_id = 0 ) {
+	$postarr = array(
+		'ID'           => (int) $post_id,
+		'post_title'   => 'app-adstxt' === $post_type ? 'App-ads.txt' : 'Ads.txt',
+		'post_content' => $validated['sanitized'],
+		'post_type'    => 'app-adstxt' === $post_type ? 'app-adstxt' : 'adstxt',
 		'post_status'  => 'publish',
 		'meta_input'   => array(
-			'adstxt_errors'   => $errors,
-			'adstxt_warnings' => $warnings,
+			'adstxt_errors'   => $validated['errors'],
+			'adstxt_warnings' => $validated['warnings'],
 		),
 	);
 
-	if ( 'app-adstxt' === $_post['adstxt_type'] ) {
-		$postarr['post_title'] = 'App-ads.txt';
-		$postarr['post_type']  = 'app-adstxt';
-	}
+	return wp_insert_post( $postarr, true );
+}
+
+/**
+ * Process and save the ads.txt data.
+ *
+ * Handles both AJAX and POST saves via `admin-ajax.php` and `admin-post.php` respectively.
+ * AJAX calls output JSON; POST calls redirect back to the Ads.txt edit screen.
+ *
+ * @return void
+ */
+function save() {
+	current_user_can( ADS_TXT_MANAGE_CAPABILITY ) || die;
+	check_admin_referer( 'adstxt_save' );
+	$_post      = stripslashes_deep( $_POST );
+	$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
+
+	$post_id = (int) $_post['post_id'];
+	$ays     = isset( $_post['adstxt_ays'] ) ? $_post['adstxt_ays'] : null;
+
+	$response  = array();
+	$validated = validate_content( $_post['adstxt'] );
+	$sanitized = $validated['sanitized'];
+	$errors    = $validated['errors'];
+	$post_type = 'app-adstxt' === $_post['adstxt_type'] ? 'app-adstxt' : 'adstxt';
 
 	if ( ! $doing_ajax || empty( $errors ) || 'y' === $ays ) {
-		$post_id = wp_insert_post( $postarr );
+		$post_id = save_content( $post_type, $validated, $post_id );
 
-		if ( $post_id ) {
+		if ( $post_id && ! is_wp_error( $post_id ) ) {
 			$response['saved'] = true;
 		}
 	}
