@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file, per [the Ke
 
 ## [Unreleased] - TBD
 
+### Added
+- Add `ads-txt/get-content`, `ads-txt/validate-content` and `ads-txt/update-content` abilities to the WordPress Abilities API ([#238](https://github.com/10up/ads-txt/issues/238)).
+
+### Changed
+- Move ads.txt validation and saving into reusable functions. The settings screen behaves as before.
+
 ## [1.4.6] - 2025-07-14
 **Note that this release bumps the WordPress minimum version from 6.4 to 6.6.**
 
