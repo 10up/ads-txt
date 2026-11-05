@@ -8,6 +8,31 @@
 namespace Adstxt;
 
 /**
+ * Remove control characters and invisible direction characters from text.
+ *
+ * Tabs and line breaks are kept. Removed characters include escape sequences,
+ * the byte order mark, zero width characters and the characters that reverse
+ * text direction. They have no use in an ads.txt file. They can inject escape
+ * sequences into a terminal, or hide text from someone who reviews the file.
+ *
+ * @since 1.5.0
+ *
+ * @param string $content Raw text.
+ *
+ * @return string Text without those characters.
+ */
+function strip_unsafe_characters( $content ) {
+	$clean = preg_replace( '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F\x{0080}-\x{009F}\x{200B}-\x{200F}\x{2028}-\x{202E}\x{2060}-\x{2064}\x{2066}-\x{2069}\x{FEFF}]/u', '', $content );
+
+	// The text is not valid UTF-8, so the pattern above could not run. Remove the ASCII controls only.
+	if ( null === $clean ) {
+		$clean = preg_replace( '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $content );
+	}
+
+	return (string) $clean;
+}
+
+/**
  * Validate and sanitize the full text of an ads.txt or app-ads.txt file.
  *
  * @since 1.5.0
@@ -21,8 +46,10 @@ namespace Adstxt;
  * }
  */
 function validate_content( $content ) {
+	$content = strip_unsafe_characters( (string) $content );
+
 	// Different browsers use different line endings.
-	$lines                        = preg_split( '/\r\n|\r|\n/', (string) $content );
+	$lines                        = preg_split( '/\r\n|\r|\n/', $content );
 	$sanitized                    = array();
 	$errors                       = array();
 	$warnings                     = array();

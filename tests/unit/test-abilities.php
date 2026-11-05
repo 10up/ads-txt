@@ -226,4 +226,36 @@ class AbilitiesTests extends TestCase {
 		$this->assertInstanceOf( 'WP_Error', $result );
 		$this->assertSame( 'save_failed', $result->code );
 	}
+
+	public function test_validate_content_strips_control_and_direction_characters() {
+		$content = "\u{FEFF}# a\x1b[31m\x07b\u{202E}c\u{200B}d\u{2028}e\tf";
+		$result  = AdsTxt\validate_content( $content );
+
+		$this->assertSame( "# a[31mbcde\tf", $result['sanitized'] );
+	}
+
+	public function test_validate_content_strips_controls_from_invalid_utf8() {
+		$result = AdsTxt\validate_content( "# a\xff\x1bb" );
+
+		$this->assertStringNotContainsString( "\x1b", $result['sanitized'] );
+	}
+
+	public function test_execute_update_reads_force_as_a_real_boolean() {
+		\WP_Mock::userFunction( 'wp_insert_post' )->never();
+
+		foreach ( array( 'false', '0', 0, false, 'no' ) as $force ) {
+			$result = AdsTxt\Abilities\execute_update(
+				array(
+					'content' => 'junk',
+					'force'   => $force,
+				)
+			);
+
+			$this->assertFalse( $result['saved'], 'force=' . var_export( $force, true ) . ' must not force a save.' );
+		}
+	}
+
+	public function test_content_input_has_a_size_limit() {
+		$this->assertGreaterThan( 0, AdsTxt\Abilities\MAX_CONTENT_LENGTH );
+	}
 }

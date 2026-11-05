@@ -18,6 +18,14 @@ const VALIDATE_ABILITY = 'ads-txt/validate-content';
 const UPDATE_ABILITY   = 'ads-txt/update-content';
 
 /**
+ * Most characters allowed in the content input.
+ *
+ * Validating a file uses far more memory than its size, so an unlimited input
+ * could exhaust PHP memory or exceed the database packet size.
+ */
+const MAX_CONTENT_LENGTH = 500000;
+
+/**
  * Register the hooks.
  *
  * The plugin requires WordPress 6.9, which includes the Abilities API.
@@ -203,6 +211,7 @@ function register_abilities() {
 					'content' => array(
 						'description' => __( 'The file content to check.', 'ads-txt' ),
 						'type'        => 'string',
+						'maxLength'   => MAX_CONTENT_LENGTH,
 					),
 				),
 				'required'             => array( 'content' ),
@@ -248,6 +257,7 @@ function register_abilities() {
 					'content' => array(
 						'description' => __( 'The full new file content. It replaces the existing content.', 'ads-txt' ),
 						'type'        => 'string',
+						'maxLength'   => MAX_CONTENT_LENGTH,
 					),
 					'force'   => array(
 						'description' => __( 'Save even when errors are found.', 'ads-txt' ),
@@ -386,9 +396,11 @@ function execute_validate( $input = null ) {
  * @return array|WP_Error
  */
 function execute_update( $input = null ) {
-	$type      = get_type( $input );
-	$content   = is_array( $input ) && isset( $input['content'] ) ? (string) $input['content'] : '';
-	$force     = is_array( $input ) && ! empty( $input['force'] );
+	$type    = get_type( $input );
+	$content = is_array( $input ) && isset( $input['content'] ) ? (string) $input['content'] : '';
+
+	// Read force strictly. Direct calls and MCP clients can send the string "false", which is not empty.
+	$force     = is_array( $input ) && isset( $input['force'] ) && filter_var( $input['force'], FILTER_VALIDATE_BOOLEAN );
 	$validated = \AdsTxt\validate_content( $content );
 	$result    = array(
 		'saved'     => false,

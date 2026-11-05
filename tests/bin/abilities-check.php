@@ -108,6 +108,19 @@ try {
 	$check( 'Stored errors are returned', ! empty( $res['errors'] ), wp_json_encode( $res ) );
 	$check( 'Second save reuses the same post', (int) get_option( ADS_TXT_MANAGER_POST_OPTION ) === $ads_id );
 
+	// Hostile values.
+	$before = $run( $admin, 'ads-txt/get-content', array() );
+	$res    = $run( $admin, 'ads-txt/update-content', array( 'content' => 'junk', 'force' => 'false' ) );
+	$check( 'force "false" does not force a save', is_array( $res ) && false === $res['saved'], wp_json_encode( $res ) );
+	$check( 'Oversized content is rejected', is_wp_error( $run( $admin, 'ads-txt/update-content', array( 'content' => str_repeat( 'a', 500001 ) ) ) ) );
+	$res = $run( $admin, 'ads-txt/validate-content', array( 'content' => "\u{FEFF}# a\x1b[31m\u{202E}b" ) );
+	$check( 'Control and direction characters are removed', is_array( $res ) && '# a[31mb' === $res['sanitized'], wp_json_encode( $res ) );
+	$max = str_repeat( "example.com, pub-1, DIRECT\n", (int) ( 500000 / 27 ) );
+	$res = $run( $admin, 'ads-txt/validate-content', array( 'content' => $max ) );
+	$check( 'Largest allowed file validates', is_array( $res ) && $res['valid'], sprintf( 'peak memory %.0f MB', memory_get_peak_usage() / MB_IN_BYTES ) );
+	$after = $run( $admin, 'ads-txt/get-content', array() );
+	$check( 'Hostile values changed nothing', $before['content'] === $after['content'] );
+
 	// REST.
 	wp_set_current_user( 0 );
 	$req = new WP_REST_Request( 'POST', '/wp-abilities/v1/abilities/ads-txt/update-content/run' );
