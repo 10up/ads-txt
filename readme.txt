@@ -39,6 +39,10 @@ Yes! However, if you are using a subfolder installation it will only work for th
 
 `ads.txt` is used to authorize companies that sell advertising on your website. `app-ads.txt` serves the same purpose for advertising shown inside mobile apps, connected TV apps, and other app-based platforms. If you only monetize your WordPress website, you generally only need `ads.txt`. You need `app-ads.txt` only if you also publish and monetize an app.
 
+= Can AI agents manage ads.txt through the Abilities API? =
+
+Yes. The plugin registers three abilities in the `ads-txt` category: `ads-txt/get-content` reads the saved file, `ads-txt/validate-content` checks text and saves nothing, and `ads-txt/update-content` saves new content. Each takes a `type` of `adstxt` or `app-adstxt`, except validation. Saving stops when errors are found, unless `force` is true. All three require the same capability as the settings screens, `edit_ads_txt`, which administrators have.
+
 = Where do I report security bugs found in this plugin? =
 
 Please report security bugs found in the source code of the Ads.txt Manager plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/6f8c7990-9291-4a21-a0f1-289c90187b84).  The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
