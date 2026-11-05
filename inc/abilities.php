@@ -235,6 +235,7 @@ function register_abilities() {
 			),
 			'execute_callback'    => __NAMESPACE__ . '\execute_validate',
 			'permission_callback' => __NAMESPACE__ . '\permission_check',
+
 			/*
 			 * This ability saves nothing, but it is not marked read-only on purpose.
 			 * Core sends read-only abilities as GET with the input in the URL, which
