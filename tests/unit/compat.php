@@ -77,3 +77,44 @@ if ( ! function_exists( 'str_ends_with' ) ) {
 		return substr( $haystack, -$len, $len ) === $needle;
 	}
 }
+
+if ( ! class_exists( 'WP_Error' ) ) {
+	/**
+	 * Minimal stand-in for WP_Error, so unit tests can check error results.
+	 */
+	class WP_Error {
+		/**
+		 * Error code.
+		 *
+		 * @var string
+		 */
+		public $code;
+
+		/**
+		 * Error message.
+		 *
+		 * @var string
+		 */
+		public $message;
+
+		/**
+		 * Error data.
+		 *
+		 * @var mixed
+		 */
+		public $data;
+
+		/**
+		 * Constructor.
+		 *
+		 * @param string $code    Error code.
+		 * @param string $message Error message.
+		 * @param mixed  $data    Error data.
+		 */
+		public function __construct( $code = '', $message = '', $data = '' ) {
+			$this->code    = $code;
+			$this->message = $message;
+			$this->data    = $data;
+		}
+	}
+}

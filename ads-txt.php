@@ -70,3 +70,4 @@ require_once __DIR__ . '/inc/helpers.php';
 require_once __DIR__ . '/inc/post-type.php';
 require_once __DIR__ . '/inc/admin.php';
 require_once __DIR__ . '/inc/save.php';
+require_once __DIR__ . '/inc/abilities.php';
