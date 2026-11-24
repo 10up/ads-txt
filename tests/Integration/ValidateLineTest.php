@@ -1,39 +1,39 @@
 <?php
-use PHPUnit\Framework\TestCase;
+/**
+ * Tests validation of individual ads.txt lines.
+ *
+ * @package Ads_Txt_Manager
+ */
+
+namespace AdsTxt\Tests\Integration;
+
+use WP_UnitTestCase;
 
 /**
- * The AddressTests class tests the functions associated with an address associated with an invoice.
+ * Each line of a saved file is classified and checked against the ads.txt spec.
  */
-class SaveTests extends TestCase {
+class ValidateLineTest extends WP_UnitTestCase {
+
 	/**
-	 * Set up our mocked WP functions. Rather than setting up a database we can mock the returns of core WordPress functions.
+	 * A line is sanitized and reported with the expected errors, warnings and flags.
 	 *
+	 * @dataProvider data_validate_line
+	 *
+	 * @param string $line        Line content.
+	 * @param int    $line_number Line number reported in errors.
+	 * @param array  $expected    Expected validation result.
 	 * @return void
 	 */
-	public function setUp() : void {
-		\WP_Mock::setUp();
+	public function test_validate_line( string $line, int $line_number, array $expected ): void {
+		$this->assertSame( $expected, \AdsTxt\validate_line( $line, $line_number ) );
 	}
+
 	/**
-	 * Tear down WP Mock.
+	 * Provides lines with their expected validation results.
 	 *
-	 * @return void
+	 * @return array[]
 	 */
-	public function tearDown() : void {
-		\WP_Mock::tearDown();
-	}
-
-	/** @test Validate line
-	 * @dataProvider data_provider_for_validate_line
-	 */
-	public function test_validate_line( $line, $line_number, $expected ) {
-		\WP_Mock::passthruFunction( 'wp_strip_all_tags' );
-
-		$result = AdsTxt\validate_line( $line, $line_number );
-
-		$this->assertSame( $expected, $result );
-	}
-
-	public function data_provider_for_validate_line() {
+	public function data_validate_line(): array {
 		return array(
 			'Validate empty string'               => array(
 				'line'        => '',
