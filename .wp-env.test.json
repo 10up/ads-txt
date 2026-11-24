@@ -9,6 +9,7 @@
 		"WP_DEBUG": true
 	},
 	"mappings": {
-		"/wp-content/plugins/ads-txt": "."
+		"/wp-content/plugins/ads-txt": ".",
+		"/wp-content/mu-plugins": "./tests/e2e/mu-plugins"
 	}
 }

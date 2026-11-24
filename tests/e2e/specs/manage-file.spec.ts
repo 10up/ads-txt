@@ -14,18 +14,23 @@ const files = [
 		path: '/ads.txt',
 		page: 'options-general.php?page=adstxt-settings',
 		errorNotice: 'Your Ads.txt contains the following issues',
+		filter: 'ads_txt_content',
 	},
 	{
 		label: 'App-ads.txt',
 		path: '/app-ads.txt',
 		page: 'options-general.php?page=app-adstxt-settings',
 		errorNotice: 'Your app-ads.txt contains the following issues',
+		filter: 'app_ads_txt_content',
 	},
 ];
 
 const invalidRecord = 'test incorrect record';
 const validRecord = 'example.com, pub-00000000000, DIRECT, f08c47fec0942fa0';
 const otherValidRecord = 'example.org, pub-11111111111, RESELLER';
+const placeholderRecord = 'placeholder.example.com, placeholder, DIRECT, placeholder';
+const noSellersWarning =
+	'Your ads.txt indicates no authorized advertising sellers.';
 
 /**
  * Replaces the CodeMirror editor's content by typing, as a user would.
@@ -59,23 +64,24 @@ for ( const file of files ) {
 			).toBeVisible();
 		}
 
-		test( 'shows the settings screen', async ( { page } ) => {
-			await expect(
-				page.getByRole( 'heading', { name: `Manage ${ file.label }` } )
-			).toBeVisible();
-		} );
-
 		test( 'saves an invalid record only after confirming', async ( {
 			page,
+			request,
 		} ) => {
 			const submit = page.getByRole( 'button', { name: 'Save Changes' } );
 			const errors = page.locator( '.adstxt-notice-save-error' );
+
+			await save( page, validRecord );
 
 			await typeContent( page, invalidRecord );
 			await submit.click();
 
 			await expect( errors ).toContainText( file.errorNotice );
 			await expect( submit ).toBeDisabled();
+			expect(
+				await ( await request.get( file.path ) ).text(),
+				'An unconfirmed invalid save must not change the served file.'
+			).not.toContain( invalidRecord );
 
 			await page
 				.getByLabel(
@@ -88,6 +94,31 @@ for ( const file of files ) {
 				page.getByText( `${ file.label } saved`, { exact: true } )
 			).toBeVisible();
 			await expect( errors ).toContainText( file.errorNotice );
+			expect( await ( await request.get( file.path ) ).text() ).toContain(
+				invalidRecord
+			);
+		} );
+
+		test( 'warns about no authorized sellers only when every record is a placeholder', async ( {
+			page,
+		} ) => {
+			const warning = page.getByText( noSellersWarning, { exact: true } );
+
+			await save( page, placeholderRecord );
+			await expect( warning ).toBeVisible();
+
+			await save( page, `${ placeholderRecord }\n${ validRecord }` );
+			await expect( warning ).toHaveCount( 0 );
+		} );
+
+		test( 'serves content through its filter', async ( { request } ) => {
+			const response = await request.get(
+				`${ file.path }?ads-txt-e2e-filter=1`
+			);
+
+			expect( await response.text() ).toContain(
+				`# filtered by ${ file.filter }`
+			);
 		} );
 
 		test( 'serves a saved valid record', async ( { page, request } ) => {
