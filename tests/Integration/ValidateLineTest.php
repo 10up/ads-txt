@@ -259,4 +259,52 @@ class ValidateLineTest extends WP_UnitTestCase {
 			),
 		);
 	}
+
+	/**
+	 * A line gets exactly the errors the ads.txt spec rules call for.
+	 *
+	 * @dataProvider data_line_errors
+	 *
+	 * @param string $line     Line content.
+	 * @param array  $expected Expected errors.
+	 * @return void
+	 */
+	public function test_line_errors( string $line, array $expected ): void {
+		$this->assertSame( $expected, \AdsTxt\validate_line( $line, 5 )['errors'] );
+	}
+
+	/**
+	 * Provides lines covering TAG-IDs, account type case and the spec's variables.
+	 *
+	 * @return array[]
+	 */
+	public function data_line_errors(): array {
+		return array(
+			'TAG-ID that is not hex'            => array(
+				'example.com,pub-1,DIRECT,zzzzzzzzzzzzzzzz',
+				array(
+					array(
+						'line'  => 5,
+						'type'  => 'invalid_tagid',
+						'value' => 'zzzzzzzzzzzzzzzz',
+					),
+				),
+			),
+			'TAG-ID of the wrong length'        => array(
+				'example.com,pub-1,DIRECT,abcdef012345',
+				array(
+					array(
+						'line'  => 5,
+						'type'  => 'invalid_tagid',
+						'value' => 'abcdef012345',
+					),
+				),
+			),
+			'Empty TAG-ID field'                => array( 'example.com,pub-1,DIRECT,', array() ),
+			'Lowercase account type'            => array( 'example.com,pub-1,direct', array() ),
+			'Lowercase variable name'           => array( 'contact=ads@example.com', array() ),
+			'OWNERDOMAIN variable'              => array( 'OWNERDOMAIN=example.com', array() ),
+			'MANAGERDOMAIN variable'            => array( 'MANAGERDOMAIN=example.com', array() ),
+		);
+	}
 }
