@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-	bootstrap="tests/unit/bootstrap.php"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
+	bootstrap="tests/bootstrap.php"
 	backupGlobals="false"
 	colors="true"
+	beStrictAboutOutputDuringTests="true"
+	beStrictAboutTestsThatDoNotTestAnything="true"
+	convertDeprecationsToExceptions="true"
 	convertErrorsToExceptions="true"
 	convertNoticesToExceptions="true"
 	convertWarningsToExceptions="true"
-	verbose="true"
+	cacheResultFile="./tests/.phpunit.result.cache"
 >
 	<testsuites>
-		<testsuite name="Ads.txt">
-			<directory prefix="test-" suffix=".php">./tests/unit</directory>
+		<testsuite name="integration">
+			<directory suffix="Test.php">tests/Integration</directory>
 		</testsuite>
 	</testsuites>
-	<php>
-		<ini name="display_errors" value="On" />
-		<ini name="display_startup_errors" value="On" />
-	</php>
+	<coverage processUncoveredFiles="false">
+		<include>
+			<directory suffix=".php">inc</directory>
+			<file>ads-txt.php</file>
+		</include>
+	</coverage>
 </phpunit>

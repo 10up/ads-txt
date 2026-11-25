@@ -1,39 +1,39 @@
 <?php
-use PHPUnit\Framework\TestCase;
+/**
+ * Tests validation of individual ads.txt lines.
+ *
+ * @package Ads_Txt_Manager
+ */
+
+namespace AdsTxt\Tests\Integration;
+
+use WP_UnitTestCase;
 
 /**
- * The AddressTests class tests the functions associated with an address associated with an invoice.
+ * Each line of a saved file is classified and checked against the ads.txt spec.
  */
-class SaveTests extends TestCase {
+class ValidateLineTest extends WP_UnitTestCase {
+
 	/**
-	 * Set up our mocked WP functions. Rather than setting up a database we can mock the returns of core WordPress functions.
+	 * A line is sanitized and reported with the expected errors, warnings and flags.
 	 *
+	 * @dataProvider data_validate_line
+	 *
+	 * @param string $line        Line content.
+	 * @param int    $line_number Line number reported in errors.
+	 * @param array  $expected    Expected validation result.
 	 * @return void
 	 */
-	public function setUp() : void {
-		\WP_Mock::setUp();
+	public function test_validate_line( string $line, int $line_number, array $expected ): void {
+		$this->assertSame( $expected, \AdsTxt\validate_line( $line, $line_number ) );
 	}
+
 	/**
-	 * Tear down WP Mock.
+	 * Provides lines with their expected validation results.
 	 *
-	 * @return void
+	 * @return array[]
 	 */
-	public function tearDown() : void {
-		\WP_Mock::tearDown();
-	}
-
-	/** @test Validate line
-	 * @dataProvider data_provider_for_validate_line
-	 */
-	public function test_validate_line( $line, $line_number, $expected ) {
-		\WP_Mock::passthruFunction( 'wp_strip_all_tags' );
-
-		$result = AdsTxt\validate_line( $line, $line_number );
-
-		$this->assertSame( $expected, $result );
-	}
-
-	public function data_provider_for_validate_line() {
+	public function data_validate_line(): array {
 		return array(
 			'Validate empty string'               => array(
 				'line'        => '',
@@ -257,6 +257,54 @@ class SaveTests extends TestCase {
 					'is_comment'            => false,
 				),
 			),
+		);
+	}
+
+	/**
+	 * A line gets exactly the errors the ads.txt spec rules call for.
+	 *
+	 * @dataProvider data_line_errors
+	 *
+	 * @param string $line     Line content.
+	 * @param array  $expected Expected errors.
+	 * @return void
+	 */
+	public function test_line_errors( string $line, array $expected ): void {
+		$this->assertSame( $expected, \AdsTxt\validate_line( $line, 5 )['errors'] );
+	}
+
+	/**
+	 * Provides lines covering TAG-IDs, account type case and the spec's variables.
+	 *
+	 * @return array[]
+	 */
+	public function data_line_errors(): array {
+		return array(
+			'TAG-ID that is not hex'            => array(
+				'example.com,pub-1,DIRECT,zzzzzzzzzzzzzzzz',
+				array(
+					array(
+						'line'  => 5,
+						'type'  => 'invalid_tagid',
+						'value' => 'zzzzzzzzzzzzzzzz',
+					),
+				),
+			),
+			'TAG-ID of the wrong length'        => array(
+				'example.com,pub-1,DIRECT,abcdef012345',
+				array(
+					array(
+						'line'  => 5,
+						'type'  => 'invalid_tagid',
+						'value' => 'abcdef012345',
+					),
+				),
+			),
+			'Empty TAG-ID field'                => array( 'example.com,pub-1,DIRECT,', array() ),
+			'Lowercase account type'            => array( 'example.com,pub-1,direct', array() ),
+			'Lowercase variable name'           => array( 'contact=ads@example.com', array() ),
+			'OWNERDOMAIN variable'              => array( 'OWNERDOMAIN=example.com', array() ),
+			'MANAGERDOMAIN variable'            => array( 'MANAGERDOMAIN=example.com', array() ),
 		);
 	}
 }
